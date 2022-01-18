@@ -1,0 +1,552 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{bathe_finite-elemente-methoden_1990}{book}{}
+      \name{author}{1}{}{%
+        {{hash=0d709c7a8f4b980c57eabfeec0ea9d86}{%
+           family={Bathe},
+           familyi={B\bibinitperiod},
+           given={Klaus-Jürgen},
+           giveni={K\bibinithyphendelim J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {German}%
+      }
+      \list{location}{1}{%
+        {Berlin (u.a.)}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \strng{fullhash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \strng{bibnamehash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \strng{authorbibnamehash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \strng{authornamehash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \strng{authorfullhash}{0d709c7a8f4b980c57eabfeec0ea9d86}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Bsp. für Buch mit extrem vielen Ausgabe zur Demo der Funktion von Worldcat}
+      \field{isbn}{3-540-66806-3 978-3-540-66806-0}
+      \field{title}{Finite-{Elemente}-{Methoden}}
+      \field{year}{1990}
+      \keyw{gu}
+    \endentry
+    \entry{areger_problem-based_2007}{incollection}{}
+      \name{author}{1}{}{%
+        {{hash=4de6942102a56dc8905c3a69cefef2a2}{%
+           family={Areger},
+           familyi={A\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+      }
+      \name{editor}{3}{}{%
+        {{hash=786394374e568c7203243ba72e380225}{%
+           family={Zumbach},
+           familyi={Z\bibinitperiod},
+           given={Jörg},
+           giveni={J\bibinitperiod}}}%
+        {{hash=03eefd7d695d5c7a7d62c1d3d2f40bbc}{%
+           family={Weber},
+           familyi={W\bibinitperiod},
+           given={Agnes},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a37affa16414e02b7460def611592944}{%
+           family={Olsowski},
+           familyi={O\bibinitperiod},
+           given={Gunter},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Bern}%
+      }
+      \list{publisher}{1}{%
+        {hep}%
+      }
+      \strng{namehash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{fullhash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{bibnamehash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{authorbibnamehash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{authornamehash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{authorfullhash}{4de6942102a56dc8905c3a69cefef2a2}
+      \strng{editorbibnamehash}{e0b90006c6f254f1fda88bac8bb72b75}
+      \strng{editornamehash}{e0b90006c6f254f1fda88bac8bb72b75}
+      \strng{editorfullhash}{e0b90006c6f254f1fda88bac8bb72b75}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Beispiel für Buchteil, Realbeispiel, Handapparat}
+      \field{booktitle}{Problembasiertes {Lernen}. {Konzepte}, {Werkzeuge} und {Fallbeispiele} aus dem deutschsprachigen {Raum}}
+      \field{edition}{2. Aufl}
+      \field{isbn}{3-03905-350-7}
+      \field{month}{6}
+      \field{shorttitle}{Problembasiertes {Lernen}}
+      \field{title}{Problem-{Based} {Learning} im gestalterischen {Bereich}}
+      \field{year}{2007}
+      \field{pages}{34\bibrangedash 43}
+      \range{pages}{10}
+      \keyw{handapparat}
+    \endentry
+    \entry{sporn_interaktives_2000}{thesis}{}
+      \name{author}{2}{}{%
+        {{hash=408746d6f37ead9650087ef8ee78906b}{%
+           family={Sporn},
+           familyi={S\bibinitperiod},
+           given={Silke},
+           giveni={S\bibinitperiod}}}%
+        {{hash=97c5487a6efa40186f28a9cfd0ad1b92}{%
+           family={Vetter},
+           familyi={V\bibinitperiod},
+           given={Mona\bibnamedelima Carolin},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {Diplomarbeit an der Fachhochschule Vorarlberg}%
+      }
+      \list{location}{1}{%
+        {Dornbirn}%
+      }
+      \strng{namehash}{ef48e5ad08e5964ebc401e5679f883be}
+      \strng{fullhash}{ef48e5ad08e5964ebc401e5679f883be}
+      \strng{bibnamehash}{ef48e5ad08e5964ebc401e5679f883be}
+      \strng{authorbibnamehash}{ef48e5ad08e5964ebc401e5679f883be}
+      \strng{authornamehash}{ef48e5ad08e5964ebc401e5679f883be}
+      \strng{authorfullhash}{ef48e5ad08e5964ebc401e5679f883be}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Ein interaktives {Lernsystem}}
+      \field{type}{phdthesis}
+      \field{year}{2000}
+    \endentry
+    \entry{industriellenvereinigung_beste_2014}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=1b796b0f5c43df1fc455db7890dd2d5d}{%
+           family={{Industriellenvereinigung}},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \strng{fullhash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \strng{bibnamehash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \strng{authorbibnamehash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \strng{authornamehash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \strng{authorfullhash}{1b796b0f5c43df1fc455db7890dd2d5d}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel für Dokument von Institution ohne Personenangaben.}
+      \field{title}{Beste {Bildung} für Österreichs {Zukunft}. {Bildung} neu denken. {Schule} besser leben.}
+      \field{urlday}{20}
+      \field{urlmonth}{11}
+      \field{urlyear}{2014}
+      \field{year}{2014}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb beste_bildung.pdf:/home/kr/.mozilla/firefox/o1hodkgi.default/zotero/storage/A2KM75QP/beste_bildung.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://www.iv-net.at/d4300/beste_bildung.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.iv-net.at/d4300/beste_bildung.pdf
+      \endverb
+    \endentry
+    \entry{brockhaus_kreativitat_1872}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=9ba0c57c71267085c8ea47b358d2a327}{%
+           family={Brockhaus},
+           familyi={B\bibinitperiod},
+           given={Hermann},
+           giveni={H\bibinitperiod}}}%
+        {{hash=555021709dd73b33245b3b716815bfc1}{%
+           family={Ersch},
+           familyi={E\bibinitperiod},
+           given={Johann\bibnamedelima Samuel},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=b42b18eabf703105961779577bdd83f1}{%
+           family={Gruber},
+           familyi={G\bibinitperiod},
+           given={Johann\bibnamedelima Gottfried},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {German}%
+      }
+      \list{location}{1}{%
+        {Leipzig}%
+      }
+      \list{publisher}{1}{%
+        {Brockhaus}%
+      }
+      \strng{namehash}{4d8021a4722e8067d39830832dc7a661}
+      \strng{fullhash}{4d8021a4722e8067d39830832dc7a661}
+      \strng{bibnamehash}{4d8021a4722e8067d39830832dc7a661}
+      \strng{authorbibnamehash}{4d8021a4722e8067d39830832dc7a661}
+      \strng{authornamehash}{4d8021a4722e8067d39830832dc7a661}
+      \strng{authorfullhash}{4d8021a4722e8067d39830832dc7a661}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Beispiel für Enzyklopädieartikel mit Autorenangaben.}
+      \field{journaltitle}{Allgemeine Encyclopädie der Wissenschaften und Künste}
+      \field{shorttitle}{Allgemeine {Encyclopädie} der {Wissenschaften} und {Künste}}
+      \field{title}{Kreativität}
+      \field{year}{1872}
+    \endentry
+    \entry{de_wilde_through_2008}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=1c9a9469ffdb1ecca6a5050d5f0ff140}{%
+           family={De\bibnamedelima Wilde},
+           familyi={D\bibinitperiod\bibinitdelim W\bibinitperiod},
+           given={Mironel},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a7533ef9bcc70d05b07889fe35ac9bf5}{%
+           family={Balmer},
+           familyi={B\bibinitperiod},
+           given={Julien\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Lorber HT Digital}%
+      }
+      \strng{namehash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \strng{fullhash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \strng{bibnamehash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \strng{authorbibnamehash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \strng{authornamehash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \strng{authorfullhash}{2640ae0e6a0282005c6789bb7a80baf0}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel für Film von FH-Bibliothek.}
+      \field{title}{Through the {Eastern} {Gate}}
+      \field{year}{2008}
+    \endentry
+    \entry{weber_podcasts._2006}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=49a080f8dcac9f089b1440c895cc260e}{%
+           family={Weber},
+           familyi={W\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {deutsch}%
+      }
+      \list{location}{1}{%
+        {Dornbirn}%
+      }
+      \list{publisher}{1}{%
+        {Forum Neue Medien}%
+      }
+      \strng{namehash}{49a080f8dcac9f089b1440c895cc260e}
+      \strng{fullhash}{49a080f8dcac9f089b1440c895cc260e}
+      \strng{bibnamehash}{49a080f8dcac9f089b1440c895cc260e}
+      \strng{authorbibnamehash}{49a080f8dcac9f089b1440c895cc260e}
+      \strng{authornamehash}{49a080f8dcac9f089b1440c895cc260e}
+      \strng{authorfullhash}{49a080f8dcac9f089b1440c895cc260e}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel Konferenz-Papier.}
+      \field{booktitle}{Usability im {eLearning} \& {eLearning} {Strategien}}
+      \field{isbn}{3-902520-02-7}
+      \field{month}{6}
+      \field{title}{Podcasts. {Potenziale} für {Hochschulen}}
+      \field{volume}{3}
+      \field{year}{2006}
+      \field{pages}{96\bibrangedash 109}
+      \range{pages}{14}
+    \endentry
+    \entry{autornachname1_magazinartikeltitel_1995}{article}{}
+      \name{author}{1}{}{%
+        {{hash=162abefb620ada53b84d73db609cd04d}{%
+           family={AutorNachname1},
+           familyi={A\bibinitperiod},
+           given={AutorVorname1},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {Sprache}%
+      }
+      \strng{namehash}{162abefb620ada53b84d73db609cd04d}
+      \strng{fullhash}{162abefb620ada53b84d73db609cd04d}
+      \strng{bibnamehash}{162abefb620ada53b84d73db609cd04d}
+      \strng{authorbibnamehash}{162abefb620ada53b84d73db609cd04d}
+      \strng{authornamehash}{162abefb620ada53b84d73db609cd04d}
+      \strng{authorfullhash}{162abefb620ada53b84d73db609cd04d}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Zusammenfasssung}
+      \field{issn}{0949-2232}
+      \field{journaltitle}{MagazinTitel}
+      \field{number}{Ausgabe}
+      \field{shorttitle}{Kurztitel}
+      \field{title}{{MagazinArtikelTitel}}
+      \field{urlday}{20}
+      \field{urlmonth}{4}
+      \field{urlyear}{2009}
+      \field{volume}{Band}
+      \field{year}{1995}
+      \field{urldateera}{ce}
+      \field{pages}{44\bibrangedash 55}
+      \range{pages}{12}
+      \verb{urlraw}
+      \verb http://www.blabla.at
+      \endverb
+      \verb{url}
+      \verb http://www.blabla.at
+      \endverb
+    \endentry
+    \entry{paulus_horen_????}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=ddb5e2a6da9fe32e30e6d5ff0e9e478f}{%
+           family={Paulus},
+           familyi={P\bibinitperiod},
+           given={Jochen},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {deutsch}%
+      }
+      \strng{namehash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \strng{fullhash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \strng{bibnamehash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \strng{authorbibnamehash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \strng{authornamehash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \strng{authorfullhash}{ddb5e2a6da9fe32e30e6d5ff0e9e478f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel Radio-Podcast. Wie zitieren?}
+      \field{title}{Hören, was nicht erklingt}
+      \field{urlday}{3}
+      \field{urlmonth}{2}
+      \field{urlyear}{2009}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://podster.de/episode/867149
+      \endverb
+      \verb{url}
+      \verb http://podster.de/episode/867149
+      \endverb
+    \endentry
+    \entry{horowitz_horowitz_2003}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=7b17fb584a414b7a00965b69e0847c0b}{%
+           family={Horowitz},
+           familyi={H\bibinitperiod},
+           given={Vladimir},
+           giveni={V\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Sony Classical (Sony Music)}%
+      }
+      \strng{namehash}{7b17fb584a414b7a00965b69e0847c0b}
+      \strng{fullhash}{7b17fb584a414b7a00965b69e0847c0b}
+      \strng{bibnamehash}{7b17fb584a414b7a00965b69e0847c0b}
+      \strng{authorbibnamehash}{7b17fb584a414b7a00965b69e0847c0b}
+      \strng{authornamehash}{7b17fb584a414b7a00965b69e0847c0b}
+      \strng{authorfullhash}{7b17fb584a414b7a00965b69e0847c0b}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Beispiel für Medientyp Tonaufnahme via Amazon, zum Demonstrieren was da ausgegeben wird.}
+      \field{month}{9}
+      \field{shorttitle}{Horowitz {Plays} {Chopin}}
+      \field{title}{Horowitz {Plays} {Chopin} : the {Complete} {Columbia} {Reco}}
+      \field{year}{2003}
+    \endentry
+    \entry{fhvlearningsupport_was_2008}{misc}{}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Beispiel für Datensatz von Video auf Youtube. Medientyp Videoaufnahme.}
+      \field{month}{5}
+      \field{shorttitle}{Was ist ein {Wiki}?}
+      \field{title}{Was ist ein {Wiki}? - {Teil} 1}
+      \field{urlday}{19}
+      \field{urlmonth}{10}
+      \field{urlyear}{2010}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb http://www.youtube.com/watch?v=Kl87tJcB4Io&feature=youtube_gdata_player
+      \endverb
+      \verb{url}
+      \verb http://www.youtube.com/watch?v=Kl87tJcB4Io&feature=youtube_gdata_player
+      \endverb
+      \keyw{content,elatfhv,elearning,example,video,wiki}
+    \endentry
+    \entry{kohls_literaturverwaltung_2008}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=c9dceb857d4c96dfc0ab080ac3ad5089}{%
+           family={Kohls},
+           familyi={K\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \strng{fullhash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \strng{bibnamehash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \strng{authorbibnamehash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \strng{authornamehash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \strng{authorfullhash}{c9dceb857d4c96dfc0ab080ac3ad5089}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel für die Online-Aufzeichnung einer Präsentation mit Adobe Connect. Wie zitieren?}
+      \field{month}{9}
+      \field{title}{Literaturverwaltung im {Web} 2.0}
+      \field{urlday}{8}
+      \field{urlmonth}{9}
+      \field{urlyear}{2008}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb literaturverwaltung_0:/home/kr/.mozilla/firefox/o1hodkgi.default/zotero/storage/4TUHDGJS/p79077399.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb http://connect.iwm-kmrc.de/p79077399/
+      \endverb
+      \verb{url}
+      \verb http://connect.iwm-kmrc.de/p79077399/
+      \endverb
+    \endentry
+    \entry{wedekind_von_2008}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=2ad141d2157d4aead871528f5c22ceb6}{%
+           family={Wedekind},
+           familyi={W\bibinitperiod},
+           given={Joachim},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{2ad141d2157d4aead871528f5c22ceb6}
+      \strng{fullhash}{2ad141d2157d4aead871528f5c22ceb6}
+      \strng{bibnamehash}{2ad141d2157d4aead871528f5c22ceb6}
+      \strng{authorbibnamehash}{2ad141d2157d4aead871528f5c22ceb6}
+      \strng{authornamehash}{2ad141d2157d4aead871528f5c22ceb6}
+      \strng{authorfullhash}{2ad141d2157d4aead871528f5c22ceb6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel für Präsentation auf Slideshare - wie zitieren?}
+      \field{journaltitle}{slideshare}
+      \field{month}{12}
+      \field{title}{Von {Mäusen} und {Menschen}. {Zur} {Interaktivität} digitaler {Lehr}-/{Lernmedien}}
+      \field{urlday}{2}
+      \field{urlmonth}{4}
+      \field{urlyear}{2009}
+      \field{year}{2008}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb interaktion-ueber-computer-grafik.png:/home/kr/.mozilla/firefox/o1hodkgi.default/zotero/storage/RA7TNDVE/interaktion-ueber-computer-grafik.png:image/png;interaktion-zwischen-menschen-grafik.png:/home/kr/.mozilla/firefox/o1hodkgi.default/zotero/storage/AW3DGZQ9/interaktion-zwischen-menschen-grafik.png:image/png
+      \endverb
+      \verb{urlraw}
+      \verb http://www.slideshare.net/eteaching/interaktivitt-presentation-845602
+      \endverb
+      \verb{url}
+      \verb http://www.slideshare.net/eteaching/interaktivitt-presentation-845602
+      \endverb
+    \endentry
+    \entry{hofer_wir_2008}{article}{}
+      \name{author}{1}{}{%
+        {{hash=8db6650e4b4ba185a88017379ea52fc9}{%
+           family={Hofer},
+           familyi={H\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{8db6650e4b4ba185a88017379ea52fc9}
+      \strng{fullhash}{8db6650e4b4ba185a88017379ea52fc9}
+      \strng{bibnamehash}{8db6650e4b4ba185a88017379ea52fc9}
+      \strng{authorbibnamehash}{8db6650e4b4ba185a88017379ea52fc9}
+      \strng{authornamehash}{8db6650e4b4ba185a88017379ea52fc9}
+      \strng{authorfullhash}{8db6650e4b4ba185a88017379ea52fc9}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Beispiel für manuell angelegten Zeitschriftenartikel. siehe 5.3.3.3 Beiträge in Zeitschriften, S.26 Leitfaden}
+      \field{journaltitle}{Profil}
+      \field{month}{11}
+      \field{number}{Nr. 48}
+      \field{title}{Wir {Spielen} {Leben}}
+      \field{volume}{39. Jg}
+      \field{year}{2008}
+      \field{pages}{86\bibrangedash 89}
+      \range{pages}{4}
+    \endentry
+    \entry{schenkel_tsunami_2012}{article}{}
+      \name{author}{1}{}{%
+        {{hash=26ac8ef39f41c12893a4e7830ad99967}{%
+           family={Schenkel},
+           familyi={S\bibinitperiod},
+           given={Ronald},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{26ac8ef39f41c12893a4e7830ad99967}
+      \strng{fullhash}{26ac8ef39f41c12893a4e7830ad99967}
+      \strng{bibnamehash}{26ac8ef39f41c12893a4e7830ad99967}
+      \strng{authorbibnamehash}{26ac8ef39f41c12893a4e7830ad99967}
+      \strng{authornamehash}{26ac8ef39f41c12893a4e7830ad99967}
+      \strng{authorfullhash}{26ac8ef39f41c12893a4e7830ad99967}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Artikel zu Mooc - Versuch an der EPFL in der Schweiz Beispiel für ein Dokument, dass inzwischen nicht mehr verfügbar ist.}
+      \field{chapter}{Campus 37}
+      \field{month}{7}
+      \field{title}{Tsunami oder {Sturm} im {Wasserglas}?}
+      \field{urlday}{7}
+      \field{urlmonth}{8}
+      \field{urlyear}{2012}
+      \field{year}{2012}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb nzz.pdf:/home/kr/.mozilla/firefox/o1hodkgi.default/zotero/storage/P2GPWK9T/nzz.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://www.eduhub.ch/export/sites/default/info/reports/nzz.pdf
+      \endverb
+      \verb{url}
+      \verb http://www.eduhub.ch/export/sites/default/info/reports/nzz.pdf
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

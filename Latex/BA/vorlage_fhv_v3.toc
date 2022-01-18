@@ -1,0 +1,38 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {ngerman}{}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Abbildungsverzeichnis}{10}{section*.11}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Tabellenverzeichnis}{11}{section*.13}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{[evtl. Abkürzungsverzeichnis]}{12}{section*.15}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}[Kapitel]}{13}{chapter.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}[Kapitel]}{14}{chapter.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.1}[Unterkapitel zweite Ebene]}{14}{section.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.2}[Unterkapitel zweite Ebene]}{15}{section.2.2}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.1}[Unterkapitel dritte Ebene]}{15}{subsection.2.2.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {2.2.1.1}[Unterkapitel vierte Ebene]}{15}{subsubsection.2.2.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {2.3}[Unterkapitel zweite Ebene]}{15}{section.2.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}[Kapitel]}{16}{chapter.3}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.1}[Unterkapitel zweite Ebene]}{16}{section.3.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {3.1.1}[Unterkapitel dritte Ebene]}{16}{subsection.3.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {3.1.1.1}[Unterkapitel vierte Ebene]}{16}{subsubsection.3.1.1.1}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Literaturverzeichnis}{17}{section*.19}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{[evtl. Anhang]}{19}{chapter*.21}%
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Eidesstattliche Erklärung}{20}{chapter*.22}%
+\defcounter {refsection}{0}\relax 
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
