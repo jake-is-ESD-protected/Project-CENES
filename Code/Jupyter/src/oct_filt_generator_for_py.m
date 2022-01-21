@@ -6,7 +6,7 @@
 %*************************************
 fs = 48000;     % [Hz] desired sampling rate of device
 fmin = 20;      % [Hz] minimal desired low-end
-fmax = 20480;   % [Hz] minimal desired high-end
+fmax = 20000;   % [Hz] minimal desired high-end
 
 oct_bw_ratio = 1/3; % [1] desired octave-split
 
@@ -24,7 +24,7 @@ fu = fc*2^(+oct_bw_ratio/2);                % upper cutoffs @ -3dB (required by 
 
 % Create csv-file
 %*************************************
-header = append('b10, b11, b12, a11, a12, b20, b21, b22, a21, a22, b30, b31, b32, a31, a32', newline);
+header = append('b10, b11, b12, a10, a11, a12, b20, b21, b22, a20, a21, a22, b30, b31, b32, a30, a31, a32', newline);
 
 path = '../Datasets/Feature_extraction/th_oct_coeffs.csv';
 fileID = fopen(path ,'w');
@@ -58,15 +58,15 @@ for i_b = 0:n_thirds
     
     % The coefficients are stored in the array in the following order:
     % {b10, b11, b12, a11, a12, b20, b21, b22, a21, a22, ...}
-    % based on style o ARM CMSIS DSP library for later ease of
+    % based on style of ARM CMSIS DSP library for later ease of
     % compatibility
     for i_s = 1:n_sections
        for i_c = 1:n_coeffs_p_section
-           if i_c == 4 % the 4th coefficient (always 1) is not accepted
-               continue;
-           end
+%            if i_c == 4 % the 4th coefficient (always 1) is not accepted
+%                continue;
+%            end
            if i_c == 5 || i_c == 6
-               value = filter.sosMatrix(i_s, i_c) * (-1); % dsp cmsis lib only works with sign-swapped denominator coeffs ???
+               value = filter.sosMatrix(i_s, i_c) * (1); % dsp cmsis lib only works with sign-swapped denominator coeffs ???
            else
                value = filter.sosMatrix(i_s, i_c);
            end
@@ -91,9 +91,13 @@ fclose(fileID);
 
 % create txt-file with scalings for later import
 %'../STM32L476RG/Core/Inc/scalings.txt'
-file_s = fopen('../Datasets/Feature_extraction/scalings.txt', 'w');
+file_s = fopen('../Datasets/Feature_extraction/scalings.csv', 'w');
 for n = 1:n_thirds+1
-    content = string(scalings{n}) + ',' + newline;
+    if(n == n_thirds+1)
+        content = string(scalings{n});
+    else  
+        content = string(scalings{n}) + ',';
+    end    
     fprintf(file_s, content);
 end
 fclose(file_s);

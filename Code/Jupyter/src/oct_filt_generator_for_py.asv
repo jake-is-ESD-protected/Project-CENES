@@ -18,13 +18,13 @@ n_sections = 3;
 fc = fmin*2.^((0:n_thirds) * oct_bw_ratio); % [Hz] center frequencies. 
                                             % "(0:n_bands)" means to iterate from 0 to n_bands 
                                             % and store result in vector
-fl = fc*2^(-oct_bw_ratio/2);                % lower cutoffs @ -3dB (required by filter-designer)
+fl = fc*2^(-oct_bw_ratio/2)                % lower cutoffs @ -3dB (required by filter-designer)
 fu = fc*2^(+oct_bw_ratio/2);                % upper cutoffs @ -3dB (required by filter-designer)
 
 
 % Create csv-file
 %*************************************
-header = 'b10, b11, b12, a11, a12, b20, b21, b22, a21, a22';
+header = append('b10, b11, b12, a10, a11, a12, b20, b21, b22, a20, a21, a22, b30, b31, b32, a30, a31, a32', newline);
 
 path = '../Datasets/Feature_extraction/th_oct_coeffs.csv';
 fileID = fopen(path ,'w');
@@ -49,34 +49,34 @@ for i_b = 0:n_thirds
     
     [h,f] = freqz(filter.sosMatrix, 1024, fs);
     hold on;
-    plot(f, 20*log10(abs(h)));
+    % plot(f, 20*log10(abs(h)));
     plot(f, 20*log10(abs(h)) + scaler );    % plot magnitude in absolute frequency and scaled to 0dB
     
     set(gca, 'XScale', 'log');  % show plot in log-scale
-    ylim([-80 150]);              % only show up to a damping of -80dB
+    ylim([-80 10]);              % only show up to a damping of -80dB
     %xlim([20 20000]);           % only show a bandwidth of 20-20000 Hz
     
-    % The coefficients are stored in the array pCoeffs in the following order:
+    % The coefficients are stored in the array in the following order:
     % {b10, b11, b12, a11, a12, b20, b21, b22, a21, a22, ...}
-    % where b1x and a1x are the coefficients for the first stage, 
-    % b2x and a2x are the coefficients for the second stage, and so on. 
-    % The pCoeffs array contains a total of 5*numStages values.
-    % ~~~ from ARM CMSIS DSP library wiki (https://www.keil.com/pack/doc/CMSIS/DSP/html/group__BiquadCascadeDF1.html#gad0b680d1c529d941e939d265b3c6ae59)
+    % based on style of ARM CMSIS DSP library for later ease of
+    % compatibility
     for i_s = 1:n_sections
        for i_c = 1:n_coeffs_p_section
-           if i_c == 4 % the 4th coefficient (always 1) is not accepted
-               continue;
-           end
+%            if i_c == 4 % the 4th coefficient (always 1) is not accepted
+%                continue;
+%            end
            if i_c == 5 || i_c == 6
-               value = filter.sosMatrix(i_s, i_c) * (-1); % dsp cmsis lib only works with sign-swapped denominator coeffs ???
+               value = filter.sosMatrix(i_s, i_c) * (1); % dsp cmsis lib only works with sign-swapped denominator coeffs ???
            else
                value = filter.sosMatrix(i_s, i_c);
            end
-           fprintf(fileID, '    %.15f,  ', value);
+           if(i_s == n_sections && i_c == n_coeffs_p_section)
+               fprintf(fileID, '%.15f', value);
+           else
+               fprintf(fileID, '%.15f,    ', value);
+           end    
        end
-       fprintf(fileID, newline);
     end
-    fprintf(fileID, '},');
     fprintf(fileID, newline);
     
     if ((mod(i_b, (1/oct_bw_ratio))) == 0) && ...   % only scan for each 3rd band
@@ -87,16 +87,17 @@ for i_b = 0:n_thirds
 end
 
 % closing statement
-fprintf(fileID, '};');
-fprintf(fileID, newline);
-fprintf(fileID, '#endif // coefficients.h');
 fclose(fileID);
 
 % create txt-file with scalings for later import
 %'../STM32L476RG/Core/Inc/scalings.txt'
-file_s = fopen('scalings.txt', 'w');
+file_s = fopen('../Datasets/Feature_extraction/scalings.csv', 'w');
 for n = 1:n_thirds+1
-    content = string(scalings{n}) + ',' + newline;
+    if(n == n_thirds+1)
+        content = string(scalings{n});
+    else  
+        content = string(scalings{n}) + ',';
+    end    
     fprintf(file_s, content);
 end
 fclose(file_s);
