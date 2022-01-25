@@ -53,7 +53,7 @@ for i_b = 0:n_thirds
     plot(f, 20*log10(abs(h)) + scaler );    % plot magnitude in absolute frequency and scaled to 0dB
     
     set(gca, 'XScale', 'log');  % show plot in log-scale
-    ylim([-80 10]);              % only show up to a damping of -80dB
+    ylim([-120 10]);              % only show up to a damping of -80dB
     %xlim([20 20000]);           % only show a bandwidth of 20-20000 Hz
     
     % The coefficients are stored in the array in the following order:
