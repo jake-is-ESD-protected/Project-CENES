@@ -251,7 +251,7 @@ void HAL_SAI_MspInit(SAI_HandleTypeDef* hsai)
     PeriphClkInit.PLL2.PLL2Source = RCC_PLLSOURCE_MSI;
     PeriphClkInit.PLL2.PLL2M = 1;
     PeriphClkInit.PLL2.PLL2N = 129;
-    PeriphClkInit.PLL2.PLL2P = 2;
+    PeriphClkInit.PLL2.PLL2P = 4;
     PeriphClkInit.PLL2.PLL2Q = 2;
     PeriphClkInit.PLL2.PLL2R = 2;
     PeriphClkInit.PLL2.PLL2RGE = RCC_PLLVCIRANGE_0;

@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "app_threadx.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -108,6 +109,7 @@ int main(void)
 
   /* USER CODE END 2 */
 
+  MX_ThreadX_Init();
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
