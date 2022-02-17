@@ -21,6 +21,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "app_azure_rtos.h"
+#include "app_x-cube-ai.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -101,6 +102,16 @@ VOID tx_application_define(VOID *first_unused_memory)
 
   }
 
+    if (MX_X-CUBE-AI_Init(memory_ptr) != TX_SUCCESS)
+    {
+      /* USER CODE BEGIN  MX_X-CUBE-AI_Init_Error */
+
+      /* USER CODE END  MX_X-CUBE-AI_Init_Error */
+    }
+    /* USER CODE BEGIN  MX_X-CUBE-AI_Init_Success */
+
+    /* USER CODE END  MX_X-CUBE-AI_Init_Success */
+  }
 #else
 /*
  * Using dynamic memory allocation requires to apply some changes to the linker file.
