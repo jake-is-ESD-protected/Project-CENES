@@ -6,25 +6,28 @@
 typedef enum type
 {
 	none,
+	generic,
 	busy,
 	timeout,
 	mem_null,
-	unknwon
 }err_t;
+
 
 typedef enum origin
 {
 	MAIN,
 	RT,
 	SW,
-	UI,
+	UI
 }origin_t;
+
 
 typedef enum prio
 {
 	LOW,
 	HIGH
 }prio_t;
+
 
 
 class err

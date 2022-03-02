@@ -14,11 +14,16 @@ notes:
 
 
 #include "main.h"
-#include "mailbox.h"
 #include "err.h"
+#include "mailbox.h"
 #include "cmsis_os.h"
 
 #define IS_NULL(x)	(x == NULL)
+
+#define STACK_WIDTH		128
+#define STACK_SIZE_RT	(STACK_WIDTH * 16)
+#define STACK_SIZE_SW	(STACK_WIDTH * 8)
+#define STACK_SIZE_UI	(STACK_WIDTH * 4)
 
 
 class core
@@ -29,19 +34,19 @@ public:
 
 	const osThreadAttr_t RT_task_attributes = {
 	  .name = "real-time task",
-	  .stack_size = 128 * 16,
+	  .stack_size = STACK_SIZE_RT,
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 
 	const osThreadAttr_t SW_task_attributes = {
 	  .name = "AI & soft task",
-	  .stack_size = 128 * 8,
+	  .stack_size = STACK_SIZE_SW,
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 
 	const osThreadAttr_t UI_task_attributes = {
 	  .name = "user interface task",
-	  .stack_size = 128 * 4,
+	  .stack_size = STACK_SIZE_UI,
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 
@@ -81,7 +86,7 @@ public:
 
 
 
-	/* mailbox-constructor
+	/* command handler
 	 * @params: 	`cmd` command to handle
 	 * @returns 	`err`-object (0 if successful)
 	 * @brief:		handle an input command of generic origin

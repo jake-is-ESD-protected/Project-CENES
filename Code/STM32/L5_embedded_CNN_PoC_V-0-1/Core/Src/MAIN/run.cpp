@@ -27,15 +27,6 @@ int run(void){
 
 	//init_filterbank();
 
-//	uint8_t nok = ssd1306_Init(&hi2c1);
-//	if(nok){
-//		uart_printf("OLED-driver problem occurred: %d\r\n", nok);
-//	}
-
-//	ssd1306_WriteString("init", Font_7x10, White);
-//	ssd1306_UpdateScreen(&hi2c1);
-
-
 //	init_buffers();
 //	init_i2s_dma();
 //	start_sampler();
