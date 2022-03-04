@@ -1,15 +1,15 @@
 Neural Network Tools for STM32AI v1.6.0 (STM.ai v7.1.0-RC3)
-Created date          : 2022-03-01 18:25:28
-Parameters            : generate --name network -m C:/Users/J/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\J\AppData\Local\Temp\mxAI_workspace15951649642088009495609123429162039 --output C:\Users\J\.stm32cubemx\network_output
+Created date          : 2022-03-04 13:49:05
+Parameters            : generate --name network -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace7487770459760011903345738551941447 --output C:\Users\j.tschavoll\.stm32cubemx\network_output
 
 Exec/report summary (generate)
 ------------------------------------------------------------------------------------------------------------------------
-model file            : C:\Users\J\OneDrive - FH Vorarlberg\Partnerunternehmen FHV\FH\BA\Code\Jupyter\N4CED_V-0-2\N4CED_V-0-2_lite.tflite
+model file            : C:\Users\j.tschavoll\OneDrive - FH Vorarlberg\Partnerunternehmen FHV\FH\BA\Code\Jupyter\N4CED_V-0-2\N4CED_V-0-2_lite.tflite
 type                  : tflite
 c_name                : network
 compression           : 4
-workspace dir         : C:\Users\J\AppData\Local\Temp\mxAI_workspace15951649642088009495609123429162039
-output dir            : C:\Users\J\.stm32cubemx\network_output
+workspace dir         : C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace7487770459760011903345738551941447
+output dir            : C:\Users\j.tschavoll\.stm32cubemx\network_output
 model_name            : N4CED_V02_lite
 model_hash            : dbd11f49d2f2827ffaa2cd3ff5de195b
 input 1/1             : 'serving_default_conv2d_input0'
@@ -154,9 +154,9 @@ id   name       c_macc                    c_rom                     c_id
 8    nl_8       |                  0.0%   |                  0.0%   [8] 
 
 Generated files (5)
------------------------------------------------------------------
-C:\Users\J\.stm32cubemx\network_output\network_config.h
-C:\Users\J\.stm32cubemx\network_output\network.h
-C:\Users\J\.stm32cubemx\network_output\network.c
-C:\Users\J\.stm32cubemx\network_output\network_data.h
-C:\Users\J\.stm32cubemx\network_output\network_data.c
+---------------------------------------------------------------------------
+C:\Users\j.tschavoll\.stm32cubemx\network_output\network_config.h
+C:\Users\j.tschavoll\.stm32cubemx\network_output\network.h
+C:\Users\j.tschavoll\.stm32cubemx\network_output\network.c
+C:\Users\j.tschavoll\.stm32cubemx\network_output\network_data.h
+C:\Users\j.tschavoll\.stm32cubemx\network_output\network_data.c

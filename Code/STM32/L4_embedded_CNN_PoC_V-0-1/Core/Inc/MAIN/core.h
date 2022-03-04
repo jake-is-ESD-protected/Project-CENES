@@ -16,6 +16,9 @@ notes:
 #include "main.h"
 #include "cmsis_os.h"
 #include "serial.h"
+#include "mailbox.h"
+#include "filterbank.h"
+#include "gpio.h"
 
 #define STACK_WIDTH		128
 #define STACK_SIZE_RT	(STACK_WIDTH * 2)
@@ -128,7 +131,7 @@ public:
 
 
 	/* kickstart task
-	 * @params:		`osThreadId_t hid`: 	thread handle
+	 * @params:		`osThreadId_t* hid`: 	thread handle pointer
 	 * @params:		`osThreadFunc_t f`: 	executing function
 	 * @params:		`void* p`:				optional params
 	 * @params:		`osThreadAttr_t* a`:	pointer to thread attribute struct
@@ -137,7 +140,7 @@ public:
 	 * @brief:		kickstart task and register its activity
 	 * @notes:
 	 * */
-	void start_task(osThreadId_t hid, osThreadFunc_t f, void* p, const osThreadAttr_t* a, bool* run_flag);
+	void start_task(osThreadId_t* hid, osThreadFunc_t f, void* p, const osThreadAttr_t* a, bool* init_flag);
 
 
 private:

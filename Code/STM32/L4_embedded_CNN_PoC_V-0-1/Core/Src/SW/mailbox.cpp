@@ -2,6 +2,7 @@
 
 // global instances
 mbox uart_mbox;
+mbox i2s_mbox;
 
 
 
@@ -14,54 +15,40 @@ mbox::mbox(void)
 
 void mbox::init(void)
 {
-	hQueue = osMessageQueueNew(QUEUE_SIZE, sizeof(cmd), NULL);
+	hQueue = osMessageQueueNew(MBOX_SIZE, sizeof(cmd), NULL);
 
 	if(IS_NULL(hQueue))
 	{
-		err e(mem_null, mailbox_e, HIGH);
+		err e(mem_null, mailbox_e, HIGH, NULL);
 		e.handle();
 	}
 }
 
 
 
-void mbox::push(cmd cmd, bool from_ISR)
+void mbox::push(cmd cmd, uint8_t timeout)
 {
 	osStatus_t stat;
-	if(from_ISR)
-	{
-		stat = osMessageQueuePut(hQueue, (void*)&cmd, cmd.prio, QUEUE_FROM_ISR);
-	}
-	else
-	{
-		stat = osMessageQueuePut(hQueue, (void*)&cmd, cmd.prio, QUEUE_TIMEOUT);
-	}
 
+	stat = osMessageQueuePut(hQueue, (void*)&cmd, cmd.prio, timeout);
 	if(stat != osOK)
 	{
-		err e(generic, mailbox_e, LOW);
+		err e(delivery_fail, mailbox_e, LOW, &stat);
 		e.handle();
 	}
 }
 
 
 
-cmd mbox::pop(bool from_ISR)
+cmd mbox::pop(uint8_t timeout)
 {
 	osStatus_t stat;
 	cmd c;
-	if(from_ISR)
-	{
-		stat = osMessageQueueGet(hQueue, &c, NULL, QUEUE_FROM_ISR);
-	}
-	else
-	{
-		stat = osMessageQueueGet(hQueue, &c, NULL, QUEUE_NO_TIMEOUT);
-	}
 
+	stat = osMessageQueueGet(hQueue, &c, NULL, timeout);
 	if(stat != osOK)
 	{
-		err e(generic, mailbox_e, LOW);
+		err e(delivery_fail, mailbox_e, LOW, &stat);
 		e.handle();
 	}
 	return c;
@@ -69,14 +56,14 @@ cmd mbox::pop(bool from_ISR)
 
 
 
-bool mbox::data_avail(void)
+uint8_t mbox::data_avail(void)
 {
-	if(osMessageQueueGetCount(hQueue) != 0)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return osMessageQueueGetCount(hQueue);
+}
+
+
+
+void mbox::reset(void)
+{
+	osMessageQueueReset(hQueue);
 }

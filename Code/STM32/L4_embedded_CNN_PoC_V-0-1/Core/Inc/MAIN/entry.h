@@ -11,7 +11,6 @@ notes:				Makes handles available to underlying code
 #ifndef _RUN_H_
 #define _RUN_H_
 
-#include "serial.h"
 #include "main.h"
 
 
@@ -27,6 +26,7 @@ extern SPI_HandleTypeDef hspi1;
 extern UART_HandleTypeDef huart2;
 
 
-int run(void);
+
+int entry(void);
 
 #endif

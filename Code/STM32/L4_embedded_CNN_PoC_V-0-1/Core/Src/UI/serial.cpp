@@ -20,7 +20,7 @@ void uart::reset(void)
 	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, UART_RX_BUF_SIZE/2);
 	if(stat != HAL_OK)
 	{
-		err e = {.type = generic, .origin = little_bash_e, .prio = HIGH};
+		err e = {.type = generic, .origin = little_bash_e, .prio = HIGH, .description = &stat};
 		e.handle();
 	}
 }
@@ -62,7 +62,7 @@ HAL_StatusTypeDef uart::printf(const char *fmt, ...)
 
 		if(stat != HAL_OK)
 		{
-			err e = {.type = generic, .origin = little_bash_e, .prio = HIGH};
+			err e = {.type = generic, .origin = little_bash_e, .prio = HIGH, .description = &stat};
 			e.handle();
 		}
 
@@ -80,24 +80,25 @@ HAL_StatusTypeDef uart::printf(const char *fmt, ...)
 void uart::rx_callback()
 {
 	cmd c = str2cmd();
-	uart_mbox.push(c, true);
+	uart_mbox.push(c, MBOX_FROM_ISR);
 }
 
 
 
 void uart::handle(cmd c)
 {
-	if(c.type == no_info)
+	switch(c.type)
 	{
-		 printf(TXT_UNKNOWN);
-	}
-
-	else if(c.type == get_help)
-	{
+	case no_info:
+		printf(TXT_UNKNOWN);
+		break;
+	case get_help:
 		printf(TXT_INFO);
-	}
-	else
-	{
+		break;
+	case easteregg:
+		printf(EASTEREGG);
+		break;
+	default:
 		printf(TXT_UNKNOWN);
 	}
 

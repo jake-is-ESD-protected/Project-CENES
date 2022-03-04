@@ -1,41 +1,50 @@
 /*
- * f_name:	filterbank.c
- * auth:	Jakob Tschavoll
- * ver:		1.4
- * brief:	source for filterbanks, decimations and weightings
- * */
+*****************************************************************************************
+file name:       	filterbank.cpp
+auth:               Jakob Tschavoll
+date:               03.03.22
+brief:              source for filterbanks, decimations and weightings
+version:            V0.4
+notes:
+*****************************************************************************************
+*/
 
 #include "filterbank.h"
 #include "coeffs.h"
-#include "class_map.h"
 
-// IIR-filter instance structs
-arm_biquad_casd_df1_inst_f32 iirsettings[N_BANDS], dec_iirsettings;
 
-// IIR-filter state buffers
-float iir_state[N_BANDS][4*N_IIR_BIQUADS], dec_iir_state[4*N_DEC_IIR_BIQUADS];
-
-// sample buffers
-float toDSP_buf[FRAME_SIZE / 2], fromDSP_buf[FRAME_SIZE / 2];
-uint16_t i;
+// singleton instance
+filterbank fbank;
 
 
 
-void init_filters(void){
+filterbank::filterbank(void)
+{
 
-	// init filterbank
-	for(uint8_t j = 0; j < N_BANDS; j++)
+}
+
+
+
+void filterbank::init(void)
+{
+	for(uint8_t i = 0; i < N_BANDS; i++)
 	{
-		arm_biquad_cascade_df1_init_f32(&iirsettings[j], N_IIR_BIQUADS, &band_coeffs[j][0], &iir_state[j][0]);
+		arm_biquad_cascade_df1_init_f32(&iirsettings[i],
+										N_IIR_BIQUADS,
+										&band_coeffs[i][0],
+										&iir_state[i][0]);
 	}
 
-	// init decimator
-	arm_biquad_cascade_df1_init_f32(&dec_iirsettings, N_DEC_IIR_BIQUADS, &dec_coeffs[0], &dec_iir_state[0]);
-
-
-	// init A-weighting
-	// TODO
+	arm_biquad_cascade_df1_init_f32(&dec_iirsettings,
+									N_DEC_IIR_BIQUADS,
+									&dec_coeffs[0],
+									&dec_iir_state[0]);
 }
+
+
+
+
+
 
 void dsp(volatile uint32_t* _pIn, volatile uint32_t* _pOut){
 

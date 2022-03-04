@@ -17,11 +17,11 @@ notes:
 #include "err.h"
 
 
-#define  	QUEUE_TIMEOUT		1
-#define 	QUEUE_NO_TIMEOUT	osWaitForever
-#define 	QUEUE_FROM_ISR		0
+#define  	MBOX_TIMEOUT		1
+#define 	MBOX_NO_TIMEOUT		osWaitForever
+#define 	MBOX_FROM_ISR		0
 
-#define 	QUEUE_SIZE			10
+#define 	MBOX_SIZE			10
 
 
 typedef enum c_type
@@ -31,7 +31,7 @@ typedef enum c_type
 	get_help,
 	switch_rta,
 	switch_ai,
-	easteregg
+	easteregg,
 }cmd_t;
 
 
@@ -41,7 +41,7 @@ typedef struct {
 	entity_t origin;
 	entity_t destination;
 	prio_t prio;
-	uint8_t unused;
+	void* params;
 }cmd;
 
 
@@ -75,32 +75,42 @@ public:
 
 	/* mailbox insertion
 	 * @params: 	`cmd`-struct
-	 * @params:		`bool from_ISR`: specify if mbox is filled inside an ISR
+	 * @params:		`uint8_t timeout`: timeout time, pass 0 if called from ISR
 	 * @returns 	`void`
 	 * @brief:		push a command object to the mailbox's fifo buffer
 	 * @notes:
 	 * */
-	void push(cmd cmd, bool from_ISR);
+	void push(cmd cmd, uint8_t timeout);
 
 
 
 	/* mailbox retrieval
-	 * @params: 	`bool from_ISR`: specify if mbox is emptied inside an ISR
+	 * @params: 	`uint8_t timeout`: timeout time, pass 0 if called from ISR
 	 * @returns 	`cmd`-object
 	 * @brief:		acquire the oldest command in the buffer
 	 * @notes:		**This function is blocking, only call it when data is available**
 	 * */
-	cmd pop(bool from_ISR);
+	cmd pop(uint8_t timeout);
 
 
 
 	/* check for data in queue
 	 * @params: 	`void`
-	 * @returns 	`bool`: true if data is available
+	 * @returns 	`uint_t`: # of messages in mailbox
 	 * @brief:		peek into queue and check for pending messages
 	 * @notes:		use this as the entry for `pop()`
 	 * */
-	bool data_avail(void);
+	uint8_t data_avail(void);
+
+
+
+	/* delete all messages in mailbox
+	 * @params: 	`void`
+	 * @returns 	`void`
+	 * @brief:
+	 * @notes:
+	 * */
+	void reset(void);
 
 
 

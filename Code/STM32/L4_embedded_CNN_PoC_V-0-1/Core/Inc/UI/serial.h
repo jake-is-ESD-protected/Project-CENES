@@ -13,8 +13,8 @@ notes:				ATM, only commands of 4 characters can be sent: more get cut off, less
 #ifndef _SERIAL_H_
 #define _SERIAL_H_
 
+#include <entry.h>
 #include "main.h"
-#include "run.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
@@ -31,6 +31,7 @@ notes:				ATM, only commands of 4 characters can be sent: more get cut off, less
 // RX/TX buffer size
 #define UART_TX_BUF_SIZE	256
 #define UART_RX_BUF_SIZE	8
+
 
 
 /* [CLASS] uart
@@ -155,19 +156,19 @@ private:
 		if(!strcmp(rx_buf, STR_CMD_INFO))
 		{
 			// print info about system to terminal
-			cmd c = {.type = get_help, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW, .unused = 0};
+			cmd c = {.type = get_help, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW};
 			return c;
 		}
 		else if(!strcmp(rx_buf, STR_CMD_EEGG))
 		{
 			// print easteregg
-			cmd c = {.type = easteregg, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW, .unused = 0};
+			cmd c = {.type = easteregg, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW};
 			return c;
 		}
 		else
 		{
 			// print "unknown"-message
-			cmd c = {.type = no_info, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW, .unused = 0};
+			cmd c = {.type = no_info, .origin = little_bash_e, .destination = little_bash_e, .prio = LOW};
 			return c;
 		}
 
