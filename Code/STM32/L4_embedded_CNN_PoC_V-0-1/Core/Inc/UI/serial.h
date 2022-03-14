@@ -29,8 +29,10 @@ notes:				ATM, only commands of 4 characters can be sent: more get cut off, less
 
 
 // RX/TX buffer size
-#define UART_TX_BUF_SIZE	256
+#define UART_TX_BUF_SIZE	512
 #define UART_RX_BUF_SIZE	8
+
+#define INC_MSG_FLAG		0x00000010
 
 
 
@@ -112,6 +114,17 @@ public:
 	 * @notes:
 	 * */
 	void handle(cmd c);
+
+
+
+	/*
+	 * @params:
+	 * @returns
+	 * @brief:
+	 * @notes:		TODO
+	 * */
+	void print_rta(float* pData);
+
 
 
 

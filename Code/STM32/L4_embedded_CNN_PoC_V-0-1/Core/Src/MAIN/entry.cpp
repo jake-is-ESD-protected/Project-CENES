@@ -5,7 +5,7 @@ auth:               Jakob Tschavoll
 date:               02.03.22
 brief:              step-in function, main entry. Init all entities.
 version:            V0.4
-notes:				Thread currently unused after init
+notes:
 *****************************************************************************************
 */
 

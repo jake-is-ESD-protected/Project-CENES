@@ -22,6 +22,8 @@ void core::init(void)
 	start_task(&hSW_task, SW_task, (void*)this, &SW_task_attributes, &SW_task_running);
 	start_task(&hUI_task, UI_task, (void*)this, &UI_task_attributes, &UI_task_running);
 	cur_state = s_idle;
+
+	SW_task_running = false;
 }
 
 
@@ -76,25 +78,54 @@ err core::handle(cmd c)
 void core::RT_task(void* params)
 {
 	core* pCore = (core*) params;
-	uint32_t rdy = 0;
+	buf.start_sampler();
+
 	while(pCore->RT_task_running)
 	{
-		buf.start_sampler();
-		rdy = osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+		osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever);
 
-		if(rdy)
-		{
-			gpio_D7.set(true);
+		gpio_D7.set(true);
 
-			for(uint16_t i = 0; i < (FRAME_SIZE / 2); i++){
+		for(uint16_t i = 0; i < (FRAME_SIZE / 2); i++){
 
-				fbank.input_buf[i] = ((float)(((int32_t)(buf.pOut[i] << 8)) >> 8)) / UINT24_MAX;
-			}
-			gpio_D7.set(false);
-
-			// run filterbank
-
+			fbank.input_buf[i] = ((float)(((int32_t)(buf.pOut[i] << 8)) >> 8)) / UINT24_MAX;
 		}
+
+
+		uint8_t cur_band = 0;
+		float32_t* pDec_data;
+		for(uint8_t i = 0; i < 4; i++)
+		{
+			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(fbank.input_buf, fbank.output_buf, FRAME_SIZE / 2); cur_band++;
+		}
+
+		pDec_data = fbank.f_dec.run(fbank.output_buf, FRAME_SIZE / 2);
+		for(uint8_t i = 0; i < 3; i++)
+		{
+			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 4); cur_band++;
+		}
+
+		pDec_data = fbank.f_dec.run(fbank.output_buf, FRAME_SIZE / 4);
+		for(uint8_t i = 0; i < 3; i++)
+		{
+			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 8); cur_band++;
+		}
+
+		pDec_data = fbank.f_dec.run(fbank.output_buf, FRAME_SIZE / 8);
+		for(uint8_t i = 0; i < 3; i++)
+		{
+			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 16); cur_band++;
+		}
+
+		pDec_data = fbank.f_dec.run(fbank.output_buf, FRAME_SIZE / 16);
+		uint8_t remain = N_BANDS - cur_band;
+		for(uint8_t i = 0; i < remain; i++)
+		{
+			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 32); cur_band++;
+		}
+
+		gpio_D7.set(false);
+
 	}
 	osThreadExit();
 }
@@ -121,10 +152,11 @@ void core::UI_task(void* params)
 
 	while(pCore->UI_task_running)
 	{
-		while(uart_mbox.data_avail() == 0);
-		cmd c = uart_mbox.pop(false);
+		osThreadFlagsWait(INC_MSG_FLAG, osFlagsWaitAny, osWaitForever);
 
+		cmd c = uart_mbox.pop(false);
 		e = pCore->handle(c);
+
 		if(e.type != none)
 		{
 			e.handle();

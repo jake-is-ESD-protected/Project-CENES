@@ -26,16 +26,18 @@ void mbox::init(void)
 
 
 
-void mbox::push(cmd cmd, uint8_t timeout)
+void mbox::push(cmd cmd, uint8_t timeout, osThreadId_t rx_hTask, uint32_t flag)
 {
 	osStatus_t stat;
 
 	stat = osMessageQueuePut(hQueue, (void*)&cmd, cmd.prio, timeout);
-	if(stat != osOK)
+	uint32_t flag_stat = osThreadFlagsSet(rx_hTask, flag);
+	if((stat != osOK) || (flag_stat != flag))
 	{
 		err e(delivery_fail, mailbox_e, LOW, &stat);
 		e.handle();
 	}
+
 }
 
 

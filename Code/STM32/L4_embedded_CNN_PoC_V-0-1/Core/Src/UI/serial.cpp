@@ -1,4 +1,5 @@
 #include <serial.h>
+#include "core.h"
 
 // singleton instance
 uart srl_uart(&huart2);
@@ -80,7 +81,7 @@ HAL_StatusTypeDef uart::printf(const char *fmt, ...)
 void uart::rx_callback()
 {
 	cmd c = str2cmd();
-	uart_mbox.push(c, MBOX_FROM_ISR);
+	uart_mbox.push(c, MBOX_FROM_ISR, core_fsm.hUI_task, INC_MSG_FLAG);
 }
 
 
@@ -106,6 +107,30 @@ void uart::handle(cmd c)
 
 	// This should not be needed
 	reset();
+}
+
+
+
+void uart::print_rta(float* pData)
+{
+	uint16_t buf_pos = 0;
+	char clear[] = "\033[2J";
+	HAL_UART_Transmit(pUart, (uint8_t*)clear, sizeof(clear), -1);
+	tx_buf[buf_pos] = '\r'; buf_pos++;
+	tx_buf[buf_pos] = '\n'; buf_pos++;
+
+	for(uint8_t i = 0; i < N_BANDS/2; i++) // only use every second band (save space)
+	{
+		int16_t lvl = ((int16_t)(pData[i*2])) / -10;
+		for(uint8_t j = 0; j < lvl; j++)
+		{
+			tx_buf[buf_pos] = '|';
+			buf_pos++;
+		}
+		tx_buf[buf_pos] = '\r'; buf_pos++;
+		tx_buf[buf_pos] = '\n'; buf_pos++;
+	}
+	HAL_UART_Transmit(pUart, (uint8_t*)tx_buf, buf_pos, -1);
 }
 
 
