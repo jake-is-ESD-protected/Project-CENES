@@ -94,24 +94,8 @@ void uTerminal::rx_callback()
 
 
 
-void uTerminal::print_rta(float* pData)
+void uTerminal::__DEBUG_tx(float dbfs)
 {
-	uint16_t buf_pos = 0;
-	char clear[] = "\033[2J";
-	HAL_UART_Transmit(pUart, (uint8_t*)clear, sizeof(clear), -1);
-	tx_buf[buf_pos] = '\r'; buf_pos++;
-	tx_buf[buf_pos] = '\n'; buf_pos++;
-
-	for(uint8_t i = 0; i < N_BANDS/2; i++) // only use every second band (save space)
-	{
-		int16_t lvl = ((int16_t)(pData[i*2])) / -10;
-		for(uint8_t j = 0; j < lvl; j++)
-		{
-			tx_buf[buf_pos] = '|';
-			buf_pos++;
-		}
-		tx_buf[buf_pos] = '\r'; buf_pos++;
-		tx_buf[buf_pos] = '\n'; buf_pos++;
-	}
-	HAL_UART_Transmit(pUart, (uint8_t*)tx_buf, buf_pos, -1);
+	uint16_t len = sprintf(tx_buf, "%.0f ", dbfs);
+	HAL_UART_Transmit(pUart, (uint8_t*)tx_buf, len, -1);
 }

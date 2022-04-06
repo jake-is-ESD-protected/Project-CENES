@@ -1,5 +1,5 @@
 #include "core.h"
-
+#include<stdio.h>
 
 // singleton instance
 core core_fsm;
@@ -20,9 +20,8 @@ void core::init(void)
 	start_task(&hRT_task, RT_task, (void*)this, &RT_task_attributes, &RT_task_running);
 	start_task(&hSW_task, SW_task, (void*)this, &SW_task_attributes, &SW_task_running);
 	start_task(&hUI_task, UI_task, (void*)this, &UI_task_attributes, &UI_task_running);
-	cur_state = s_idle;
 
-	SW_task_running = false;
+	cur_state = s_ai;
 }
 
 
@@ -53,7 +52,7 @@ uint8_t core::handle(cmd c)
 		break;
 
 	case nextion_e:
-		// TODO
+		nextion.handle(c);
 		break;
 
 	case mailbox_e:
@@ -71,6 +70,7 @@ uint8_t core::handle(cmd c)
 	return stat;
 }
 
+//ai_float feature_buffer[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH];
 
 
 void core::RT_task(void* params)
@@ -79,83 +79,144 @@ void core::RT_task(void* params)
 	float32_t* pDec_data;
 	uint8_t cnt = 0;
 
+	bool toggle = false;
+
+	float sqr_sum = 0;
+
 	buf.start_sampler();
 
 	while(pCore->RT_task_running)
 	{
+
+		// wait for i2s buffer to be full
 		osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+
 
 		// begin time-measurement on scope
 		gpio_D7.set(true);
 
-		float msqr = 0;
 
-		for(uint16_t i = 0; i < (FRAME_SIZE / 2); i++){
-
-			fbank.input_buf[i] = ((float)(((int32_t)(buf.pOut[i] << 8)) >> 8)) / UINT24_MAX;
-			msqr += (fbank.input_buf[i] * fbank.input_buf[i]);
+		// align data from i2s-buffer & convert it to float between 1 & -1
+		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
+			fbank.input_buf[i] = (((buf.pOut[i]) << 8) / 256) / NORM_FACTOR_U23_F32;
+			sqr_sum += (fbank.input_buf[i] * fbank.input_buf[i]);
 		}
-
-		fbank.lvl = fbank.msqr2spl(msqr);
-		fbank.lvl_sum += fbank.lvl;
-
-
+//
+//
+		// filter-stages:
 		uint8_t cur_band = 0;
+		float cur_sqr_sum = 0;
 		for(uint8_t i = 0; i < 4; i++)
 		{
-			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(fbank.input_buf, fbank.output_buf, FRAME_SIZE / 2); cur_band++;
+			cur_sqr_sum = fbank.f_array[cur_band].run(fbank.input_buf, fbank.output_buf, FRAME_SIZE);
+			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
+//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
+//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
+			cur_band++;
 		}
 
-		pDec_data = fbank.f_dec.run(fbank.input_buf, FRAME_SIZE / 2);
+
+		pDec_data = fbank.f_dec[0].run(fbank.input_buf, FRAME_SIZE);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 4); cur_band++;
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
+//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cur_band++;
 		}
 
-		pDec_data = fbank.f_dec.run(pDec_data, FRAME_SIZE / 4);
+
+		pDec_data = fbank.f_dec[1].run(pDec_data, FRAME_SIZE / 2);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 8); cur_band++;
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
+//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cur_band++;
 		}
 
-		pDec_data = fbank.f_dec.run(pDec_data, FRAME_SIZE / 8);
+
+		pDec_data = fbank.f_dec[2].run(pDec_data, FRAME_SIZE / 4);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 16); cur_band++;
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
+//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cur_band++;
 		}
 
-		pDec_data = fbank.f_dec.run(pDec_data, FRAME_SIZE / 16);
+
+		pDec_data = fbank.f_dec[3].run(pDec_data, FRAME_SIZE / 8);
 		uint8_t remain = N_BANDS - cur_band;
 		for(uint8_t i = 0; i < remain; i++)
 		{
-			fbank.dbfs_buf[cur_band] = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / 32); cur_band++;
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
+//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cur_band++;
 		}
+//
+//
+//		// waste time
+//		uint32_t k = 0;
+//		while(k < 100000) k++;
+//		osThreadFlagsSet(pCore->hUI_task, AI_DATA_VERIFY_SEND);
+
 
 		cnt++;
 
 
-		if((cnt % BIN_REFRESH_STEP) == 0)
+		// fill display buffer for bins and send update to nextion (UI-task)
+		if((cnt % BIN_REFRESH_STEP) == 0 && (pCore->cur_state == s_rta))
 		{
 			for(uint8_t i = 0; i < N_BANDS; i++)
 			{
-				nextion.disp_data[i] = (uint8_t)(100. * ((fbank.dbfs_buf[i] + FS_TO_SPL_OFFS + (-1. * MIN_SPL_LVL_SHOWN)) / MAX_SPL_LVL_SHOWN));
+				float bin_spl = fbank.msqr2fs(fbank.sqr_sum_buf[i] / (BIN_REFRESH_STEP * (FRAME_SIZE / fbank.dec_map[i]))) + FS_TO_SPL_OFFS;
+				fbank.sqr_sum_buf[i] = 0;
+				float bin_prcnt = bin_spl + (MIN_SPL_LVL_SHOWN * (-1));
+				bin_prcnt /= ((MIN_SPL_LVL_SHOWN * (-1)) + MAX_SPL_LVL_SHOWN);
+				if(bin_prcnt < 0) bin_prcnt = 0;	// catch visual wraparound
+				if(bin_prcnt > 1) bin_prcnt = 1;	// catch visual clipping
+				nextion.disp_data[i] = (uint8_t)(100. * bin_prcnt);
 			}
 			osThreadFlagsSet(core_fsm.hUI_task, NEX_BUF_RDY_FLAG);
 		}
-		if((cnt % LVL_REFRESH_STEP) == 0)
+
+
+		// fill display buffer for SPL-level and send update to nextion (UI-task)
+		if((cnt % LVL_REFRESH_STEP) == 0 && (pCore->cur_state == s_rta))
 		{
-			cnt = 0;
-			nextion.disp_lvl = fbank.lvl_sum / LVL_REFRESH_STEP;
-			fbank.lvl_sum = 0;
+			nextion.disp_lvl = fbank.msqr2fs(sqr_sum / (FRAME_SIZE * LVL_REFRESH_STEP)) + FS_TO_SPL_OFFS;
+			sqr_sum = 0;
 			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG);
 		}
 
+		if(cnt == FPS && (pCore->cur_state == s_ai))
+		{
+			gpio_D9.set(toggle);
+			toggle = !toggle;
+			osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG);
+
+		}
+
+
+		// common cnt-reset
+		if(cnt == FPS) cnt = 0;
+
+
+		// end time-measurement on scope
 		gpio_D7.set(false);
+
 	}
 	osThreadExit();
 }
 
-
+// TODO remove this
+osMessageQueueId_t hQueue_ai = osMessageQueueNew(MBOX_SIZE, sizeof(float), NULL);
 
 void core::SW_task(void* params)
 {
@@ -163,7 +224,30 @@ void core::SW_task(void* params)
 
 	while(pCore->SW_task_running)
 	{
+		osThreadFlagsWait(AI_INPUT_RDY_FLAG, osFlagsWaitAny, osWaitForever);
 
+		// start time-measurement on scope
+		gpio_D6.set(true);
+
+		cnn_instance.scale_inputs(cnn_instance.scale_buffer);
+		cnn_instance.run();
+
+//		std::sort(cnn_instance.out_data, cnn_instance.out_data + AI_N4CED_V02_OUT_1_SIZE);
+
+		float score = cnn_instance.out_data[0];
+		for(uint8_t i = 1; i < AI_N4CED_V02_OUT_1_SIZE; i++)
+		{
+			if(cnn_instance.out_data[i] > score)
+			{
+				score = cnn_instance.out_data[i];
+				cnn_instance.set_top_index(i);
+			}
+		}
+		osMessageQueuePut(hQueue_ai, (void*)&score, 0, MBOX_TIMEOUT);
+		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG);
+
+		// end time-measurement on scope
+		gpio_D6.set(false);
 	}
 	osThreadExit();
 }
@@ -174,13 +258,26 @@ void core::UI_task(void* params)
 {
 	core* pCore = (core*) params;
 
+	bool inc_msg;
+	bool buf_rdy;
+	bool lvl_rdy;
+	bool cnn_rdy;
+	bool cnn_verify;
+
 	while(pCore->UI_task_running)
 	{
-		uint32_t flag = osThreadFlagsWait(INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+		uint32_t flag = osThreadFlagsWait(	INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG | AI_OUTPUT_RDY_FLAG | AI_DATA_VERIFY_SEND,
+											osFlagsWaitAny,
+											osWaitForever);
 
-		switch(flag)
-		{
-		case INC_MSG_FLAG:
+		inc_msg = ((flag & INC_MSG_FLAG) == INC_MSG_FLAG);
+		buf_rdy = ((flag & NEX_BUF_RDY_FLAG) == NEX_BUF_RDY_FLAG);
+		lvl_rdy = ((flag & NEX_LVL_RDY_FLAG) == NEX_LVL_RDY_FLAG);
+		cnn_rdy = ((flag & AI_OUTPUT_RDY_FLAG) == AI_OUTPUT_RDY_FLAG);
+		cnn_verify = ((flag & AI_DATA_VERIFY_SEND) == AI_DATA_VERIFY_SEND);
+
+		// a message has been received via one of the UART-lines (async)
+		if(inc_msg)
 		{
 			cmd c = uart_mbox.pop(false);
 			uint8_t stat = pCore->handle(c);
@@ -188,23 +285,39 @@ void core::UI_task(void* params)
 			{
 				// TODO err-handler
 			}
-			break;
 		}
-		case NEX_BUF_RDY_FLAG:
+
+		// the bins of the RTA are ready to be displayed (sync)
+		if(buf_rdy)
 		{
 			for(uint8_t i = 0; i < N_BANDS; i++)
 			{
-				nextion.tx(nextion.bin_id_buf[i], nextion.disp_data[i]);
+				nextion.tx(nextion.bin_id_buf[i], (void*)&nextion.disp_data[i], u8_num_val);
+//				uTerm.__DEBUG_tx(uTerm.debug_buf[i]);
 			}
 		}
-		case NEX_LVL_RDY_FLAG:
+
+		// the SPL level is ready to be displayed
+		if(lvl_rdy)
 		{
-			nextion.tx("n0", nextion.disp_lvl);
+			nextion.tx(NEX_TX_SPL_FIELD, (void*)&nextion.disp_lvl, i16_num_val);
 		}
+
+		// inference has been run and classification data can be displayed
+		if(cnn_rdy)
+		{
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_1, (void*)cnn_instance.class_map[cnn_instance.get_top_index()], txt_val);
+			float s = 0;
+			osMessageQueueGet(hQueue_ai, &s, 0, MBOX_TIMEOUT);
+			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_1, (void*)&s, f32_num_val);
 		}
-
-
-
+		if(cnn_verify)
+		{
+//			for(uint8_t i = 0; i < N_BANDS; i++)
+//			{
+//				uTerm.__DEBUG_tx(uTerm.debug_buf[i]);
+//			}
+		}
 	}
 	osThreadExit();
 }

@@ -14,9 +14,13 @@ notes:
 #define _SAMPLE_H_
 
 
-#define UINT24_MAX		16777215
-#define STACK_SIZE_CB	128
-#define BUF_RDY_FLAG		0x00000001U
+#define UINT24_MAX				16777215
+#define NORM_FACTOR_U23_F32		8388608.
+#define STACK_SIZE_CB			128
+#define BUF_RDY_FLAG			0x00000001U
+
+#define UINT_24					24
+#define SIGN_EXT_MASK			(1u << (UINT_24 - 1))
 
 #include "main.h"
 #include "params.h"
@@ -36,9 +40,9 @@ public:
 	bool active 	= false;
 	bool hlf_cplt 	= false;
 	bool cplt 		= false;
-	uint16_t size 	= FRAME_SIZE;
+	uint16_t size 	= FRAME_SIZE * 2;
 
-	uint32_t* pOut;
+	int32_t* pOut;
 
 	osThreadId_t parent_thr;
 
@@ -125,7 +129,7 @@ public:
 
 
 private:
-	uint32_t mem[FRAME_SIZE];
+	int32_t mem[FRAME_SIZE * 2];
 
 };
 

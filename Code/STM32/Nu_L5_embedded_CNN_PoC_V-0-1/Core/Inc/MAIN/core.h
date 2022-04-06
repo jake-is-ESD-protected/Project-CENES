@@ -20,10 +20,12 @@ notes:
 #include "mailbox.h"
 #include "filterbank.h"
 #include "gpio.h"
+#include "ai.h"
+#include "algorithm"
 
 #define STACK_WIDTH		128
-#define STACK_SIZE_RT	(STACK_WIDTH * 4)
-#define STACK_SIZE_SW	(STACK_WIDTH * 2)
+#define STACK_SIZE_RT	(STACK_WIDTH * 8)
+#define STACK_SIZE_SW	(STACK_WIDTH * 14)
 #define STACK_SIZE_UI	(STACK_WIDTH * 10)
 
 
@@ -35,19 +37,19 @@ public:
 	osThreadId_t hRT_task, hSW_task, hUI_task;
 
 	// Thread parameters
-	const osThreadAttr_t RT_task_attributes = {
+	const osThreadAttr_t RT_task_attributes = { // @suppress("Invalid arguments")
 	  .name = "real-time task",
 	  .stack_size = STACK_SIZE_RT,
-	  .priority = (osPriority_t) osPriorityNormal,
+	  .priority = (osPriority_t) osPriorityAboveNormal,
 	};
 
-	const osThreadAttr_t SW_task_attributes = {
+	const osThreadAttr_t SW_task_attributes = { // @suppress("Invalid arguments")
 	  .name = "AI & soft task",
 	  .stack_size = STACK_SIZE_SW,
 	  .priority = (osPriority_t) osPriorityNormal,
 	};
 
-	const osThreadAttr_t UI_task_attributes = {
+	const osThreadAttr_t UI_task_attributes = { // @suppress("Invalid arguments")
 	  .name = "user interface task",
 	  .stack_size = STACK_SIZE_UI,
 	  .priority = (osPriority_t) osPriorityNormal,
@@ -60,7 +62,8 @@ public:
 		s_init,
 		s_idle,
 		s_rta,
-		s_ai
+		s_ai,
+		s_settings
 	}state_t;
 	state_t cur_state;
 	state_t last_state;

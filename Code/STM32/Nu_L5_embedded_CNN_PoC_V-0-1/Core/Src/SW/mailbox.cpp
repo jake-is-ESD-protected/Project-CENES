@@ -2,7 +2,6 @@
 
 // global instances
 mbox uart_mbox;
-mbox i2s_mbox;
 
 
 

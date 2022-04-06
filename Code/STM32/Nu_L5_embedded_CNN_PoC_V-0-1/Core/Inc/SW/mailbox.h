@@ -31,6 +31,7 @@ typedef enum c_type
 	get_help,
 	switch_rta,
 	switch_ai,
+	switch_settings,
 	easteregg,
 }cmd_t;
 

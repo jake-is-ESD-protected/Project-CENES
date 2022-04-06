@@ -14,6 +14,7 @@ notes:
 // singleton instance
 gpio gpio_D9;
 gpio gpio_D7;
+gpio gpio_D6;
 
 gpio::gpio(void)
 {

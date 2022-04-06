@@ -35,14 +35,24 @@ void filterbank::init(void)
 
 	}
 
-	f_dec.init(&dec_coeffs[0]);
+	for(uint8_t i = 0; i < N_DEC_STAGES; i++)
+	{
+		f_dec[i].init(&dec_coeffs[0]);
+	}
 }
 
 
 
-float32_t filterbank::msqr2spl(float32_t msqr)
+float32_t filterbank::msqr2fs(float32_t msqr)
 {
-	return 10 * log(msqr) + FS_TO_SPL_OFFS;
+	return 10 * log10(msqr);
+}
+
+
+
+float32_t filterbank::rms2fs(float32_t rms)
+{
+	return 20 * log10(rms);
 }
 
 
@@ -63,11 +73,14 @@ void filter::init(float32_t* pCoeffs)
 
 float32_t filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 {
-	float32_t rms;
+	float32_t sqr_sum = 0;
 	arm_biquad_cascade_df1_f32(&iirsettings, pSrc, pDest, n_samples);
-	arm_rms_f32(pDest, n_samples, &rms);
+	for(uint16_t i = 0; i < n_samples; i++)
+	{
+		sqr_sum += (pDest[i] * pDest[i]);
+	}
 
-	return 20 * log10(rms); // max_val is 1, ergo no division
+	return sqr_sum;
 }
 
 

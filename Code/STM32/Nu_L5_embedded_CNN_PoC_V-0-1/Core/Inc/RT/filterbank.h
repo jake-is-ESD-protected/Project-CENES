@@ -107,7 +107,7 @@ public:
 private:
 	arm_biquad_casd_df1_inst_f32 dec_iirsettings;
 	float32_t delay_line_dec[4*N_DEC_IIR_BIQUADS];
-	float32_t temp_buf[FRAME_SIZE/2];
+	float32_t temp_buf[FRAME_SIZE];
 };
 
 
@@ -120,20 +120,16 @@ class filterbank
 {
 public:
 	// IO-buffer
-	float32_t input_buf[FRAME_SIZE / 2], output_buf[FRAME_SIZE / 2];
+	float32_t input_buf[FRAME_SIZE], output_buf[FRAME_SIZE];
 	// acting band of filters
 	filter f_array[N_BANDS];
 	// decimation-anti-AA filter
-	dec_filter f_dec;
+	dec_filter f_dec[N_DEC_STAGES];
 
 	// bank output buffer (input to CNN)
-	float32_t dbfs_buf[N_BANDS];
+	float32_t sqr_sum_buf[N_BANDS] = {0};
 
-	// level of current buffer
-	float lvl = 0;
-
-	// sum of levels across a timespan (for LEQ)
-	float lvl_sum = 0;
+	uint8_t dec_map[28] = {1, 1, 1, 1, 2, 2, 2, 4, 4, 4, 8, 8, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};
 
 
 	/* filterbank-constructor
@@ -166,13 +162,24 @@ public:
 
 
 
-	/* spl-converter
+	/* TODO
 	 * @params: 	`float32_t ms`: mean-square value
-	 * @returns 	`float32_t`: SPL
+	 * @returns 	`float32_t`: dBFS
 	 * @brief:		convert a mean-square value to an SPL-value
 	 * @notes:
 	 * */
-	float32_t msqr2spl(float32_t ms);
+	float32_t msqr2fs(float32_t ms);
+
+
+
+
+	/* TODO
+	 * @params:
+	 * @returns
+	 * @brief:
+	 * @notes:
+	 * */
+	float32_t rms2fs(float32_t rms);
 };
 
 

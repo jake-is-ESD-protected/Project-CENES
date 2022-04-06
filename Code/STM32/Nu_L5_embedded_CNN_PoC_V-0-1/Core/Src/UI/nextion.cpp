@@ -1,4 +1,5 @@
 #include "nextion.h"
+#include "core.h"
 
 nextionHMI nextion(&huart2);
 
@@ -7,7 +8,7 @@ void nextionHMI::reset(void)
 {
 	HAL_UART_DeInit(pUart);
 	HAL_UART_Init(pUart);
-	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, NEX_RX_BUF_SIZE/2);
+	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, NEX_RX_BUF_SIZE);
 	if(stat != HAL_OK)
 	{
 		// TODO: err-handler
@@ -15,33 +16,54 @@ void nextionHMI::reset(void)
 }
 
 
-void nextionHMI::tx(char* id, char* str)
+
+void nextionHMI::tx(char* id, void* pVal, nex_tx_t type)
 {
-	uint8_t len = sprintf(tx_buf, "%s.txt=\"%s\"", id, str);
-	HAL_UART_Transmit_DMA(pUart, (uint8_t*)tx_buf, len);
-	HAL_UART_Transmit_DMA(pUart, (uint8_t*)nex_end, 3);
+	uint8_t len = format(id, pVal, type);
+	HAL_UART_Transmit(&huart2, (uint8_t*)tx_buf, len, -1);
 }
 
-void nextionHMI::tx(char* id, int16_t val)
+
+
+void nextionHMI::handle(cmd c)
 {
-	uint8_t len = sprintf(tx_buf, "%s.val=%d", id, val);
-	for(uint8_t i = 0; i < 3; i++)
+
+	int8_t val = -1;
+
+	switch(c.type)
 	{
-		tx_buf[len] = 0xFF;
-		len++;
+	case switch_rta:
+		val = NEX_PAGE0;
+		core_fsm.cur_state = core_fsm.s_rta;
+		break;
+	case switch_ai:
+		val = NEX_PAGE1;
+		core_fsm.cur_state = core_fsm.s_ai;
+		break;
+	case switch_settings:
+		val = NEX_PAGE2;
+		core_fsm.cur_state = core_fsm.s_settings;
+		break;
+	default:
+		break;
+		// TODO: default statement
 	}
-	HAL_UART_Transmit(&huart2, (uint8_t*)tx_buf, len, -1);
+
+	osKernelLock();
+	tx(NULL, (void*)&val, u8_page);
+	osKernelUnlock();
+
+
+	// TODO: This should not be needed
+	reset();
+
 }
 
 
 
 void nextionHMI::rx_callback(void)
 {
-	uint8_t page = rx_buf[1];
-	uint8_t id = rx_buf[2];
-	uint8_t action = rx_buf[3];
-
-
-
-
+	cmd c = str2cmd();
+	uart_mbox.push(c, MBOX_FROM_ISR, core_fsm.hUI_task, INC_MSG_FLAG);
+	osThreadFlagsSet(core_fsm.hUI_task, INC_MSG_FLAG);
 }

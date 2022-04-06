@@ -23,14 +23,14 @@ buffer buf;
 
 buffer::buffer(void)
 {
-	pOut = &mem[FRAME_SIZE/2];
+	pOut = &mem[FRAME_SIZE];
 }
 
 
 
 void buffer::init(void)
 {
-	HAL_StatusTypeDef stat = HAL_SAI_Receive_DMA(&hsai_BlockA1, (uint8_t*)mem, FRAME_SIZE);
+	HAL_StatusTypeDef stat = HAL_SAI_Receive_DMA(&hsai_BlockA1, (uint8_t*)mem, FRAME_SIZE * 2);
 	is_init = true;
 	if(stat != HAL_OK){
 		is_init = false;
@@ -65,7 +65,7 @@ void buffer::rx_hlf_cb(void* params)
 {
 	if(this->active)
 	{
-		gpio_D9.set(true);
+//		gpio_D9.set(true);
 		pOut = &mem[0];
 		osThreadFlagsSet(core_fsm.hRT_task, BUF_RDY_FLAG);
 	}
@@ -77,8 +77,8 @@ void buffer::rx_full_cb(void* params)
 {
 	if(this->active)
 	{
-		gpio_D9.set(false);
-		pOut = &mem[FRAME_SIZE/2];
+//		gpio_D9.set(false);
+		pOut = &mem[FRAME_SIZE];
 		osThreadFlagsSet(core_fsm.hRT_task, BUF_RDY_FLAG);
 	}
 

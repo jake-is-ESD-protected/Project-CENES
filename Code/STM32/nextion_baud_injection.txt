@@ -1,0 +1,8 @@
+	char snd[50] = {0};
+	uint8_t len = sprintf(snd, "bauds=%d", 921600);
+	for(uint8_t i = 0; i < 3; i++)
+	{
+		snd[len] = 0xFF;
+		len++;
+	}
+	HAL_UART_Transmit(&huart2, (uint8_t*)snd, len, -1);

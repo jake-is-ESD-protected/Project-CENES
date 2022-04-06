@@ -19,6 +19,7 @@ notes:				ATM, only commands of 4 characters can be sent: more get cut off, less
 // Command translations via uTerm
 #define STR_CMD_INFO	"info\r\n\0\0"
 #define STR_CMD_EEGG	"eegg\r\n\0\0"
+#define __DEBUG_FORMAT		"%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %f\r\n"
 
 #define UTERM_TX_BUF_SIZE	512
 #define UTERM_RX_BUF_SIZE	8
@@ -32,6 +33,8 @@ class uTerminal: public uart
 {
 public:
 	using uart::uart;
+
+	float debug_buf[28];
 
 
 
@@ -94,7 +97,7 @@ public:
 	 * @brief:
 	 * @notes:		TODO
 	 * */
-	void print_rta(float* pData);
+	void __DEBUG_tx(float dbfs);
 
 
 private:

@@ -58,5 +58,6 @@ public:
 // singleton reference
 extern gpio gpio_D9;
 extern gpio gpio_D7;
+extern gpio gpio_D6;
 
 #endif

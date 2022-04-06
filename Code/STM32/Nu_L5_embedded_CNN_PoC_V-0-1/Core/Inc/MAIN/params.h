@@ -17,7 +17,7 @@
 #define N_DEC_STAGES        4
 #define N_BANDS             28
 #define DEC_IIR_ORDER       10
-#define FRAME_SIZE          1000	// modified
+#define FRAME_SIZE          992
 #define WIN_SIZE            48000
 #define FPS                 48
 
