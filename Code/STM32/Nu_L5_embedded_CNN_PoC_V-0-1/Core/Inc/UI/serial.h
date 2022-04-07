@@ -57,7 +57,7 @@ protected:
 	UART_HandleTypeDef* pUart;
 
 
-	bool locked = false;
+	volatile bool locked = false;
 
 	/* mutex-like
 	 * @params: 	`void`

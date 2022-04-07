@@ -16,7 +16,7 @@ void cnn::init()
 	err = ai_n4ced_v02_create_and_init(&pNN, acts, NULL);
 	if (err.type != AI_ERROR_NONE)
 	{
-		// TODO: handle error
+		e_handler.act(init_fail, ai_e);
 	}
 
 	ai_input = ai_n4ced_v02_inputs_get(pNN, NULL);
@@ -74,35 +74,7 @@ ai_float* cnn::run()
 	if (n_batch != 1)
 	{
 		err = ai_n4ced_v02_get_error(pNN);
-		// TODO: handle error
+		e_handler.act(generic, ai_e);
 	}
 	return out_data;
-}
-
-
-
-uint8_t cnn::get_top_index(void)
-{
-	return top_class_idx;
-}
-
-
-
-void cnn::set_top_index(uint8_t idx)
-{
-	top_class_idx = idx;
-}
-
-
-
-uint8_t cnn::get_top_score(void)
-{
-	return top_class_score;
-}
-
-
-
-void cnn::set_top_score(uint8_t score)
-{
-	top_class_score = score;
 }

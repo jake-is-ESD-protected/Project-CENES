@@ -815,24 +815,28 @@
             }
         }
     ],
-    "c_name": "n4ced_v02",
+    "c_name": "network",
     "c_nodes_n": 9,
     "c_tensors_n": 23,
     "c_weights_count": 1,
     "c_weights_header": 0,
     "data_alignment": 4,
-    "date_time": "Thu Mar 31 12:54:22 2022",
+    "date_time": "Wed Apr  6 13:41:35 2022",
     "inputs": [
         "serving_default_conv2d_input0_output"
     ],
     "macc": 5028040,
     "memory_footprint": {
         "activations": 40896,
+        "extra_flash": 1084,
+        "extra_ram": 176,
         "io": [
             5376,
             28
         ],
-        "series": "generic",
+        "kernel_flash": 24264,
+        "kernel_ram": 3408,
+        "series": "stm32l5",
         "weights": 282460
     },
     "memory_pools": [],
@@ -859,13 +863,9 @@
     },
     "version": "1.2",
     "weights": {
-        "n4ced_v02_weights_array": {
-            "buffer_c_count": 35308,
-            "buffer_c_data": [],
-            "buffer_c_name": "s_n4ced_v02_n4ced_v02_weights_array_u64",
-            "buffer_c_type": "u64",
-            "buffer_crc": 0,
-            "buffer_data_size": 282464,
+        "network_weights_array": {
+            "buffer_c_name": "NULL",
+            "buffer_data_size": 282460,
             "buffer_offsets": [
                 {
                     "buffer_name": "conv2d_0_weights_array",

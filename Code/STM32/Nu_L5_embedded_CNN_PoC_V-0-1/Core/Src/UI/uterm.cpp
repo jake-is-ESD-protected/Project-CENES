@@ -13,7 +13,7 @@ void uTerminal::reset(void)
 	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, UTERM_RX_BUF_SIZE/2);
 	if(stat != HAL_OK)
 	{
-		// TODO: err-handler
+		e_handler.act(init_fail, uTerm_e);
 	}
 }
 
@@ -60,7 +60,7 @@ HAL_StatusTypeDef uTerminal::printf(const char *fmt, ...)
 
 		if(stat != HAL_OK)
 		{
-			// TODO: err-handler
+			e_handler.act(delivery_fail, uTerm_e);
 		}
 
 		unlock();
@@ -90,12 +90,4 @@ void uTerminal::rx_callback()
 {
 	cmd c = str2cmd();
 	uart_mbox.push(c, MBOX_FROM_ISR, core_fsm.hUI_task, INC_MSG_FLAG);
-}
-
-
-
-void uTerminal::__DEBUG_tx(float dbfs)
-{
-	uint16_t len = sprintf(tx_buf, "%.0f ", dbfs);
-	HAL_UART_Transmit(pUart, (uint8_t*)tx_buf, len, -1);
 }

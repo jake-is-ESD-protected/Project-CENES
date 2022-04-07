@@ -34,7 +34,7 @@ void buffer::init(void)
 	is_init = true;
 	if(stat != HAL_OK){
 		is_init = false;
-		// TODO err-handler
+		e_handler.act(init_fail, buffer_e);
 	}
 }
 

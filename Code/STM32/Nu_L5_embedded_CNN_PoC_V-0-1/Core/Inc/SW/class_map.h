@@ -1,3 +1,13 @@
+/*
+*****************************************************************************************
+file name:       	class_map.h
+auth:               Jakob Tschavoll
+date:               02.03.22
+brief:              description of inference output
+version:            V0.1
+notes:
+*****************************************************************************************
+*/
 
 #ifndef _CLASS_MAP_
 #define _CLASS_MAP_

@@ -1,5 +1,7 @@
 #include "core.h"
-#include<stdio.h>
+#include <stdio.h>
+#include <vector>
+#include <numeric>
 
 // singleton instance
 core core_fsm;
@@ -20,8 +22,6 @@ void core::init(void)
 	start_task(&hRT_task, RT_task, (void*)this, &RT_task_attributes, &RT_task_running);
 	start_task(&hSW_task, SW_task, (void*)this, &SW_task_attributes, &SW_task_running);
 	start_task(&hUI_task, UI_task, (void*)this, &UI_task_attributes, &UI_task_running);
-
-	cur_state = s_ai;
 }
 
 
@@ -30,21 +30,17 @@ uint8_t core::handle(cmd c)
 {
 	uint8_t stat = 0;
 	switch(c.destination)
-	{
+	{	// TODO: expand core-commands (if needed)
 	case core_e:
-		// TODO
 		break;
 
 	case buffer_e:
-		// TODO
 		break;
 
 	case filterbank_e:
-		// TODO
 		break;
 
 	case ai_e:
-		// TODO
 		break;
 
 	case uTerm_e:
@@ -56,11 +52,9 @@ uint8_t core::handle(cmd c)
 		break;
 
 	case mailbox_e:
-		// TODO
 		break;
 
 	case error_e:
-		// TODO
 		break;
 
 	default:
@@ -70,17 +64,15 @@ uint8_t core::handle(cmd c)
 	return stat;
 }
 
-//ai_float feature_buffer[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH];
 
 
 void core::RT_task(void* params)
 {
 	core* pCore = (core*) params;
+
 	float32_t* pDec_data;
 	uint8_t cnt = 0;
-
 	bool toggle = false;
-
 	float sqr_sum = 0;
 
 	buf.start_sampler();
@@ -101,8 +93,8 @@ void core::RT_task(void* params)
 			fbank.input_buf[i] = (((buf.pOut[i]) << 8) / 256) / NORM_FACTOR_U23_F32;
 			sqr_sum += (fbank.input_buf[i] * fbank.input_buf[i]);
 		}
-//
-//
+
+
 		// filter-stages:
 		uint8_t cur_band = 0;
 		float cur_sqr_sum = 0;
@@ -110,8 +102,7 @@ void core::RT_task(void* params)
 		{
 			cur_sqr_sum = fbank.f_array[cur_band].run(fbank.input_buf, fbank.output_buf, FRAME_SIZE);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
-//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
-//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
+			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
 			cur_band++;
 		}
 
@@ -121,8 +112,7 @@ void core::RT_task(void* params)
 		{
 			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
-//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
-//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
 		}
 
@@ -132,8 +122,7 @@ void core::RT_task(void* params)
 		{
 			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
-//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
-//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
 		}
 
@@ -143,8 +132,7 @@ void core::RT_task(void* params)
 		{
 			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
-//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
-//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
 		}
 
@@ -155,16 +143,9 @@ void core::RT_task(void* params)
 		{
 			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
-//			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
-//			uTerm.debug_buf[cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
+			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
 		}
-//
-//
-//		// waste time
-//		uint32_t k = 0;
-//		while(k < 100000) k++;
-//		osThreadFlagsSet(pCore->hUI_task, AI_DATA_VERIFY_SEND);
 
 
 		cnt++;
@@ -199,6 +180,7 @@ void core::RT_task(void* params)
 		{
 			gpio_D9.set(toggle);
 			toggle = !toggle;
+			cnn_instance.scale_inputs(cnn_instance.scale_buffer);
 			osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG);
 
 		}
@@ -215,8 +197,7 @@ void core::RT_task(void* params)
 	osThreadExit();
 }
 
-// TODO remove this
-osMessageQueueId_t hQueue_ai = osMessageQueueNew(MBOX_SIZE, sizeof(float), NULL);
+
 
 void core::SW_task(void* params)
 {
@@ -224,27 +205,33 @@ void core::SW_task(void* params)
 
 	while(pCore->SW_task_running)
 	{
+		// wait for flag
 		osThreadFlagsWait(AI_INPUT_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+
 
 		// start time-measurement on scope
 		gpio_D6.set(true);
 
-		cnn_instance.scale_inputs(cnn_instance.scale_buffer);
+
+		// run inference
 		cnn_instance.run();
 
-//		std::sort(cnn_instance.out_data, cnn_instance.out_data + AI_N4CED_V02_OUT_1_SIZE);
 
-		float score = cnn_instance.out_data[0];
-		for(uint8_t i = 1; i < AI_N4CED_V02_OUT_1_SIZE; i++)
+		// sort vector (magic)
+		std::vector<float> a(std::begin(cnn_instance.out_data), std::end(cnn_instance.out_data));
+		std::vector<int> v(AI_N4CED_V02_OUT_1_SIZE);
+		std::iota(v.begin(),v.end(),0);
+		sort(v.begin(), v.end(), [&](int i,int j){return a[i]>=a[j];});
+
+		// get top 3 classes + scores
+		for(uint8_t i = 0; i < 3; i++)
 		{
-			if(cnn_instance.out_data[i] > score)
-			{
-				score = cnn_instance.out_data[i];
-				cnn_instance.set_top_index(i);
-			}
+			cnn_instance.top3_class_idx[i] = v[i];
+			cnn_instance.top3_class_score[i] = cnn_instance.out_data[v[i]];
 		}
-		osMessageQueuePut(hQueue_ai, (void*)&score, 0, MBOX_TIMEOUT);
+
 		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG);
+
 
 		// end time-measurement on scope
 		gpio_D6.set(false);
@@ -262,11 +249,13 @@ void core::UI_task(void* params)
 	bool buf_rdy;
 	bool lvl_rdy;
 	bool cnn_rdy;
-	bool cnn_verify;
+
+	cmd c = {.type=switch_rta, .origin=core_e, .destination=nextion_e, .prio=HIGH, .params=NULL};
+	pCore->handle(c);
 
 	while(pCore->UI_task_running)
 	{
-		uint32_t flag = osThreadFlagsWait(	INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG | AI_OUTPUT_RDY_FLAG | AI_DATA_VERIFY_SEND,
+		uint32_t flag = osThreadFlagsWait(	INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG | AI_OUTPUT_RDY_FLAG,
 											osFlagsWaitAny,
 											osWaitForever);
 
@@ -274,49 +263,44 @@ void core::UI_task(void* params)
 		buf_rdy = ((flag & NEX_BUF_RDY_FLAG) == NEX_BUF_RDY_FLAG);
 		lvl_rdy = ((flag & NEX_LVL_RDY_FLAG) == NEX_LVL_RDY_FLAG);
 		cnn_rdy = ((flag & AI_OUTPUT_RDY_FLAG) == AI_OUTPUT_RDY_FLAG);
-		cnn_verify = ((flag & AI_DATA_VERIFY_SEND) == AI_DATA_VERIFY_SEND);
 
 		// a message has been received via one of the UART-lines (async)
 		if(inc_msg)
 		{
-			cmd c = uart_mbox.pop(false);
+			c = uart_mbox.pop(false);
 			uint8_t stat = pCore->handle(c);
 			if(stat != 0)
 			{
-				// TODO err-handler
+				e_handler.act(delivery_fail, mailbox_e);
 			}
 		}
 
 		// the bins of the RTA are ready to be displayed (sync)
-		if(buf_rdy)
+		if(buf_rdy && (core_fsm.cur_state == s_rta))
 		{
 			for(uint8_t i = 0; i < N_BANDS; i++)
 			{
 				nextion.tx(nextion.bin_id_buf[i], (void*)&nextion.disp_data[i], u8_num_val);
-//				uTerm.__DEBUG_tx(uTerm.debug_buf[i]);
 			}
 		}
 
 		// the SPL level is ready to be displayed
-		if(lvl_rdy)
+		if(lvl_rdy && (core_fsm.cur_state == s_rta))
 		{
 			nextion.tx(NEX_TX_SPL_FIELD, (void*)&nextion.disp_lvl, i16_num_val);
 		}
 
 		// inference has been run and classification data can be displayed
-		if(cnn_rdy)
+		if(cnn_rdy && (core_fsm.cur_state == s_ai))
 		{
-			nextion.tx(NEX_TX_CLASS_NAME_FIELD_1, (void*)cnn_instance.class_map[cnn_instance.get_top_index()], txt_val);
-			float s = 0;
-			osMessageQueueGet(hQueue_ai, &s, 0, MBOX_TIMEOUT);
-			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_1, (void*)&s, f32_num_val);
-		}
-		if(cnn_verify)
-		{
-//			for(uint8_t i = 0; i < N_BANDS; i++)
-//			{
-//				uTerm.__DEBUG_tx(uTerm.debug_buf[i]);
-//			}
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_1, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[0]], txt_val);
+			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_1, (void*)&cnn_instance.top3_class_score[0], f32_num_val);
+
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_2, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[1]], txt_val);
+			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_2, (void*)&cnn_instance.top3_class_score[1], f32_num_val);
+
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_3, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[2]], txt_val);
+			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_3, (void*)&cnn_instance.top3_class_score[2], f32_num_val);
 		}
 	}
 	osThreadExit();
@@ -331,6 +315,6 @@ void core::start_task(osThreadId_t* hTask, osThreadFunc_t f, void* p, const osTh
 
 	if(IS_NULL(*hTask))
 	{
-		// TODO err-handler
+		e_handler.act(mem_null, core_e);
 	}
 }

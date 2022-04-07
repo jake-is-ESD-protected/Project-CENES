@@ -30,8 +30,6 @@ notes:
 
 
 
-
-
 /* [CLASS] filter
  * @brief:	one octave-filter as object
  * @intent:	run filters based on index
@@ -46,8 +44,8 @@ public:
 	/* filter-constructor
 	 * @params: 	`void`
 	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
+	 * @brief:		construct an iir-bandpass
+	 * @notes:
 	 * */
 	filter(void);
 
@@ -56,18 +54,20 @@ public:
 	/* filter-initializer
 	 * @params:		`float* coeffs`: pointer to coefficients
 	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
+	 * @brief:		`init the filter by specifying its sos-coefficients`
+	 * @notes:
 	 * */
 	void init(float32_t* coeffs);
 
 
 
 	/* filter-runner
-	 * @params: 	`void`
+	 * @params: 	`float32_t* pSrc` pointer to input
+	 * @params: 	`float32_t* pDest` pointer to output
+	 * @params: 	`uint16_t n_samples` number of samples in input
 	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
+	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
+	 * @notes:
 	 * */
 	float32_t run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
 
@@ -89,8 +89,8 @@ public:
 	/* filter-initializer
 	 * @params:		`float* coeffs`: pointer to coefficients
 	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
+	 * @brief:		init a decimation filter
+	 * @notes:		is a lowpass of high order
 	 * */
 	void init(float32_t* coeffs);
 
@@ -135,8 +135,8 @@ public:
 	/* filterbank-constructor
 	 * @params: 	`void`
 	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
+	 * @brief:		construct a filterbank which holds multiple filters
+	 * @notes:
 	 * */
 	filterbank(void);
 
@@ -152,20 +152,10 @@ public:
 
 
 
-	/* filterbank-runner
-	 * @params: 	`void`
-	 * @returns 	`void`
-	 * @brief:
-	 * @notes:		TODO
-	 * */
-	void run(void);
-
-
-
-	/* TODO
+	/* mean square to dBFS
 	 * @params: 	`float32_t ms`: mean-square value
 	 * @returns 	`float32_t`: dBFS
-	 * @brief:		convert a mean-square value to an SPL-value
+	 * @brief:		convert a mean-square value to an dBFS-value
 	 * @notes:
 	 * */
 	float32_t msqr2fs(float32_t ms);
@@ -173,10 +163,10 @@ public:
 
 
 
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
+	/* root mean square to dBFS
+	 * @params:		`float32_t rms` rms-value
+	 * @returns:	`float32_t` dBFS-value (relative to 1)
+	 * @brief:		convert an rms value to an dBFS-value
 	 * @notes:
 	 * */
 	float32_t rms2fs(float32_t rms);

@@ -90,16 +90,6 @@ public:
 	void handle(cmd c);
 
 
-
-	/*
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:		TODO
-	 * */
-	void __DEBUG_tx(float dbfs);
-
-
 private:
 
 	char tx_buf[UTERM_TX_BUF_SIZE];

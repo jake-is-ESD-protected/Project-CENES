@@ -18,7 +18,7 @@ void mbox::init(void)
 
 	if(IS_NULL(hQueue))
 	{
-		// TODO: err-handler
+		e_handler.act(mem_null, mailbox_e);
 	}
 }
 
@@ -32,7 +32,7 @@ void mbox::push(cmd cmd, uint8_t timeout, osThreadId_t rx_hTask, uint32_t flag)
 	uint32_t flag_stat = osThreadFlagsSet(rx_hTask, flag);
 	if((stat != osOK) || (flag_stat != flag))
 	{
-		// TODO: err-handler
+		e_handler.act(delivery_fail, mailbox_e);
 	}
 
 }
@@ -47,7 +47,7 @@ cmd mbox::pop(uint8_t timeout)
 	stat = osMessageQueueGet(hQueue, &c, NULL, timeout);
 	if(stat != osOK)
 	{
-		// TODO: err-handler
+		e_handler.act(delivery_fail, mailbox_e);
 	}
 	return c;
 }

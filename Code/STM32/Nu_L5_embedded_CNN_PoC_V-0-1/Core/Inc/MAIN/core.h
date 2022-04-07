@@ -23,7 +23,7 @@ notes:
 #include "ai.h"
 #include "algorithm"
 
-#define STACK_WIDTH		128
+#define STACK_WIDTH		256
 #define STACK_SIZE_RT	(STACK_WIDTH * 8)
 #define STACK_SIZE_SW	(STACK_WIDTH * 14)
 #define STACK_SIZE_UI	(STACK_WIDTH * 10)

@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 0,
     "_allocate_outputs": 0,
-    "cli_parameters": "generate --name n4ced_v02 -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\\Users\\JDA1E~1.TSC\\AppData\\Local\\Temp\\mxAI_workspace1819468385030013358653929369632421 --output C:\\Users\\j.tschavoll\\.stm32cubemx\\n4ced_v02_output",
+    "cli_parameters": "analyze --name n4ced_v02 -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\\Users\\JDA1E~1.TSC\\AppData\\Local\\Temp\\mxAI_workspace2128512248810010203738125521478358 --output C:\\Users\\j.tschavoll\\.stm32cubemx\\n4ced_v02_output",
     "cli_version": {
         "major": 1,
         "micro": 0,
@@ -14,10 +14,10 @@
             "dense_6_weights": 4.0
         }
     },
-    "date_time": "Thu Mar 31 12:54:22 2022",
+    "date_time": "Wed Apr  6 13:41:30 2022",
     "error": 0,
     "error_str": [],
-    "exec_cmd": "generate",
+    "exec_cmd": "analyze",
     "exec_duration": 0.0,
     "hash": "dbd11f49d2f2827ffaa2cd3ff5de195b",
     "inputs": [

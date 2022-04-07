@@ -4,7 +4,7 @@
   ******************************************************************************
   * @file    n4ced_v02.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Thu Mar 31 12:54:22 2022
+  * @date    Wed Apr  6 11:45:14 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention

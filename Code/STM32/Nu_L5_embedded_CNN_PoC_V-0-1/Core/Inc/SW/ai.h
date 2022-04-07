@@ -15,6 +15,7 @@ notes:
 
 #include "main.h"
 #include "params.h"
+#include "err.h"
 
 extern "C"
 {
@@ -50,99 +51,57 @@ public:
 		"music"
 	};
 
-	uint8_t top_class_idx = 0;
-	uint8_t top_class_score = 0;
+	uint8_t top3_class_idx[3] = {0};
+	float top3_class_score[3] = {0};
 
 	ai_float scale_buffer[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH] =
 	{
 	#include "ai_verify.txt"
 	};
 
-//	ai_float scale_buffer[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH];
-
 	ai_float out_data[AI_N4CED_V02_OUT_1_SIZE];
 
 
 
-
-
 	/* cnn-constructor
-	 * @params:
-	 * @returns
-	 * @brief:
+	 * @params:		`void`
+	 * @returns:	`cnn`-object
+	 * @brief:		Construct a neural network wrapper for underlying framework
 	 * @notes:
 	 * */
-	cnn();
+	cnn(void);
 
 
 
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
+	/* cnn-initializer
+	 * @params:		`void`
+	 * @returns		`void`
+	 * @brief:		init the neural network
 	 * @notes:
 	 * */
 	void init();
 
 
 
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:
+	/* data scaler
+	 * @params:		`float pData[FPS][N_BANDS]` non scaled features (dBFS values)
+	 * @returns		`void`
+	 * @brief:		scale inputs by statistical standardization to remove mean and ds
+	 * @notes:		values get stored in the AI-input buffer
 	 * */
 	void scale_inputs(float pData[FPS][N_BANDS]);
 
 
 
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
+	/* cnn-runner
+	 * @params:		`void`
+	 * @returns		`ai_float*`-pointer to output buffer of the cnn
+	 * @brief:		run inference
 	 * @notes:
 	 * */
 	ai_float* run();
 
 
-
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:
-	 * */
-	uint8_t get_top_index(void);
-
-
-
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:
-	 * */
-	void set_top_index(uint8_t idx);
-
-
-
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:
-	 * */
-	uint8_t get_top_score(void);
-
-
-
-	/* TODO
-	 * @params:
-	 * @returns
-	 * @brief:
-	 * @notes:
-	 * */
-	void set_top_score(uint8_t score);
 
 private:
 

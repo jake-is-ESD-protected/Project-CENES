@@ -11,7 +11,7 @@ void nextionHMI::reset(void)
 	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, NEX_RX_BUF_SIZE);
 	if(stat != HAL_OK)
 	{
-		// TODO: err-handler
+		e_handler.act(init_fail, nextion_e);
 	}
 }
 
@@ -44,9 +44,9 @@ void nextionHMI::handle(cmd c)
 		val = NEX_PAGE2;
 		core_fsm.cur_state = core_fsm.s_settings;
 		break;
+	// TODO: expand commands (if needed)
 	default:
 		break;
-		// TODO: default statement
 	}
 
 	osKernelLock();

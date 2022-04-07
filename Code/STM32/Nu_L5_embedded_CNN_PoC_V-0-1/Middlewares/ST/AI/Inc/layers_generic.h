@@ -268,7 +268,7 @@ typedef AI_ALIGNED_TYPE(struct, 4) ai_layer_argmin_ {
   ai_i16   select_last_index;
 } ai_layer_argmin;
 
-// TODO: REMOVE This legacy
+// TODO: REMOVE This legacy (IP)
 typedef ai_layer_argmax ai_layer_ArgMax;
 typedef ai_layer_argmin ai_layer_ArgMin;
 

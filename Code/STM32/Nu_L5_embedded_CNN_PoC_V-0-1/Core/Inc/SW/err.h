@@ -9,7 +9,6 @@ notes:
 *****************************************************************************************
 */
 
-
 #ifndef _ERR_H_
 #define _ERR_H_
 
@@ -19,63 +18,51 @@ notes:
 #define IS_NULL(x)	(x == NULL)
 
 
+/* [ENUM] err_t
+ * @brief:	error type
+ * @intent:	make errors readable
+ * */
+typedef enum type
+{
+	generic,
+	busy,
+	timeout,
+	mem_null,
+	delivery_fail,
+	init_fail,
+	no_such
+}err_t;
 
-///* [ENUM] err_t
-// * @brief:	error type
-// * @intent:	make errors readable
-// * */
-//typedef enum type
-//{
-//	none,
-//	generic,
-//	busy,
-//	timeout,
-//	mem_null,
-//	delivery_fail,
-//	no_such
-//}err_t;
-//
-//
-///* [CLASS] err
-// * @brief:	specific error implementation
-// * @intent:	handle all errors over a case-specific error handler
-// * */
-//class err
-//{
-//public:
-//
-//	err_t type = none;
-//	entity_t origin = core_e;
-//	prio_t prio = LOW;
-//	void* description = NULL;
-//
-//	uint32_t translate = *((uint32_t*)description);
-//
-//
-//
-//
-//	/* error-constructor
-//	 * @params: 	`err_t t`: type of error
-//	 * @params:		`entity_t o`: place of origin
-//	 * @params: 	`prio_t p`: priority
-//	 * @params: 	`void* desc`: description
-//	 * @returns:	`err`-object
-//	 * @brief:		`create a specific error`
-//	 * @notes:
-//	 * */
-//	err(err_t t, entity_t o, prio_t p, void* desc);
-//
-//
-//
-//	/* error-handler
-//	 * @params: 	`void`
-//	 * @returns 	`void`
-//	 * @brief:		handle the created error (this)
-//	 * @notes:		information stored in public variables
-//	 * */
-//	void handle(void);
-//};
-//
-//// extern err error;
+
+/* [CLASS] err
+ * @brief:	specific error implementation
+ * @intent:	handle all errors over a case-specific error handler
+ * */
+class error_handler
+{
+public:
+
+	/* handler-constructor
+	 * @params: 	`void`
+	 * @returns:	`error_handler`-object
+	 * @brief:		`create a universal error handler`
+	 * @notes:
+	 * */
+	error_handler(void);
+
+
+
+	/* error-handler
+	 * @params: 	`err_t e`: error to handle
+	 * @params: 	`entity_t origin`: information about throwing entity
+	 * @returns 	`void`
+	 * @brief:		handle the created error
+	 * @notes:		point of exit. This raises an exception and stalls operation
+	 * */
+	void act(err_t e, entity_t origin);
+};
+
+// singleton reference
+extern error_handler e_handler;
 
 #endif

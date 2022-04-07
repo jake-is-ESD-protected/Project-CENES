@@ -38,6 +38,7 @@ typedef enum entity
  * */
 typedef enum prio
 {
+	NONE,
 	LOW,
 	HIGH
 }prio_t;

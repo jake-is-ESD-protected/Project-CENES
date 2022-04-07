@@ -1,6 +1,6 @@
 Neural Network Tools for STM32AI v1.6.0 (STM.ai v7.1.0-RC3)
-Created date          : 2022-03-31 12:54:22
-Parameters            : generate --name n4ced_v02 -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace1819468385030013358653929369632421 --output C:\Users\j.tschavoll\.stm32cubemx\n4ced_v02_output
+Created date          : 2022-04-06 11:45:14
+Parameters            : generate --name n4ced_v02 -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/N4CED_V-0-2/N4CED_V-0-2_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace1429549092270015595792780318624645 --output C:\Users\j.tschavoll\.stm32cubemx\n4ced_v02_output
 
 Exec/report summary (generate)
 ------------------------------------------------------------------------------------------------------------------------
@@ -8,7 +8,7 @@ model file            : C:\Users\j.tschavoll\OneDrive - FH Vorarlberg\Partnerunt
 type                  : tflite
 c_name                : n4ced_v02
 compression           : 4
-workspace dir         : C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace1819468385030013358653929369632421
+workspace dir         : C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace1429549092270015595792780318624645
 output dir            : C:\Users\j.tschavoll\.stm32cubemx\n4ced_v02_output
 model_name            : N4CED_V02_lite
 model_hash            : dbd11f49d2f2827ffaa2cd3ff5de195b

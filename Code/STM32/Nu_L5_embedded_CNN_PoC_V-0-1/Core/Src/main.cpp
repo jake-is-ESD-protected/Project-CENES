@@ -17,7 +17,7 @@ DMA_HandleTypeDef hdma_sai1_a;
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = { // @suppress("Invalid arguments")
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityHigh
 };
 
@@ -40,8 +40,6 @@ int main(void)
   osKernelInitialize();
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
   osKernelStart();
-
-  while (1);
 }
 
 

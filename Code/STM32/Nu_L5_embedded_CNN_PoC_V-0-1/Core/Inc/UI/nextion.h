@@ -62,6 +62,7 @@ public:
 
 
 
+
 	/* Initializer
 	 * @params: 	`void`
 	 * @returns 	`void`
@@ -85,10 +86,10 @@ public:
 
 	void rx_callback(void);
 
-//private:
+
 
 	char tx_buf[NEX_TX_BUF_SIZE];
-	char rx_buf[NEX_RX_BUF_SIZE];
+	volatile char rx_buf[NEX_RX_BUF_SIZE];
 
 	char bin_id_buf[N_BANDS][4] = {	"j38", "j37", "j36", "j35", "j34", "j33", "j32", "j31", "j30", "j29", "j28", "j27", "j26",
 									"j25", "j24", "j23", "j22", "j21", "j20", "j19", "j18", "j17", "j16", "j15", "j14", "j13",
@@ -142,12 +143,15 @@ private:
 	{
 		cmd c = {.type = no_info, .origin = nextion_e, .destination = nextion_e, .prio = HIGH, .params = NULL};
 
-		switch(rx_buf[NEX_FRAME_PAGE])
+		uint8_t page = rx_buf[NEX_FRAME_PAGE];
+		uint8_t id = rx_buf[NEX_FRAME_ID];
+
+		switch(page)
 		{
 			// command sent from page 0 (RTA)
 			case NEX_PAGE0:
 			{
-				switch(rx_buf[NEX_FRAME_ID])
+				switch(id)
 				{
 					case NEX_RX_CLASS_PUSH_P0:
 					{
@@ -164,7 +168,7 @@ private:
 			// command sent from page 1 (Classification)
 			case NEX_PAGE1:
 			{
-				switch(rx_buf[NEX_FRAME_ID])
+				switch(id)
 				{
 					case NEX_RX_RTA_PUSH_P1:
 					{
@@ -181,7 +185,7 @@ private:
 			// command sent from page 2 (Settings)
 			case NEX_PAGE2:
 			{
-				switch(rx_buf[NEX_FRAME_ID])
+				switch(id)
 				{
 					case NEX_RX_RTA_PUSH_P2:
 					{
