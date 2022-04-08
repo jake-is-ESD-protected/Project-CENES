@@ -4,14 +4,13 @@
  * auth:        Jakob Tschavoll
  * ver:         1.0, deploying "sine_model"
  * brief:       sync all params with jupyter-notebooks
- * datetime:    07/04/2022 16:45:35
+ * datetime:    08/04/2022 19:24:24
  * */
 
 #ifndef _PARAMS_H_
 #define _PARAMS_H_
 
 #define SAMPLE_RATE         48000
-#define BIT_DPT             24
 #define IIR_ORDER           8
 #define N_COEFFS            6
 #define N_DEC_STAGES        4

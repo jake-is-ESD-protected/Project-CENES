@@ -12,6 +12,7 @@ notes:
 #include <entry.h>
 #include "uterm.h"
 #include "core.h"
+#include "A_weighting.h"
 
 
 int entry(void){
@@ -33,6 +34,7 @@ int entry(void){
 
 	// init entity filterbank
 	fbank.init();
+	A_filter.init(A_coeffs);
 
 	// init entity buffer
 	buf.init();

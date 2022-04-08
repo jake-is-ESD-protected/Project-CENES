@@ -23,6 +23,8 @@ notes:
 #include "ai.h"
 #include "algorithm"
 
+#define PTR_SWAP(x, y) 	float* temp = x; x = y; y = temp;
+
 #define STACK_WIDTH		256
 #define STACK_SIZE_RT	(STACK_WIDTH * 8)
 #define STACK_SIZE_SW	(STACK_WIDTH * 14)

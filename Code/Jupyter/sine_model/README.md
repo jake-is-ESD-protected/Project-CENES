@@ -3,6 +3,7 @@
 CNN_name: sine_model
 extr_txt_fp: Datasets/Feature_extraction/th_oct_feats.txt
 label_txt_fp: Datasets/Feature_extraction/labels.txt
+leq_txt_fp: Datasets/Feature_extraction/LEQs.txt
 source_dir: Datasets/sine_data/
 kernel_size: [3, 3]
 pool_size: [2, 2]
@@ -27,4 +28,4 @@ fps: 40
 class_map: ['multi', 'noise', 'sine', 'sweep']
 
 ```
-Sheet written at 07/04/2022 16:45:35
+Sheet written at 08/04/2022 19:24:24

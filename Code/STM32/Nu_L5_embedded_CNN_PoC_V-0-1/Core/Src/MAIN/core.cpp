@@ -90,8 +90,16 @@ void core::RT_task(void* params)
 
 		// align data from i2s-buffer & convert it to float between 1 & -1
 		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
-			fbank.input_buf[i] = (((buf.pOut[i]) << 8) / 256) / NORM_FACTOR_U23_F32;
-			sqr_sum += (fbank.input_buf[i] * fbank.input_buf[i]);
+			fbank.iBuf[i] = (((buf.pOut[i]) << 8) / 256) / NORM_FACTOR_U23_F32;
+		}
+
+		// apply A-weighting:
+		A_filter.filt(fbank.iBuf, fbank.oBuf, FRAME_SIZE);
+		PTR_SWAP(fbank.iBuf, fbank.oBuf)
+
+		// calc LEQ
+		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
+			sqr_sum += (fbank.iBuf[i] * fbank.iBuf[i]);
 		}
 
 
@@ -100,17 +108,17 @@ void core::RT_task(void* params)
 		float cur_sqr_sum = 0;
 		for(uint8_t i = 0; i < 4; i++)
 		{
-			cur_sqr_sum = fbank.f_array[cur_band].run(fbank.input_buf, fbank.output_buf, FRAME_SIZE);
+			cur_sqr_sum = fbank.f_array[cur_band].run(fbank.iBuf, fbank.oBuf, FRAME_SIZE);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
 			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / FRAME_SIZE);
 			cur_band++;
 		}
 
 
-		pDec_data = fbank.f_dec[0].run(fbank.input_buf, FRAME_SIZE);
+		pDec_data = fbank.f_dec[0].run(fbank.iBuf, FRAME_SIZE);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.oBuf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
 			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
@@ -120,7 +128,7 @@ void core::RT_task(void* params)
 		pDec_data = fbank.f_dec[1].run(pDec_data, FRAME_SIZE / 2);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.oBuf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
 			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
@@ -130,7 +138,7 @@ void core::RT_task(void* params)
 		pDec_data = fbank.f_dec[2].run(pDec_data, FRAME_SIZE / 4);
 		for(uint8_t i = 0; i < 3; i++)
 		{
-			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.oBuf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
 			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;
@@ -141,7 +149,7 @@ void core::RT_task(void* params)
 		uint8_t remain = N_BANDS - cur_band;
 		for(uint8_t i = 0; i < remain; i++)
 		{
-			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.output_buf, FRAME_SIZE / fbank.dec_map[cur_band]);
+			cur_sqr_sum = fbank.f_array[cur_band].run(pDec_data, fbank.oBuf, FRAME_SIZE / fbank.dec_map[cur_band]);
 			fbank.sqr_sum_buf[cur_band] += cur_sqr_sum;
 			cnn_instance.scale_buffer[cnt][cur_band] = fbank.msqr2fs(cur_sqr_sum / (FRAME_SIZE / fbank.dec_map[cur_band]));
 			cur_band++;

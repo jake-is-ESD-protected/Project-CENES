@@ -65,11 +65,23 @@ public:
 	 * @params: 	`float32_t* pSrc` pointer to input
 	 * @params: 	`float32_t* pDest` pointer to output
 	 * @params: 	`uint16_t n_samples` number of samples in input
-	 * @returns 	`void`
+	 * @returns 	`float32_t` square sum of filtered signal
 	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
 	 * @notes:
 	 * */
 	float32_t run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
+
+
+
+	/* filter-runner
+	 * @params: 	`float32_t* pSrc` pointer to input
+	 * @params: 	`float32_t* pDest` pointer to output
+	 * @params: 	`uint16_t n_samples` number of samples in input
+	 * @returns 	`float32_t*` filtered signal
+	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
+	 * @notes:
+	 * */
+	float32_t* filt(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
 
 
 private:
@@ -121,12 +133,14 @@ class filterbank
 public:
 	// IO-buffer
 	float32_t input_buf[FRAME_SIZE], output_buf[FRAME_SIZE];
+	float32_t* iBuf = input_buf;
+	float32_t* oBuf = output_buf;
 	// acting band of filters
 	filter f_array[N_BANDS];
 	// decimation-anti-AA filter
 	dec_filter f_dec[N_DEC_STAGES];
 
-	// bank output buffer (input to CNN)
+	// bank output buffer
 	float32_t sqr_sum_buf[N_BANDS] = {0};
 
 	uint8_t dec_map[28] = {1, 1, 1, 1, 2, 2, 2, 4, 4, 4, 8, 8, 8, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16};
@@ -175,5 +189,6 @@ public:
 
 // singleton reference
 extern filterbank fbank;
+extern filter A_filter;
 
 #endif

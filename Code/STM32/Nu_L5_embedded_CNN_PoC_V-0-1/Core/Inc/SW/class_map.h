@@ -7,7 +7,7 @@
  * auth:        Jakob Tschavoll
  * ver:         1.0, deploying "sine_model"
  * brief:       sync class map with jupyter-notebooks
- * datetime:    07/04/2022 16:45:35
+ * datetime:    08/04/2022 19:24:24
  * */
 
 char class_map[][20] = {

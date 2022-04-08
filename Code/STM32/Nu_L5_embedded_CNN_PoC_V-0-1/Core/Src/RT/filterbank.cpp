@@ -15,6 +15,7 @@ notes:
 
 // singleton instance
 filterbank fbank;
+filter A_filter;
 
 
 
@@ -81,6 +82,14 @@ float32_t filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 	}
 
 	return sqr_sum;
+}
+
+
+
+float32_t* filter::filt(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
+{
+	arm_biquad_cascade_df1_f32(&iirsettings, pSrc, pDest, n_samples);
+	return pDest;
 }
 
 

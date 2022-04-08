@@ -13,7 +13,7 @@ notes:				Makes handles available to underlying code
 
 #include "main.h"
 
-#define FGEN_SETUP
+//#define FGEN_SETUP
 
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef hlpuart1;
