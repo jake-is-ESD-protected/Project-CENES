@@ -21,8 +21,8 @@ extern "C"
 {
 #include "ai_datatypes_defines.h"
 #include "ai_platform.h"
-#include "n4ced_v02.h"
-#include "n4ced_v02_data.h"
+#include "cnn.h"
+#include "cnn_data.h"
 }
 
 #include "math.h"
@@ -41,25 +41,22 @@ class cnn
 {
 public:
 
-	char class_map[7][20] = {
-		"honk",
-		"kids",
-		"bark",
-		"drill",
-		"engine",
-		"jackhammer",
-		"music"
+	char class_map[4][20] = {
+		"multi",
+		"noise",
+		"sine",
+		"sweep"
 	};
 
 	uint8_t top3_class_idx[3] = {0};
 	float top3_class_score[3] = {0};
 
-	ai_float scale_buffer[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH] =
+	ai_float scale_buffer[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH] =
 	{
-	#include "ai_verify.txt"
+		0 //#include "ai_verify.txt"
 	};
 
-	ai_float out_data[AI_N4CED_V02_OUT_1_SIZE];
+	ai_float out_data[AI_CNN_OUT_1_SIZE];
 
 
 
@@ -107,8 +104,8 @@ private:
 
 	ai_handle pNN = AI_HANDLE_NULL;
 
-	ai_u8 activations[AI_N4CED_V02_DATA_ACTIVATIONS_SIZE];
-	ai_float in_data[AI_N4CED_V02_IN_1_HEIGHT][AI_N4CED_V02_IN_1_WIDTH];
+	ai_u8 activations[AI_CNN_DATA_ACTIVATIONS_SIZE];
+	ai_float in_data[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH];
 
 	ai_buffer *ai_input;
 	ai_buffer *ai_output;

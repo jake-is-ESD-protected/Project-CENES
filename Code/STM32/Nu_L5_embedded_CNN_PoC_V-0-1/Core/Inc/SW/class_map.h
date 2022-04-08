@@ -1,25 +1,20 @@
-/*
-*****************************************************************************************
-file name:       	class_map.h
-auth:               Jakob Tschavoll
-date:               02.03.22
-brief:              description of inference output
-version:            V0.1
-notes:
-*****************************************************************************************
-*/
 
 #ifndef _CLASS_MAP_
 #define _CLASS_MAP_
 
+/* THIS IS AN AUTO-GENERATED FILE! DO NOT MODIFY MANUALLY!
+ * f_name:      class_map.h
+ * auth:        Jakob Tschavoll
+ * ver:         1.0, deploying "sine_model"
+ * brief:       sync class map with jupyter-notebooks
+ * datetime:    07/04/2022 16:45:35
+ * */
+
 char class_map[][20] = {
-	"car_horn",
-	"children_playing",
-	"dog_bark",
-	"drilling",
-	"engine_idling",
-	"jackhammer",
-	"street_music",
+	"multi",
+	"noise",
+	"sine",
+	"sweep",
 };
 
 

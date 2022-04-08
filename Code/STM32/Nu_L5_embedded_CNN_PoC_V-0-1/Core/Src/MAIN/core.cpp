@@ -219,7 +219,7 @@ void core::SW_task(void* params)
 
 		// sort vector (magic)
 		std::vector<float> a(std::begin(cnn_instance.out_data), std::end(cnn_instance.out_data));
-		std::vector<int> v(AI_N4CED_V02_OUT_1_SIZE);
+		std::vector<int> v(AI_CNN_OUT_1_SIZE);
 		std::iota(v.begin(),v.end(),0);
 		sort(v.begin(), v.end(), [&](int i,int j){return a[i]>=a[j];});
 

@@ -105,7 +105,7 @@
   #define AI_INTERFACE_ENTRY         __declspec(dllexport)
 #elif defined(__ICCARM__) || defined (__IAR_SYSTEMS_ICC__)
   #define AI_DECLARE_STATIC           static inline
-  // #define AI_FORCE_INLINE             static _Pragma("inline=forced")
+  // #define AI_FORCE_INLINE             static _Pragma("inline=forced")  // TODO: check this definition!
   #define AI_FORCE_INLINE             static inline
   #define AI_ALIGNED_TYPE(type, x)    type
   #define AI_INTERFACE_ENTRY          /* AI_INTERFACE_ENTRY */

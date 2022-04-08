@@ -1,9 +1,9 @@
 
 /**
   ******************************************************************************
-  * @file    n4ced_v02_data.h
+  * @file    cnn_data.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Apr  6 11:45:14 2022
+  * @date    Thu Apr  7 16:47:00 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * Copyright (c) 2017 STMicroelectronics.
@@ -15,83 +15,83 @@
   ******************************************************************************
   */
 
-#ifndef N4CED_V02_DATA_H
-#define N4CED_V02_DATA_H
+#ifndef CNN_DATA_H
+#define CNN_DATA_H
 #pragma once
 
-#include "n4ced_v02_config.h"
+#include "cnn_config.h"
 #include "ai_platform.h"
 
-#define AI_N4CED_V02_DATA_CONFIG               (NULL)
+#define AI_CNN_DATA_CONFIG               (NULL)
 
 
-#define AI_N4CED_V02_DATA_ACTIVATIONS_SIZES \
-  { 40896, }
-#define AI_N4CED_V02_DATA_ACTIVATIONS_SIZE     (40896)
-#define AI_N4CED_V02_DATA_ACTIVATIONS_COUNT    (1)
-#define AI_N4CED_V02_DATA_ACTIVATION_1_SIZE    (40896)
-
-
-
-#define AI_N4CED_V02_DATA_WEIGHTS_SIZES \
-  { 282460, }
-#define AI_N4CED_V02_DATA_WEIGHTS_SIZE         (282460)
-#define AI_N4CED_V02_DATA_WEIGHTS_COUNT        (1)
-#define AI_N4CED_V02_DATA_WEIGHT_1_SIZE        (282460)
+#define AI_CNN_DATA_ACTIVATIONS_SIZES \
+  { 35520, }
+#define AI_CNN_DATA_ACTIVATIONS_SIZE     (35520)
+#define AI_CNN_DATA_ACTIVATIONS_COUNT    (1)
+#define AI_CNN_DATA_ACTIVATION_1_SIZE    (35520)
 
 
 
-AI_DEPRECATED
-#define AI_N4CED_V02_DATA_ACTIVATIONS(ptr_)  \
-  ai_n4ced_v02_data_activations_buffer_get(AI_HANDLE_PTR(ptr_))
+#define AI_CNN_DATA_WEIGHTS_SIZES \
+  { 250960, }
+#define AI_CNN_DATA_WEIGHTS_SIZE         (250960)
+#define AI_CNN_DATA_WEIGHTS_COUNT        (1)
+#define AI_CNN_DATA_WEIGHT_1_SIZE        (250960)
+
+
 
 AI_DEPRECATED
-#define AI_N4CED_V02_DATA_WEIGHTS(ptr_)  \
-  ai_n4ced_v02_data_weights_buffer_get(AI_HANDLE_PTR(ptr_))
+#define AI_CNN_DATA_ACTIVATIONS(ptr_)  \
+  ai_cnn_data_activations_buffer_get(AI_HANDLE_PTR(ptr_))
+
+AI_DEPRECATED
+#define AI_CNN_DATA_WEIGHTS(ptr_)  \
+  ai_cnn_data_weights_buffer_get(AI_HANDLE_PTR(ptr_))
 
 
 AI_API_DECLARE_BEGIN
 
 /*!
  * @brief Get network activations buffer initialized struct.
- * @ingroup n4ced_v02_data
+ * @ingroup cnn_data
  * @param[in] ptr a pointer to the activations array storage area
  * @return an ai_buffer initialized struct
  */
 AI_DEPRECATED
 AI_API_ENTRY
-ai_buffer ai_n4ced_v02_data_activations_buffer_get(const ai_handle ptr);
+ai_buffer ai_cnn_data_activations_buffer_get(const ai_handle ptr);
 
 /*!
  * @brief Get network weights buffer initialized struct.
- * @ingroup n4ced_v02_data
+ * @ingroup cnn_data
  * @param[in] ptr a pointer to the weights array storage area
  * @return an ai_buffer initialized struct
  */
 AI_DEPRECATED
 AI_API_ENTRY
-ai_buffer ai_n4ced_v02_data_weights_buffer_get(const ai_handle ptr);
+ai_buffer ai_cnn_data_weights_buffer_get(const ai_handle ptr);
 
 /*!
  * @brief Get network weights array pointer as a handle ptr.
- * @ingroup n4ced_v02_data
+ * @ingroup cnn_data
  * @return a ai_handle pointer to the weights array
  */
 AI_DEPRECATED
 AI_API_ENTRY
-ai_handle ai_n4ced_v02_data_weights_get(void);
+ai_handle ai_cnn_data_weights_get(void);
 
 
 /*!
  * @brief Get network params configuration data structure.
- * @ingroup n4ced_v02_data
+ * @ingroup cnn_data
  * @return true if a valid configuration is present, false otherwise
  */
 AI_API_ENTRY
-ai_bool ai_n4ced_v02_data_params_get(ai_network_params* params);
+ai_bool ai_cnn_data_params_get(ai_network_params* params);
 
 
 AI_API_DECLARE_END
 
-#endif /* N4CED_V02_DATA_H */
+#endif /* CNN_DATA_H */
 

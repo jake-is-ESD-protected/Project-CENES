@@ -54,32 +54,32 @@
 #include "app_x-cube-ai.h"
 #include "main.h"
 #include "ai_datatypes_defines.h"
-#include "n4ced_v02.h"
-#include "n4ced_v02_data.h"
+#include "cnn.h"
+#include "cnn_data.h"
 
 /* USER CODE BEGIN includes */
 /* USER CODE END includes */
 
 /* IO buffers ----------------------------------------------------------------*/
 
-#if !defined(AI_N4CED_V02_INPUTS_IN_ACTIVATIONS)
-AI_ALIGNED(4) ai_i8 data_in_1[AI_N4CED_V02_IN_1_SIZE_BYTES];
-ai_i8* data_ins[AI_N4CED_V02_IN_NUM] = {
+#if !defined(AI_CNN_INPUTS_IN_ACTIVATIONS)
+AI_ALIGNED(4) ai_i8 data_in_1[AI_CNN_IN_1_SIZE_BYTES];
+ai_i8* data_ins[AI_CNN_IN_NUM] = {
 data_in_1
 };
 #else
-ai_i8* data_ins[AI_N4CED_V02_IN_NUM] = {
+ai_i8* data_ins[AI_CNN_IN_NUM] = {
 NULL
 };
 #endif
 
-#if !defined(AI_N4CED_V02_OUTPUTS_IN_ACTIVATIONS)
-AI_ALIGNED(4) ai_i8 data_out_1[AI_N4CED_V02_OUT_1_SIZE_BYTES];
-ai_i8* data_outs[AI_N4CED_V02_OUT_NUM] = {
+#if !defined(AI_CNN_OUTPUTS_IN_ACTIVATIONS)
+AI_ALIGNED(4) ai_i8 data_out_1[AI_CNN_OUT_1_SIZE_BYTES];
+ai_i8* data_outs[AI_CNN_OUT_NUM] = {
 data_out_1
 };
 #else
-ai_i8* data_outs[AI_N4CED_V02_OUT_NUM] = {
+ai_i8* data_outs[AI_CNN_OUT_NUM] = {
 NULL
 };
 #endif
@@ -87,13 +87,13 @@ NULL
 /* Activations buffers -------------------------------------------------------*/
 
 AI_ALIGNED(32)
-static uint8_t pool0[AI_N4CED_V02_DATA_ACTIVATION_1_SIZE];
+static uint8_t pool0[AI_CNN_DATA_ACTIVATION_1_SIZE];
 
 ai_handle data_activations0[] = {pool0};
 
 /* AI objects ----------------------------------------------------------------*/
 
-static ai_handle n4ced_v02 = AI_HANDLE_NULL;
+static ai_handle cnn = AI_HANDLE_NULL;
 
 static ai_buffer* ai_input;
 static ai_buffer* ai_output;
@@ -116,37 +116,37 @@ static int ai_boostrap(ai_handle *act_addr)
   ai_error err;
 
   /* Create and initialize an instance of the model */
-  err = ai_n4ced_v02_create_and_init(&n4ced_v02, act_addr, NULL);
+  err = ai_cnn_create_and_init(&cnn, act_addr, NULL);
   if (err.type != AI_ERROR_NONE) {
-    ai_log_err(err, "ai_n4ced_v02_create_and_init");
+    ai_log_err(err, "ai_cnn_create_and_init");
     return -1;
   }
 
-  ai_input = ai_n4ced_v02_inputs_get(n4ced_v02, NULL);
-  ai_output = ai_n4ced_v02_outputs_get(n4ced_v02, NULL);
+  ai_input = ai_cnn_inputs_get(cnn, NULL);
+  ai_output = ai_cnn_outputs_get(cnn, NULL);
 
-#if defined(AI_N4CED_V02_INPUTS_IN_ACTIVATIONS)
+#if defined(AI_CNN_INPUTS_IN_ACTIVATIONS)
   /*  In the case where "--allocate-inputs" option is used, memory buffer can be
    *  used from the activations buffer. This is not mandatory.
    */
-  for (int idx=0; idx < AI_N4CED_V02_IN_NUM; idx++) {
+  for (int idx=0; idx < AI_CNN_IN_NUM; idx++) {
 	data_ins[idx] = ai_input[idx].data;
   }
 #else
-  for (int idx=0; idx < AI_N4CED_V02_IN_NUM; idx++) {
+  for (int idx=0; idx < AI_CNN_IN_NUM; idx++) {
 	  ai_input[idx].data = data_ins[idx];
   }
 #endif
 
-#if defined(AI_N4CED_V02_OUTPUTS_IN_ACTIVATIONS)
+#if defined(AI_CNN_OUTPUTS_IN_ACTIVATIONS)
   /*  In the case where "--allocate-outputs" option is used, memory buffer can be
    *  used from the activations buffer. This is no mandatory.
    */
-  for (int idx=0; idx < AI_N4CED_V02_OUT_NUM; idx++) {
+  for (int idx=0; idx < AI_CNN_OUT_NUM; idx++) {
 	data_outs[idx] = ai_output[idx].data;
   }
 #else
-  for (int idx=0; idx < AI_N4CED_V02_OUT_NUM; idx++) {
+  for (int idx=0; idx < AI_CNN_OUT_NUM; idx++) {
 	ai_output[idx].data = data_outs[idx];
   }
 #endif
@@ -158,10 +158,10 @@ static int ai_run(void)
 {
   ai_i32 batch;
 
-  batch = ai_n4ced_v02_run(n4ced_v02, ai_input, ai_output);
+  batch = ai_cnn_run(cnn, ai_input, ai_output);
   if (batch != 1) {
-    ai_log_err(ai_n4ced_v02_get_error(n4ced_v02),
-        "ai_n4ced_v02_run");
+    ai_log_err(ai_cnn_get_error(cnn),
+        "ai_cnn_run");
     return -1;
   }
 
@@ -212,7 +212,7 @@ void MX_X_CUBE_AI_Process(void)
 
   printf("TEMPLATE - run - main loop\r\n");
 
-  if (n4ced_v02) {
+  if (cnn) {
 
     do {
       /* 1 - acquire and pre-process input data */

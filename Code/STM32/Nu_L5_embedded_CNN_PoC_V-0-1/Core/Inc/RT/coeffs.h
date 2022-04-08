@@ -4,7 +4,7 @@
  * auth:        Jakob Tschavoll
  * ver:         1.0
  * brief:       sos-coefficients for iir filter (shape (28, 4, 5))
- * datetime:    25/03/2022 09:36:58
+ * datetime:    07/04/2022 16:45:35
  * */
 
 #ifndef _COEFFS_H_

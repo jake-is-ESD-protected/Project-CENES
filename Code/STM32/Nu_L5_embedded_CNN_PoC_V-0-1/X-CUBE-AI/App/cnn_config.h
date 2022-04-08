@@ -1,9 +1,9 @@
 
 /**
   ******************************************************************************
-  * @file    n4ced_v02_config.h
+  * @file    cnn_config.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Apr  6 11:45:14 2022
+  * @date    Thu Apr  7 16:47:00 2022
   * @brief   AI Tool Automatic Code Generator for Custom Layers Implementation
   ******************************************************************************
   * @attention
@@ -17,8 +17,8 @@
   ******************************************************************************
   */
 
-#ifndef AI_N4CED_V02_CONFIG_H
-#define AI_N4CED_V02_CONFIG_H
+#ifndef AI_CNN_CONFIG_H
+#define AI_CNN_CONFIG_H
 #pragma once
 
 #undef AI_TOOLS_VERSION_MAJOR
@@ -44,4 +44,4 @@
 #define AI_TOOLS_API_VERSION_MINOR (5)
 #define AI_TOOLS_API_VERSION_MICRO (0)
 
-#endif /*AI_N4CED_V02_CONFIG_H*/
+#endif /*AI_CNN_CONFIG_H*/

@@ -8,18 +8,18 @@
 #define NEX_PAGE2				2
 
 // Transmit
-#define NEX_TX_PAGE0				"page0"
-#define NEX_TX_PAGE1				"page1"
-#define NEX_TX_PAGE2				"page2"
-#define NEX_TX_BAT_BAR				"j0"
-#define NEX_TX_SPL_FIELD			"n0"
-#define NEX_TX_SPL_TYPE_FIELD		"t1"
-#define NEX_TX_CLASS_NAME_FIELD_1	"t3"
-#define NEX_TX_CLASS_NAME_FIELD_2	"t4"
-#define NEX_TX_CLASS_NAME_FIELD_3	"t5"
-#define NEX_TX_CLASS_SCORE_FIELD_1	"x0"
-#define NEX_TX_CLASS_SCORE_FIELD_2	"x1"
-#define NEX_TX_CLASS_SCORE_FIELD_3	"x2"
+#define NEX_TX_PAGE0				(char*)"page0"
+#define NEX_TX_PAGE1				(char*)"page1"
+#define NEX_TX_PAGE2				(char*)"page2"
+#define NEX_TX_BAT_BAR				(char*)"j0"
+#define NEX_TX_SPL_FIELD			(char*)"n0"
+#define NEX_TX_SPL_TYPE_FIELD		(char*)"t1"
+#define NEX_TX_CLASS_NAME_FIELD_1	(char*)"t3"
+#define NEX_TX_CLASS_NAME_FIELD_2	(char*)"t4"
+#define NEX_TX_CLASS_NAME_FIELD_3	(char*)"t5"
+#define NEX_TX_CLASS_SCORE_FIELD_1	(char*)"x0"
+#define NEX_TX_CLASS_SCORE_FIELD_2	(char*)"x1"
+#define NEX_TX_CLASS_SCORE_FIELD_3	(char*)"x2"
 
 
 // Receive
