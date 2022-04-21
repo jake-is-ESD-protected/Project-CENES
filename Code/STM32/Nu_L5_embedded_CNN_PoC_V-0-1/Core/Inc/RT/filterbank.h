@@ -22,6 +22,7 @@ notes:
 
 #define N_IIR_BIQUADS			(IIR_ORDER / 2)
 #define N_DEC_IIR_BIQUADS		(DEC_IIR_ORDER / 2)
+#define N_A_IIR_BIQUADS			3
 #define HALF_BUF_LEN			(FRAME_SIZE / 2)
 
 #define SENSITIVITY_ICS43432	-26.
@@ -72,18 +73,6 @@ public:
 	float32_t run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
 
 
-
-	/* filter-runner
-	 * @params: 	`float32_t* pSrc` pointer to input
-	 * @params: 	`float32_t* pDest` pointer to output
-	 * @params: 	`uint16_t n_samples` number of samples in input
-	 * @returns 	`float32_t*` filtered signal
-	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
-	 * @notes:
-	 * */
-	float32_t* filt(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
-
-
 private:
 	arm_biquad_casd_df1_inst_f32 iirsettings;
 	float32_t delay_line_iir[4*N_IIR_BIQUADS];
@@ -120,6 +109,37 @@ private:
 	arm_biquad_casd_df1_inst_f32 dec_iirsettings;
 	float32_t delay_line_dec[4*N_DEC_IIR_BIQUADS];
 	float32_t temp_buf[FRAME_SIZE];
+};
+
+
+
+class A_filter: public filter
+{
+public:
+	/* filter-initializer
+	 * @params:		`float* coeffs`: pointer to coefficients
+	 * @returns 	`void`
+	 * @brief:		init the A-weighting filter
+	 * @notes:		see https://en.wikipedia.org/wiki/A-weighting, IEC 61672:2003
+	 * */
+	void init(float32_t* coeffs);
+
+
+
+	/* filter-runner
+	 * @params: 	`float32_t* pSrc` pointer to input
+	 * @params: 	`float32_t* pDest` pointer to output
+	 * @params: 	`uint16_t n_samples` number of samples in input
+	 * @returns 	`void`
+	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
+	 * @notes:
+	 * */
+	void run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
+
+
+private:
+	arm_biquad_casd_df1_inst_f32 a_iirsettings;
+	float32_t delay_line_a[4*N_A_IIR_BIQUADS];
 };
 
 
@@ -189,6 +209,6 @@ public:
 
 // singleton reference
 extern filterbank fbank;
-extern filter A_filter;
+extern A_filter a_weight;
 
 #endif

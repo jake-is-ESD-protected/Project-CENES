@@ -20,6 +20,13 @@
 #define NEX_TX_CLASS_SCORE_FIELD_1	(char*)"x0"
 #define NEX_TX_CLASS_SCORE_FIELD_2	(char*)"x1"
 #define NEX_TX_CLASS_SCORE_FIELD_3	(char*)"x2"
+#define NEX_TX_A_WEIGHT_BUT			(char*)"b0"
+#define NEX_TX_Z_WEIGHT_BUT			(char*)"b1"
+#define NEX_CEQ_DISPLAY				(char*)"t1"
+#define NEX_TX_THRESHOLD_DISPLAY	(char*)"j1"
+#define NEX_TX_THRESHOLD_PEAK		(char*)"j2"
+#define NEX_TX_THRESHOLD_GET		(char*)"h0"
+#define NEX_TX_ZZZ_IMG				(char*)"p0"
 
 
 // Receive
@@ -29,5 +36,11 @@
 #define NEX_RX_CLASS_PUSH_P2	1
 #define NEX_RX_SET_PUSH_P0		37
 #define NEX_RX_SET_PUSH_P1		4
+#define NEX_RX_SET_A_WEIGHT		38
+#define NEX_RX_SET_Z_WEIGHT		39
+#define NEX_RX_SET_CEQ1			13
+#define NEX_RX_SET_CEQ3			14
+#define NEX_RX_SET_CEQ5			15
+#define NEX_RX_SET_THRESH		17
 
 #endif

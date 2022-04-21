@@ -32,9 +32,12 @@ notes:				Shape of RX-signal:
 #define NEX_BUF_RDY_FLAG	0x00000100U
 #define NEX_LVL_RDY_FLAG	0x00001000U
 
+#define NEX_META_INFO		0
 #define NEX_FRAME_PAGE		1
 #define NEX_FRAME_ID		2
 #define NEX_FRAME_ACT		3
+
+#define NEX_GET_VAL_TYPE	0x71
 
 
 
@@ -43,7 +46,10 @@ typedef enum{
 	i16_num_val,
 	txt_val,
 	u8_page,
-	f32_num_val
+	f32_num_val,
+	get_slider,
+	show_graphics,
+	hide_graphics
 }nex_tx_t;
 
 
@@ -81,6 +87,10 @@ public:
 
 
 	void handle(cmd c);
+
+
+
+	void update_page(int8_t page);
 
 
 
@@ -128,6 +138,18 @@ private:
 			float temp_val = *((float*)pVal);
 			len = sprintf(tx_buf, "%s.val=%.0f", id, temp_val * 1000);
 		}
+		else if(type == get_slider)
+		{
+			len = sprintf(tx_buf, "get %s.val", id);
+		}
+		else if(type == show_graphics)
+		{
+			len = sprintf(tx_buf, "vis %s,1", id);
+		}
+		else if(type == hide_graphics)
+		{
+			len = sprintf(tx_buf, "vis %s,0", id);
+		}
 
 		for(uint8_t i = 0; i < 3; i++)
 		{
@@ -143,8 +165,16 @@ private:
 	{
 		cmd c = {.type = no_info, .origin = nextion_e, .destination = nextion_e, .prio = HIGH, .params = NULL};
 
+		uint8_t meta = rx_buf[NEX_META_INFO];
 		uint8_t page = rx_buf[NEX_FRAME_PAGE];
 		uint8_t id = rx_buf[NEX_FRAME_ID];
+
+		if(meta == NEX_GET_VAL_TYPE)
+		{
+			c.type = set_thresh_num;
+			c.params = (void*)(&rx_buf[1]);
+			return c;
+		}
 
 		switch(page)
 		{
@@ -161,6 +191,16 @@ private:
 					case NEX_RX_SET_PUSH_P0:
 					{
 						c.type = switch_settings;
+					}break;
+
+					case NEX_RX_SET_Z_WEIGHT:
+					{
+						c.type = set_Z_weight;
+					}break;
+
+					case NEX_RX_SET_A_WEIGHT:
+					{
+						c.type = set_A_weight;
 					}break;
 				}
 			}break;
@@ -179,6 +219,27 @@ private:
 					{
 						c.type = switch_settings;
 					}break;
+
+					case NEX_RX_SET_CEQ1:
+					{
+						c.type = set_CEQ1;
+					}break;
+
+					case NEX_RX_SET_CEQ3:
+					{
+						c.type = set_CEQ3;
+					}break;
+
+					case NEX_RX_SET_CEQ5:
+					{
+						c.type = set_CEQ5;
+					}break;
+
+					case NEX_RX_SET_THRESH:
+					{
+						c.type = set_thresh_req;
+					}
+					break;
 				}
 			}break;
 

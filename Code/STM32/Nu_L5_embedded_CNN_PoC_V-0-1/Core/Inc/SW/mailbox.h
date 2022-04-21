@@ -32,6 +32,14 @@ typedef enum c_type
 	switch_rta,
 	switch_ai,
 	switch_settings,
+	set_Z_weight,
+	set_A_weight,
+	set_CEQ1,
+	set_CEQ3,
+	set_CEQ5,
+	set_thresh_req,
+	set_thresh_num,
+	reset_classes,
 	easteregg,
 }cmd_t;
 

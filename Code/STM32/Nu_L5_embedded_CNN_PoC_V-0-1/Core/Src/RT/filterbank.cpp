@@ -15,7 +15,7 @@ notes:
 
 // singleton instance
 filterbank fbank;
-filter A_filter;
+A_filter a_weight;
 
 
 
@@ -86,14 +86,6 @@ float32_t filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 
 
 
-float32_t* filter::filt(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
-{
-	arm_biquad_cascade_df1_f32(&iirsettings, pSrc, pDest, n_samples);
-	return pDest;
-}
-
-
-
 void dec_filter::init(float32_t* coeffs)
 {
 	arm_biquad_cascade_df1_init_f32(&dec_iirsettings, N_DEC_IIR_BIQUADS, coeffs, delay_line_dec);
@@ -111,4 +103,18 @@ float32_t* dec_filter::run(float32_t* pData, uint16_t n_samples)
 		temp_buf[i] = temp_buf[i*2];
 	}
 	return temp_buf;
+}
+
+
+
+void A_filter::init(float32_t* coeffs)
+{
+	arm_biquad_cascade_df1_init_f32(&a_iirsettings, N_A_IIR_BIQUADS, coeffs, delay_line_a);
+}
+
+
+
+void A_filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
+{
+	arm_biquad_cascade_df1_f32(&a_iirsettings, pSrc, pDest, n_samples);
 }

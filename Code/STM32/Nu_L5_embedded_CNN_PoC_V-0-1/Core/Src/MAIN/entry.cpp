@@ -34,7 +34,7 @@ int entry(void){
 
 	// init entity filterbank
 	fbank.init();
-	A_filter.init(A_coeffs);
+	a_weight.init(A_coeffs);
 
 	// init entity buffer
 	buf.init();

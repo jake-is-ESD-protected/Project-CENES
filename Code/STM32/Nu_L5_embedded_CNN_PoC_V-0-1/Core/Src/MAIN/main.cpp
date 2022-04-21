@@ -26,7 +26,6 @@ const osThreadAttr_t defaultTask_attributes = { // @suppress("Invalid arguments"
 
 int main(void)
 {
-
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <vector>
 #include <numeric>
+#include "class_map.h"
 
 // singleton instance
 core core_fsm;
@@ -94,8 +95,12 @@ void core::RT_task(void* params)
 		}
 
 		// apply A-weighting:
-		A_filter.filt(fbank.iBuf, fbank.oBuf, FRAME_SIZE);
-		PTR_SWAP(fbank.iBuf, fbank.oBuf)
+		if(pCore->weighting == A_WEIGHTING || pCore->cur_state == s_ai)
+		{
+			a_weight.run(fbank.iBuf, fbank.oBuf, FRAME_SIZE);
+			PTR_SWAP(fbank.iBuf, fbank.oBuf)
+		}
+
 
 		// calc LEQ
 		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
@@ -184,13 +189,49 @@ void core::RT_task(void* params)
 			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG);
 		}
 
+		// call CNN to classify
 		if(cnt == FPS && (pCore->cur_state == s_ai))
 		{
-			gpio_D9.set(toggle);
-			toggle = !toggle;
-			cnn_instance.scale_inputs(cnn_instance.scale_buffer);
-			osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG);
+			if(pCore->inference_request)
+			{
+				gpio_D9.set(toggle);
+				toggle = !toggle;
+				float leq = fbank.msqr2fs(sqr_sum / (FRAME_SIZE * FPS));
+				cnn_instance.normalize(cnn_instance.scale_buffer, leq);
+				osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG);
+			}
+			else
+			{
+				cmd c;
+				c.type = reset_classes;
+				c.origin = core_e;
+				c.destination = nextion_e;
+				uart_mbox.push(c, MBOX_TIMEOUT, core_fsm.hUI_task, INC_MSG_FLAG);
+			}
 
+			sqr_sum = 0;
+		}
+
+		if(cnt == BIN_REFRESH_STEP && (pCore->cur_state == s_ai))
+		{
+			float spl = fbank.msqr2fs(sqr_sum / (BIN_REFRESH_STEP * FRAME_SIZE)) + FS_TO_SPL_OFFS;
+			sqr_sum = 0;
+			float bin_prcnt = spl + (MIN_SPL_LVL_SHOWN * (-1));
+			bin_prcnt /= ((MIN_SPL_LVL_SHOWN * (-1)) + MAX_SPL_LVL_SHOWN);
+			if(bin_prcnt < 0) bin_prcnt = 0;	// catch visual wraparound
+			if(bin_prcnt > 1) bin_prcnt = 1;	// catch visual clipping
+			nextion.disp_lvl = (uint8_t)(100. * bin_prcnt);
+
+			if(nextion.disp_lvl > pCore->threshold_pcnt)
+			{
+				pCore->inference_request = true;
+			}
+			else
+			{
+				pCore->inference_request = false;
+			}
+
+			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG);
 		}
 
 
@@ -210,6 +251,7 @@ void core::RT_task(void* params)
 void core::SW_task(void* params)
 {
 	core* pCore = (core*) params;
+	uint8_t cnt = 0;
 
 	while(pCore->SW_task_running)
 	{
@@ -225,6 +267,24 @@ void core::SW_task(void* params)
 		cnn_instance.run();
 
 
+		for(uint8_t i = 0; i < AI_CNN_OUT_1_SIZE; i++)
+		{
+			cnn_instance.out_fifo[cnt][i] = cnn_instance.out_data[i];
+		}
+
+		cnt++;
+
+		// get mean of class over time: CEQ
+		for(uint8_t i = 0; i < AI_CNN_OUT_1_SIZE; i++)
+		{
+			float class_mean = 0;
+			for(uint8_t j = 0; j < pCore->ceq; j++)
+			{
+				class_mean += cnn_instance.out_fifo[j][i];
+			}
+			cnn_instance.out_data[i] = class_mean / pCore->ceq;
+		}
+
 		// sort vector (magic)
 		std::vector<float> a(std::begin(cnn_instance.out_data), std::end(cnn_instance.out_data));
 		std::vector<int> v(AI_CNN_OUT_1_SIZE);
@@ -236,6 +296,12 @@ void core::SW_task(void* params)
 		{
 			cnn_instance.top3_class_idx[i] = v[i];
 			cnn_instance.top3_class_score[i] = cnn_instance.out_data[v[i]];
+		}
+
+		if(cnt == pCore->ceq)
+		{
+			cnt = 0;
+			pCore->update_ceq();
 		}
 
 		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG);
@@ -297,18 +363,34 @@ void core::UI_task(void* params)
 		{
 			nextion.tx(NEX_TX_SPL_FIELD, (void*)&nextion.disp_lvl, i16_num_val);
 		}
+		if(lvl_rdy && (core_fsm.cur_state == s_ai))
+		{
+			nextion.tx(NEX_TX_THRESHOLD_DISPLAY, (void*)&nextion.disp_lvl, u8_num_val);
+			if(core_fsm.threshold_pcnt < nextion.disp_lvl)
+			{
+				uint8_t p = 100;
+				nextion.tx(NEX_TX_THRESHOLD_PEAK, (void*)&p, u8_num_val);
+			}
+			else
+			{
+				uint8_t p = 0;
+				nextion.tx(NEX_TX_THRESHOLD_PEAK, (void*)&p, u8_num_val);
+			}
+		}
 
 		// inference has been run and classification data can be displayed
 		if(cnn_rdy && (core_fsm.cur_state == s_ai))
 		{
-			nextion.tx(NEX_TX_CLASS_NAME_FIELD_1, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[0]], txt_val);
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_1, (void*)class_map[cnn_instance.top3_class_idx[0]], txt_val);
 			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_1, (void*)&cnn_instance.top3_class_score[0], f32_num_val);
 
-			nextion.tx(NEX_TX_CLASS_NAME_FIELD_2, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[1]], txt_val);
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_2, (void*)class_map[cnn_instance.top3_class_idx[1]], txt_val);
 			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_2, (void*)&cnn_instance.top3_class_score[1], f32_num_val);
 
-			nextion.tx(NEX_TX_CLASS_NAME_FIELD_3, (void*)cnn_instance.class_map[cnn_instance.top3_class_idx[2]], txt_val);
+			nextion.tx(NEX_TX_CLASS_NAME_FIELD_3, (void*)class_map[cnn_instance.top3_class_idx[2]], txt_val);
 			nextion.tx(NEX_TX_CLASS_SCORE_FIELD_3, (void*)&cnn_instance.top3_class_score[2], f32_num_val);
+
+			nextion.tx(NEX_TX_ZZZ_IMG, NULL, hide_graphics);
 		}
 	}
 	osThreadExit();
@@ -325,4 +407,18 @@ void core::start_task(osThreadId_t* hTask, osThreadFunc_t f, void* p, const osTh
 	{
 		e_handler.act(mem_null, core_e);
 	}
+}
+
+
+
+void core::set_ceq(uint8_t ceq)
+{
+	ceq_request = ceq;
+}
+
+
+
+void core::update_ceq(void)
+{
+	ceq = ceq_request;
 }

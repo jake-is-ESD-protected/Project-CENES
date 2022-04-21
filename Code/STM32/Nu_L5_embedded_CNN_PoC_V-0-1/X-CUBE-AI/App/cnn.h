@@ -4,7 +4,7 @@
   ******************************************************************************
   * @file    cnn.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Thu Apr  7 16:47:00 2022
+  * @date    Thu Apr 21 12:38:16 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -27,7 +27,7 @@
 
 /******************************************************************************/
 #define AI_CNN_MODEL_NAME          "cnn"
-#define AI_CNN_ORIGIN_MODEL_NAME   "sine_model_lite"
+#define AI_CNN_ORIGIN_MODEL_NAME   "esc50_model_v2_lite"
 
 /******************************************************************************/
 #define AI_CNN_ACTIVATIONS_ALIGNMENT   (4)
@@ -66,9 +66,9 @@ AI_DEPRECATED
 #define AI_CNN_OUT_SIZE_BYTES { \
   AI_CNN_OUT_1_SIZE_BYTES, \
 }
-#define AI_CNN_OUT_1_CHANNEL     (4)
-#define AI_CNN_OUT_1_SIZE        (4)
-#define AI_CNN_OUT_1_SIZE_BYTES  (16)
+#define AI_CNN_OUT_1_CHANNEL     (6)
+#define AI_CNN_OUT_1_SIZE        (6)
+#define AI_CNN_OUT_1_SIZE_BYTES  (24)
 
 /******************************************************************************/
 #define AI_CNN_N_NODES (9)

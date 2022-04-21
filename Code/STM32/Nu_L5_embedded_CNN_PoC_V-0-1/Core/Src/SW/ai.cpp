@@ -28,41 +28,17 @@ void cnn::init()
 
 
 
-void cnn::scale_inputs(float pData[FPS][N_BANDS])
+void cnn::normalize(float pData[FPS][N_BANDS], float leq)
 {
-//	volatile float db_mean = 0;
-//	volatile float sd = 0;
-//	volatile float temp = 0;
-//
-//	for(uint16_t i = 0; i < FPS; i++)
-//	{
-//		for(uint16_t j = 0; j < N_BANDS; j++)
-//		{
-//			db_mean += pData[i][j];
-//		}
-//	}
-//
-//	db_mean /= (FPS * N_BANDS);
-//
-//	for(uint16_t i = 0; i < FPS; i++)
-//	{
-//		for(uint16_t j = 0; j < N_BANDS; j++)
-//		{
-//			temp = pData[i][j] - db_mean;
-//			sd += (temp * temp);
-//		}
-//	}
-//
-//	sd /= (FPS * N_BANDS);
-//	sd = sqrtf(sd);
-
-
 	for(uint16_t i = 0; i < FPS; i++)
 	{
 		for(uint16_t j = 0; j < N_BANDS; j++)
 		{
-//			in_data[i][j] = (pData[i][j] - db_mean) / sd;
-			in_data[i][j] = pData[i][j];
+			in_data[i][j] = pData[i][j] - leq;
+			if(in_data[i][j] < THRESHOLD)
+			{
+				in_data[i][j] = -800;
+			}
 		}
 	}
 }

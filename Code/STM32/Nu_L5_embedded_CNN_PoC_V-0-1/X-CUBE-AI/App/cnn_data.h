@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file    cnn_data.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Thu Apr  7 16:47:00 2022
+  * @date    Thu Apr 21 12:38:16 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * Copyright (c) 2017 STMicroelectronics.
@@ -34,10 +34,10 @@
 
 
 #define AI_CNN_DATA_WEIGHTS_SIZES \
-  { 250960, }
-#define AI_CNN_DATA_WEIGHTS_SIZE         (250960)
+  { 251480, }
+#define AI_CNN_DATA_WEIGHTS_SIZE         (251480)
 #define AI_CNN_DATA_WEIGHTS_COUNT        (1)
-#define AI_CNN_DATA_WEIGHT_1_SIZE        (250960)
+#define AI_CNN_DATA_WEIGHT_1_SIZE        (251480)
 
 
 

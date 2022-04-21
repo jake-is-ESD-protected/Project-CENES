@@ -30,6 +30,13 @@ notes:
 #define STACK_SIZE_SW	(STACK_WIDTH * 14)
 #define STACK_SIZE_UI	(STACK_WIDTH * 10)
 
+#define Z_WEIGHTING		0
+#define A_WEIGHTING		1
+
+#define CEQ_1S			1
+#define CEQ_3S			3
+#define CEQ_5S			5
+
 
 class core
 {
@@ -74,6 +81,12 @@ public:
 	bool RT_task_running = false;
 	bool SW_task_running = false;
 	bool UI_task_running = false;
+
+	uint8_t weighting = Z_WEIGHTING;
+	uint8_t ceq = CEQ_1S;
+	uint8_t ceq_request = 1;
+	uint8_t threshold_pcnt = 50;
+	bool inference_request = false;
 
 
 	/* core-constructor
@@ -147,6 +160,14 @@ public:
 	 * @notes:
 	 * */
 	void start_task(osThreadId_t* hid, osThreadFunc_t f, void* p, const osThreadAttr_t* a, bool* init_flag);
+
+
+
+	void set_ceq(uint8_t ceq);
+
+
+
+	void update_ceq(void);
 
 
 private:
