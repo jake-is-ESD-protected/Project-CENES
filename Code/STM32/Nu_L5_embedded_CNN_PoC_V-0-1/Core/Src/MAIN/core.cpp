@@ -208,13 +208,11 @@ void core::RT_task(void* params)
 				c.destination = nextion_e;
 				uart_mbox.push(c, MBOX_TIMEOUT, core_fsm.hUI_task, INC_MSG_FLAG);
 			}
-
-			sqr_sum = 0;
 		}
 
-		if(cnt == BIN_REFRESH_STEP && (pCore->cur_state == s_ai))
+		if(cnt == LVL_REFRESH_STEP && (pCore->cur_state == s_ai))
 		{
-			float spl = fbank.msqr2fs(sqr_sum / (BIN_REFRESH_STEP * FRAME_SIZE)) + FS_TO_SPL_OFFS;
+			float spl = fbank.msqr2fs(sqr_sum / (LVL_REFRESH_STEP * FRAME_SIZE)) + FS_TO_SPL_OFFS;
 			sqr_sum = 0;
 			float bin_prcnt = spl + (MIN_SPL_LVL_SHOWN * (-1));
 			bin_prcnt /= ((MIN_SPL_LVL_SHOWN * (-1)) + MAX_SPL_LVL_SHOWN);
@@ -266,6 +264,9 @@ void core::SW_task(void* params)
 		// run inference
 		cnn_instance.run();
 
+		// end time-measurement on scope
+		gpio_D6.set(false);
+
 
 		for(uint8_t i = 0; i < AI_CNN_OUT_1_SIZE; i++)
 		{
@@ -301,14 +302,14 @@ void core::SW_task(void* params)
 		if(cnt == pCore->ceq)
 		{
 			cnt = 0;
+			// at the end of each buffer, check if the user changed CEQ
 			pCore->update_ceq();
 		}
 
 		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG);
 
 
-		// end time-measurement on scope
-		gpio_D6.set(false);
+
 	}
 	osThreadExit();
 }

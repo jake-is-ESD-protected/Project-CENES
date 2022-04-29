@@ -2,9 +2,9 @@
 /* THIS IS AN AUTO-GENERATED FILE! DO NOT MODIFY MANUALLY!
  * f_name:      params.h
  * auth:        Jakob Tschavoll
- * ver:         1.0, deploying "esc50_model_v2"
+ * ver:         1.0, deploying "esc50_model_v5"
  * brief:       sync all params with jupyter-notebooks
- * datetime:    21/04/2022 12:33:06
+ * datetime:    28/04/2022 12:43:51
  * */
 
 #ifndef _PARAMS_H_
@@ -20,7 +20,7 @@
 #define FRAME_SIZE          1200
 #define WIN_SIZE            48000
 #define FPS                 40
-#define THRESHOLD           -40
+#define THRESHOLD           -20
 
 #endif
                 

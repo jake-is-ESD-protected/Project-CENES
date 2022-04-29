@@ -37,7 +37,7 @@ void cnn::normalize(float pData[FPS][N_BANDS], float leq)
 			in_data[i][j] = pData[i][j] - leq;
 			if(in_data[i][j] < THRESHOLD)
 			{
-				in_data[i][j] = -800;
+				in_data[i][j] = THRESHOLD;
 			}
 		}
 	}
