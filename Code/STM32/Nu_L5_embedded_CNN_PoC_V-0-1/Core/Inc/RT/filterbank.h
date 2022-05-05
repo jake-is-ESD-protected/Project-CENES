@@ -23,6 +23,7 @@ notes:
 #define N_IIR_BIQUADS			(IIR_ORDER / 2)
 #define N_DEC_IIR_BIQUADS		(DEC_IIR_ORDER / 2)
 #define N_A_IIR_BIQUADS			3
+#define N_ICS43432_IIR_BIQUADS	3
 #define HALF_BUF_LEN			(FRAME_SIZE / 2)
 
 #define SENSITIVITY_ICS43432	-26.
@@ -39,8 +40,8 @@ class filter
 {
 public:
 
-	float32_t* pSrc;
-	float32_t* pDest;
+	float32_t* pSrc = NULL;
+	float32_t* pDest = NULL;
 
 	/* filter-constructor
 	 * @params: 	`void`
@@ -144,6 +145,37 @@ private:
 
 
 
+class ICS4343_correction: public filter
+{
+public:
+	/* filter-initializer
+	 * @params:		`float* coeffs`: pointer to coefficients
+	 * @returns 	`void`
+	 * @brief:		init the ICS43432-correction filter
+	 * @notes:
+	 * */
+	void init(float32_t* coeffs);
+
+
+
+	/* filter-runner
+	 * @params: 	`float32_t* pSrc` pointer to input
+	 * @params: 	`float32_t* pDest` pointer to output
+	 * @params: 	`uint16_t n_samples` number of samples in input
+	 * @returns 	`void`
+	 * @brief:		call the underlying ARM CMSIS DSP library to filter the signal
+	 * @notes:
+	 * */
+	void run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples);
+
+
+private:
+	arm_biquad_casd_df1_inst_f32 ICS43432_iirsettings;
+	float32_t delay_line_ICS43432[4*N_ICS43432_IIR_BIQUADS];
+};
+
+
+
 /* [CLASS] filterbank
  * @brief:	the octave-filterbank as object
  * @intent:	have easy IO-operations regarding the filterbank
@@ -210,5 +242,6 @@ public:
 // singleton reference
 extern filterbank fbank;
 extern A_filter a_weight;
+extern ICS4343_correction ICS43432_correction_filter;
 
 #endif

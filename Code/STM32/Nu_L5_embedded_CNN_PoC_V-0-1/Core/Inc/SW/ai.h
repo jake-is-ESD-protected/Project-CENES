@@ -47,7 +47,7 @@ public:
 
 	ai_float scale_buffer[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH] =
 	{
-		#include "ai_verify.txt"
+		0//#include "ai_verify.txt"
 	};
 
 	ai_float out_data[AI_CNN_OUT_1_SIZE];
@@ -104,8 +104,8 @@ private:
 	ai_u8 activations[AI_CNN_DATA_ACTIVATIONS_SIZE];
 	ai_float in_data[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH];
 
-	ai_buffer *ai_input;
-	ai_buffer *ai_output;
+	ai_buffer *ai_input = NULL;
+	ai_buffer *ai_output = NULL;
 
 	ai_error err;
 	ai_network_report report;

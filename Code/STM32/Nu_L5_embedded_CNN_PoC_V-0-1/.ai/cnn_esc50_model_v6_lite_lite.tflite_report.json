@@ -1,0 +1,395 @@
+{
+    "_allocate_inputs": 0,
+    "_allocate_outputs": 0,
+    "cli_parameters": "generate --name cnn -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/esc50_model_v6_lite/esc50_model_v6_lite_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\\Users\\JDA1E~1.TSC\\AppData\\Local\\Temp\\mxAI_workspace136608230190015002919709470872682 --output C:\\Users\\j.tschavoll\\.stm32cubemx\\cnn_output",
+    "cli_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 6
+    },
+    "cli_version_str": "1.6.0",
+    "compression": {
+        "factor": 1.0769599055815973,
+        "layers": {
+            "dense_6_weights": 4.0
+        }
+    },
+    "date_time": "Wed May  4 08:09:54 2022",
+    "error": 0,
+    "error_str": [],
+    "exec_cmd": "generate",
+    "exec_duration": 0.0,
+    "hash": "a424985ccafe442f65f499c25fb80895",
+    "inputs": [
+        "serving_default_conv2d_6_input0"
+    ],
+    "layers": [
+        {
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 2240,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        20,
+                        28,
+                        1,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "serving_default_conv2d_6_input0",
+            "type": "Input"
+        },
+        {
+            "extras": {
+                "n_macc": 336024,
+                "n_params": 624,
+                "psize": 2496,
+                "rom_output": {
+                    "c_size": 13440,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        10,
+                        14,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 2496
+            },
+            "id": 0,
+            "inputs": [
+                "serving_default_conv2d_6_input0"
+            ],
+            "name": "conv2d_0",
+            "type": "Conv2D"
+        },
+        {
+            "extras": {
+                "n_macc": 13440,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "conv2d_0"
+            ],
+            "name": "pool_1",
+            "type": "Pool"
+        },
+        {
+            "extras": {
+                "n_macc": 3360,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 13440,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        10,
+                        14,
+                        24,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "pool_1"
+            ],
+            "name": "nl_1_nl",
+            "type": "Nonlinearity"
+        },
+        {
+            "extras": {
+                "n_macc": 4032048,
+                "n_params": 28848,
+                "psize": 115392,
+                "rom_output": {
+                    "c_size": 6720,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5,
+                        7,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 115392
+            },
+            "id": 2,
+            "inputs": [
+                "nl_1_nl"
+            ],
+            "name": "conv2d_2",
+            "type": "Conv2D"
+        },
+        {
+            "extras": {
+                "n_macc": 6720,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [
+                "conv2d_2"
+            ],
+            "name": "pool_3",
+            "type": "Pool"
+        },
+        {
+            "extras": {
+                "n_macc": 1680,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 6720,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5,
+                        7,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [
+                "pool_3"
+            ],
+            "name": "nl_3_nl",
+            "type": "Nonlinearity"
+        },
+        {
+            "extras": {
+                "n_macc": 172848,
+                "n_params": 57648,
+                "psize": 230592,
+                "rom_output": {
+                    "c_size": 576,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        3,
+                        48,
+                        1
+                    ]
+                },
+                "rom_size": 230592
+            },
+            "id": 4,
+            "inputs": [
+                "nl_3_nl"
+            ],
+            "name": "conv2d_4",
+            "type": "Conv2D"
+        },
+        {
+            "extras": {
+                "n_macc": 144,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "conv2d_4"
+            ],
+            "name": "nl_4_nl",
+            "type": "Nonlinearity"
+        },
+        {
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "nl_4_nl"
+            ],
+            "name": "reshape_5",
+            "type": "Reshape"
+        },
+        {
+            "extras": {
+                "n_macc": 9280,
+                "n_params": 9280,
+                "psize": 37120,
+                "rom_output": {
+                    "c_size": 256,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        64,
+                        1
+                    ]
+                },
+                "rom_size": 10496
+            },
+            "id": 6,
+            "inputs": [
+                "reshape_5"
+            ],
+            "name": "dense_6",
+            "type": "Dense"
+        },
+        {
+            "extras": {
+                "n_macc": 64,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 256,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        64,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 6,
+            "inputs": [
+                "dense_6"
+            ],
+            "name": "nl_6_nl",
+            "type": "Nonlinearity"
+        },
+        {
+            "extras": {
+                "n_macc": 325,
+                "n_params": 325,
+                "psize": 1300,
+                "rom_output": {
+                    "c_size": 20,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        5,
+                        1
+                    ]
+                },
+                "rom_size": 1300
+            },
+            "id": 7,
+            "inputs": [
+                "nl_6_nl"
+            ],
+            "name": "dense_7",
+            "type": "Dense"
+        },
+        {
+            "extras": {
+                "n_macc": 75,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 20,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        1,
+                        1,
+                        5,
+                        1
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 8,
+            "inputs": [
+                "dense_7"
+            ],
+            "name": "nl_8",
+            "type": "Nonlinearity"
+        }
+    ],
+    "model_files": [
+        "C:\\Users\\j.tschavoll\\OneDrive - FH Vorarlberg\\Partnerunternehmen FHV\\FH\\BA\\Code\\Jupyter\\esc50_model_v6_lite\\esc50_model_v6_lite_lite.tflite"
+    ],
+    "model_n_params": 96725,
+    "model_name": "esc50_model_v6_lite_lite",
+    "model_size": 386900,
+    "model_type": "tflite",
+    "name": "cnn",
+    "outputs": [
+        "nl_8"
+    ],
+    "ram_io_size": [
+        2240,
+        20
+    ],
+    "ram_size": [
+        23808,
+        23808
+    ],
+    "report_version": 1.1,
+    "rom_cfact": 1.0,
+    "rom_heap_inspector": 2048,
+    "rom_inputs": [
+        {
+            "c_size": 2240,
+            "c_type": "float",
+            "name": "serving_default_conv2d_6_input0"
+        }
+    ],
+    "rom_n_macc": 4576008,
+    "rom_outputs": [
+        {
+            "c_size": 20,
+            "c_type": "float",
+            "name": "nl_8"
+        }
+    ],
+    "rom_size": 360276,
+    "strategy": "heap_overlay",
+    "tools_api_version": {
+        "major": 1,
+        "micro": 0,
+        "minor": 6
+    },
+    "tools_version": {
+        "extra": "RC3",
+        "major": 7,
+        "micro": 0,
+        "minor": 1
+    },
+    "val_error": -1.0,
+    "val_error_desc": "None (None) #-1",
+    "val_metrics": []
+}

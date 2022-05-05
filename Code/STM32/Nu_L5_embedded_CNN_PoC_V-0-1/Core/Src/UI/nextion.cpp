@@ -8,7 +8,7 @@ void nextionHMI::reset(void)
 {
 	HAL_UART_DeInit(pUart);
 	HAL_UART_Init(pUart);
-	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, NEX_RX_BUF_SIZE);
+	HAL_StatusTypeDef stat = HAL_UART_Receive_IT(pUart, (uint8_t*)rx_buf, NEX_RX_BUF_SIZE); // @suppress("Invalid arguments")
 	if(stat != HAL_OK)
 	{
 		e_handler.act(init_fail, nextion_e);
@@ -20,7 +20,7 @@ void nextionHMI::reset(void)
 void nextionHMI::tx(char* id, void* pVal, nex_tx_t type)
 {
 	uint8_t len = format(id, pVal, type);
-	HAL_UART_Transmit(&huart2, (uint8_t*)tx_buf, len, -1);
+	HAL_UART_Transmit(&huart2, (uint8_t*)tx_buf, len, -1); // @suppress("Invalid arguments")
 }
 
 

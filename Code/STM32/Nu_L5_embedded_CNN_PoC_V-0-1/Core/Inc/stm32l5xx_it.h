@@ -58,6 +58,7 @@ void DMA1_Channel3_IRQHandler(void);
 void USART2_IRQHandler(void);
 void LPUART1_IRQHandler(void);
 void TIM17_IRQHandler(void);
+void SDMMC1_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 
 /* USER CODE END EFP */

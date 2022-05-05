@@ -14,6 +14,7 @@ notes:				Makes handles available to underlying code
 #include "main.h"
 
 //#define FGEN_SETUP
+//#define ICS43432_CORRECTION
 
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef hlpuart1;

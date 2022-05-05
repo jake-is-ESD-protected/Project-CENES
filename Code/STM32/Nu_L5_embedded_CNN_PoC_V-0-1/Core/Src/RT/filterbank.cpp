@@ -16,6 +16,7 @@ notes:
 // singleton instance
 filterbank fbank;
 A_filter a_weight;
+ICS4343_correction ICS43432_correction_filter;
 
 
 
@@ -67,7 +68,7 @@ filter::filter(void)
 
 void filter::init(float32_t* pCoeffs)
 {
-	arm_biquad_cascade_df1_init_f32(&iirsettings, N_IIR_BIQUADS, pCoeffs, delay_line_iir);
+	arm_biquad_cascade_df1_init_f32(&iirsettings, N_IIR_BIQUADS, pCoeffs, delay_line_iir); // @suppress("Invalid arguments")
 }
 
 
@@ -75,7 +76,7 @@ void filter::init(float32_t* pCoeffs)
 float32_t filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 {
 	float32_t sqr_sum = 0;
-	arm_biquad_cascade_df1_f32(&iirsettings, pSrc, pDest, n_samples);
+	arm_biquad_cascade_df1_f32(&iirsettings, pSrc, pDest, n_samples); // @suppress("Invalid arguments")
 	for(uint16_t i = 0; i < n_samples; i++)
 	{
 		sqr_sum += (pDest[i] * pDest[i]);
@@ -88,14 +89,14 @@ float32_t filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 
 void dec_filter::init(float32_t* coeffs)
 {
-	arm_biquad_cascade_df1_init_f32(&dec_iirsettings, N_DEC_IIR_BIQUADS, coeffs, delay_line_dec);
+	arm_biquad_cascade_df1_init_f32(&dec_iirsettings, N_DEC_IIR_BIQUADS, coeffs, delay_line_dec); // @suppress("Invalid arguments")
 }
 
 
 
 float32_t* dec_filter::run(float32_t* pData, uint16_t n_samples)
 {
-	arm_biquad_cascade_df1_f32(&dec_iirsettings, pData, temp_buf, n_samples);
+	arm_biquad_cascade_df1_f32(&dec_iirsettings, pData, temp_buf, n_samples); // @suppress("Invalid arguments")
 
 	// decimate
 	for(uint16_t i = 0; i < (n_samples/2); i++)
@@ -109,12 +110,26 @@ float32_t* dec_filter::run(float32_t* pData, uint16_t n_samples)
 
 void A_filter::init(float32_t* coeffs)
 {
-	arm_biquad_cascade_df1_init_f32(&a_iirsettings, N_A_IIR_BIQUADS, coeffs, delay_line_a);
+	arm_biquad_cascade_df1_init_f32(&a_iirsettings, N_A_IIR_BIQUADS, coeffs, delay_line_a); // @suppress("Invalid arguments")
 }
 
 
 
 void A_filter::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
 {
-	arm_biquad_cascade_df1_f32(&a_iirsettings, pSrc, pDest, n_samples);
+	arm_biquad_cascade_df1_f32(&a_iirsettings, pSrc, pDest, n_samples); // @suppress("Invalid arguments")
+}
+
+
+
+void ICS4343_correction::init(float32_t* coeffs)
+{
+	arm_biquad_cascade_df1_init_f32(&ICS43432_iirsettings, N_ICS43432_IIR_BIQUADS, coeffs, delay_line_ICS43432); // @suppress("Invalid arguments")
+}
+
+
+
+void ICS4343_correction::run(float32_t* pSrc, float32_t* pDest, uint16_t n_samples)
+{
+	arm_biquad_cascade_df1_f32(&ICS43432_iirsettings, pSrc, pDest, n_samples); // @suppress("Invalid arguments")
 }

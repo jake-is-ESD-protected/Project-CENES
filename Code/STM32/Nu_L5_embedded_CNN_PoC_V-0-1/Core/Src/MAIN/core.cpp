@@ -73,7 +73,6 @@ void core::RT_task(void* params)
 
 	float32_t* pDec_data;
 	uint8_t cnt = 0;
-	bool toggle = false;
 	float sqr_sum = 0;
 
 	buf.start_sampler();
@@ -82,17 +81,23 @@ void core::RT_task(void* params)
 	{
 
 		// wait for i2s buffer to be full
-		osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+		osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever); // @suppress("Invalid arguments")
 
 
 		// begin time-measurement on scope
-		gpio_D7.set(true);
+		gpio_D2.set(true);
 
 
 		// align data from i2s-buffer & convert it to float between 1 & -1
 		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
 			fbank.iBuf[i] = (((buf.pOut[i]) << 8) / 256) / NORM_FACTOR_U23_F32;
 		}
+
+#ifdef ICS43432_CORRECTION
+		// apply ICS43432-correction-curve
+		ICS43432_correction_filter.run(fbank.iBuf, fbank.oBuf, FRAME_SIZE);
+		PTR_SWAP(fbank.iBuf, fbank.oBuf);
+#endif
 
 		// apply A-weighting:
 		if(pCore->weighting == A_WEIGHTING || pCore->cur_state == s_ai)
@@ -177,7 +182,7 @@ void core::RT_task(void* params)
 				if(bin_prcnt > 1) bin_prcnt = 1;	// catch visual clipping
 				nextion.disp_data[i] = (uint8_t)(100. * bin_prcnt);
 			}
-			osThreadFlagsSet(core_fsm.hUI_task, NEX_BUF_RDY_FLAG);
+			osThreadFlagsSet(core_fsm.hUI_task, NEX_BUF_RDY_FLAG); // @suppress("Invalid arguments")
 		}
 
 
@@ -186,7 +191,7 @@ void core::RT_task(void* params)
 		{
 			nextion.disp_lvl = fbank.msqr2fs(sqr_sum / (FRAME_SIZE * LVL_REFRESH_STEP)) + FS_TO_SPL_OFFS;
 			sqr_sum = 0;
-			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG);
+			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG); // @suppress("Invalid arguments")
 		}
 
 		// call CNN to classify
@@ -194,11 +199,9 @@ void core::RT_task(void* params)
 		{
 			if(pCore->inference_request)
 			{
-				gpio_D9.set(toggle);
-				toggle = !toggle;
 				float leq = fbank.msqr2fs(sqr_sum / (FRAME_SIZE * FPS));
 				cnn_instance.normalize(cnn_instance.scale_buffer, leq);
-				osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG);
+				osThreadFlagsSet(core_fsm.hSW_task, AI_INPUT_RDY_FLAG); // @suppress("Invalid arguments")
 			}
 			else
 			{
@@ -229,7 +232,7 @@ void core::RT_task(void* params)
 				pCore->inference_request = false;
 			}
 
-			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG);
+			osThreadFlagsSet(core_fsm.hUI_task, NEX_LVL_RDY_FLAG); // @suppress("Invalid arguments")
 		}
 
 
@@ -238,7 +241,7 @@ void core::RT_task(void* params)
 
 
 		// end time-measurement on scope
-		gpio_D7.set(false);
+		gpio_D2.set(false);
 
 	}
 	osThreadExit();
@@ -254,18 +257,18 @@ void core::SW_task(void* params)
 	while(pCore->SW_task_running)
 	{
 		// wait for flag
-		osThreadFlagsWait(AI_INPUT_RDY_FLAG, osFlagsWaitAny, osWaitForever);
+		osThreadFlagsWait(AI_INPUT_RDY_FLAG, osFlagsWaitAny, osWaitForever); // @suppress("Invalid arguments")
 
 
 		// start time-measurement on scope
-		gpio_D6.set(true);
+		gpio_D4.set(true);
 
 
 		// run inference
 		cnn_instance.run();
 
 		// end time-measurement on scope
-		gpio_D6.set(false);
+		gpio_D4.set(false);
 
 
 		for(uint8_t i = 0; i < AI_CNN_OUT_1_SIZE; i++)
@@ -285,6 +288,12 @@ void core::SW_task(void* params)
 			}
 			cnn_instance.out_data[i] = class_mean / pCore->ceq;
 		}
+
+#ifdef TEST_SETUP
+
+		// send output tensor via uterm to pc
+
+#endif
 
 		// sort vector (magic)
 		std::vector<float> a(std::begin(cnn_instance.out_data), std::end(cnn_instance.out_data));
@@ -306,7 +315,7 @@ void core::SW_task(void* params)
 			pCore->update_ceq();
 		}
 
-		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG);
+		osThreadFlagsSet(pCore->hUI_task, AI_OUTPUT_RDY_FLAG); // @suppress("Invalid arguments")
 
 
 
@@ -330,7 +339,7 @@ void core::UI_task(void* params)
 
 	while(pCore->UI_task_running)
 	{
-		uint32_t flag = osThreadFlagsWait(	INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG | AI_OUTPUT_RDY_FLAG,
+		uint32_t flag = osThreadFlagsWait(	INC_MSG_FLAG | NEX_BUF_RDY_FLAG | NEX_LVL_RDY_FLAG | AI_OUTPUT_RDY_FLAG, // @suppress("Invalid arguments")
 											osFlagsWaitAny,
 											osWaitForever);
 

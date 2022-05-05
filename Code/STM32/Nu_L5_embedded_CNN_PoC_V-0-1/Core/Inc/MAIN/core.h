@@ -22,6 +22,7 @@ notes:
 #include "gpio.h"
 #include "ai.h"
 #include "algorithm"
+#include "app_fatfs.h"
 
 #define PTR_SWAP(x, y) 	float* temp = x; x = y; y = temp;
 
@@ -43,7 +44,9 @@ class core
 public:
 
 	// Thread-handles
-	osThreadId_t hRT_task, hSW_task, hUI_task;
+	osThreadId_t hRT_task = NULL;
+	osThreadId_t hSW_task = NULL;
+	osThreadId_t hUI_task = NULL;
 
 	// Thread parameters
 	const osThreadAttr_t RT_task_attributes = { // @suppress("Invalid arguments")
@@ -74,8 +77,8 @@ public:
 		s_ai,
 		s_settings
 	}state_t;
-	state_t cur_state;
-	state_t last_state;
+	state_t cur_state = s_init;
+	state_t last_state = s_init;
 
 	// task control-flags
 	bool RT_task_running = false;

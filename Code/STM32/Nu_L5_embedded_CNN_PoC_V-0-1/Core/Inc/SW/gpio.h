@@ -19,8 +19,8 @@ class gpio
 {
 public:
 
-	GPIO_TypeDef* group;
-	uint16_t pin;
+	GPIO_TypeDef* group = NULL;
+	uint16_t pin = 0;
 
 
 
@@ -56,8 +56,8 @@ public:
 };
 
 // singleton reference
-extern gpio gpio_D9;
-extern gpio gpio_D7;
-extern gpio gpio_D6;
+extern gpio gpio_D3;
+extern gpio gpio_D2;
+extern gpio gpio_D4;
 
 #endif

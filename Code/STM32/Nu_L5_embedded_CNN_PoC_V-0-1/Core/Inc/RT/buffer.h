@@ -44,7 +44,7 @@ public:
 
 	int32_t* pOut;
 
-	osThreadId_t parent_thr;
+	osThreadId_t parent_thr = NULL;
 
 
 

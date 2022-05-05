@@ -2,6 +2,7 @@
 #include "cmsis_os.h"
 #include "entry.h"
 #include "ai.h"
+#include "app_fatfs.h"
 
 CRC_HandleTypeDef hcrc;
 
@@ -12,6 +13,8 @@ DMA_HandleTypeDef hdma_usart2_tx;
 
 SAI_HandleTypeDef hsai_BlockA1;
 DMA_HandleTypeDef hdma_sai1_a;
+
+SD_HandleTypeDef hsd1;
 
 
 osThreadId_t defaultTaskHandle;
@@ -35,6 +38,10 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   MX_LPUART1_UART_Init();
+  MX_SDMMC1_SD_Init();
+  if (MX_FATFS_Init() != APP_OK) {
+	  Error_Handler();
+	}
 
   osKernelInitialize();
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
@@ -45,10 +52,10 @@ int main(void)
 
 void SystemClock_Config(void)
 {
-	RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+	RCC_OscInitTypeDef RCC_OscInitStruct = {0}; // @suppress("Invalid arguments")
+	RCC_ClkInitTypeDef RCC_ClkInitStruct = {0}; // @suppress("Invalid arguments")
 
-	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE0) != HAL_OK)
+	if (HAL_PWREx_ControlVoltageScaling(PWR_REGULATOR_VOLTAGE_SCALE0) != HAL_OK) // @suppress("Invalid arguments")
 	{
 		Error_Handler();
 	}
@@ -76,7 +83,7 @@ void SystemClock_Config(void)
 	RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 	RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
+	if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) // @suppress("Invalid arguments")
 	{
 		Error_Handler();
 	}
@@ -102,7 +109,7 @@ void MX_CRC_Init(void)
 
 void MX_ICACHE_Init(void)
 {
-  if (HAL_ICACHE_ConfigAssociativityMode(ICACHE_1WAY) != HAL_OK)
+  if (HAL_ICACHE_ConfigAssociativityMode(ICACHE_1WAY) != HAL_OK) // @suppress("Invalid arguments")
   {
     Error_Handler();
   }
@@ -131,11 +138,11 @@ void MX_LPUART1_UART_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_UARTEx_SetTxFifoThreshold(&hlpuart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  if (HAL_UARTEx_SetTxFifoThreshold(&hlpuart1, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK) // @suppress("Invalid arguments")
   {
     Error_Handler();
   }
-  if (HAL_UARTEx_SetRxFifoThreshold(&hlpuart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  if (HAL_UARTEx_SetRxFifoThreshold(&hlpuart1, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK) // @suppress("Invalid arguments")
   {
     Error_Handler();
   }
@@ -171,11 +178,11 @@ void MX_SAI1_Init(void)
 	hsai_BlockA1.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
 	hsai_BlockA1.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
 	hsai_BlockA1.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_EMPTY;
-	hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_48K;
+	hsai_BlockA1.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_32K;
 	hsai_BlockA1.Init.SynchroExt = SAI_SYNCEXT_DISABLE;
 	hsai_BlockA1.Init.MonoStereoMode = SAI_MONOMODE;
 	hsai_BlockA1.Init.CompandingMode = SAI_NOCOMPANDING;
-	if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_24BIT, 2) != HAL_OK)
+	if (HAL_SAI_InitProtocol(&hsai_BlockA1, SAI_I2S_STANDARD, SAI_PROTOCOL_DATASIZE_24BIT, 2) != HAL_OK) // @suppress("Invalid arguments")
 	{
 		Error_Handler();
 	}
@@ -201,11 +208,11 @@ void MX_USART2_UART_Init(void)
   {
     Error_Handler();
   }
-  if (HAL_UARTEx_SetTxFifoThreshold(&huart2, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK)
+  if (HAL_UARTEx_SetTxFifoThreshold(&huart2, UART_TXFIFO_THRESHOLD_1_8) != HAL_OK) // @suppress("Invalid arguments")
   {
     Error_Handler();
   }
-  if (HAL_UARTEx_SetRxFifoThreshold(&huart2, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK)
+  if (HAL_UARTEx_SetRxFifoThreshold(&huart2, UART_RXFIFO_THRESHOLD_1_8) != HAL_OK) // @suppress("Invalid arguments")
   {
     Error_Handler();
   }
@@ -217,16 +224,28 @@ void MX_USART2_UART_Init(void)
 
 
 
+void MX_SDMMC1_SD_Init(void)
+{
+  hsd1.Instance = SDMMC1;
+  hsd1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+  hsd1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+  hsd1.Init.BusWide = SDMMC_BUS_WIDE_4B;
+  hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd1.Init.ClockDiv = 0;
+}
+
+
+
 void MX_DMA_Init(void)
 {
   __HAL_RCC_DMAMUX1_CLK_ENABLE();
   __HAL_RCC_DMA1_CLK_ENABLE();
 
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0); // @suppress("Invalid arguments")
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-  HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel2_IRQn, 5, 0); // @suppress("Invalid arguments")
   HAL_NVIC_EnableIRQ(DMA1_Channel2_IRQn);
-  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0); // @suppress("Invalid arguments")
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
 
 }
@@ -235,37 +254,35 @@ void MX_DMA_Init(void)
 
 void MX_GPIO_Init(void)
 {
-  GPIO_InitTypeDef GPIO_InitStruct = {0};
+	GPIO_InitTypeDef GPIO_InitStruct = {0}; // @suppress("Invalid arguments")
+	/* GPIO Ports Clock Enable */
+	__HAL_RCC_GPIOE_CLK_ENABLE();
+	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOF_CLK_ENABLE();
+	__HAL_RCC_GPIOG_CLK_ENABLE();
+	HAL_PWREx_EnableVddIO2();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
+	__HAL_RCC_GPIOD_CLK_ENABLE();
 
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOG_CLK_ENABLE();
-  HAL_PWREx_EnableVddIO2();
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(GPIOF, GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET); // @suppress("Invalid arguments")
 
-  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOE, GPIO_PIN_9, GPIO_PIN_RESET);
+	/*Configure GPIO pin Output Level */
+	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_13, GPIO_PIN_RESET); // @suppress("Invalid arguments")
 
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+	/*Configure GPIO pins : PF14 PF15 */
+	GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
-  GPIO_InitStruct.Pin = GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
+	/*Configure GPIO pin : PE13 */
+	GPIO_InitStruct.Pin = GPIO_PIN_13;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 }
 
 

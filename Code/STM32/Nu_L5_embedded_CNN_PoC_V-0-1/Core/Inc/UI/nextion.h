@@ -115,40 +115,40 @@ private:
 		if(type == u8_num_val)
 		{
 			uint8_t temp_val = *((uint8_t*)pVal);
-			len = sprintf(tx_buf, "%s.val=%d", id, temp_val);
+			len = sprintf(tx_buf, "%s.val=%d", id, temp_val); // @suppress("Invalid arguments")
 		}
 		else if(type == i16_num_val)
 		{
 			int16_t temp_val = *((int16_t*)pVal);
-			len = sprintf(tx_buf, "%s.val=%d", id, temp_val);
+			len = sprintf(tx_buf, "%s.val=%d", id, temp_val); // @suppress("Invalid arguments")
 		}
 		else if(type == txt_val)
 		{
 			char* temp_str = (char*)pVal;
-			len = sprintf(tx_buf, "%s.txt=\"%s\"", id, temp_str);
+			len = sprintf(tx_buf, "%s.txt=\"%s\"", id, temp_str); // @suppress("Invalid arguments")
 		}
 
 		else if(type == u8_page)
 		{
 			uint8_t temp_val = *((uint8_t*)pVal);
-			len = sprintf(tx_buf, "page %d", temp_val);
+			len = sprintf(tx_buf, "page %d", temp_val); // @suppress("Invalid arguments")
 		}
 		else if(type == f32_num_val)
 		{
 			float temp_val = *((float*)pVal);
-			len = sprintf(tx_buf, "%s.val=%.0f", id, temp_val * 1000);
+			len = sprintf(tx_buf, "%s.val=%.0f", id, temp_val * 1000); // @suppress("Invalid arguments")
 		}
 		else if(type == get_slider)
 		{
-			len = sprintf(tx_buf, "get %s.val", id);
+			len = sprintf(tx_buf, "get %s.val", id); // @suppress("Invalid arguments")
 		}
 		else if(type == show_graphics)
 		{
-			len = sprintf(tx_buf, "vis %s,1", id);
+			len = sprintf(tx_buf, "vis %s,1", id); // @suppress("Invalid arguments")
 		}
 		else if(type == hide_graphics)
 		{
-			len = sprintf(tx_buf, "vis %s,0", id);
+			len = sprintf(tx_buf, "vis %s,0", id); // @suppress("Invalid arguments")
 		}
 
 		for(uint8_t i = 0; i < 3; i++)

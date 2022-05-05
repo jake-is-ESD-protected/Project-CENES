@@ -12,9 +12,9 @@ notes:
 #include "gpio.h"
 
 // singleton instance
-gpio gpio_D9;
-gpio gpio_D7;
-gpio gpio_D6;
+gpio gpio_D3;
+gpio gpio_D2;
+gpio gpio_D4;
 
 gpio::gpio(void)
 {
@@ -33,5 +33,5 @@ void gpio::init(GPIO_TypeDef* grp, uint16_t pn)
 
 void gpio::set(bool state)
 {
-	HAL_GPIO_WritePin(group, pin, (GPIO_PinState)state);
+	HAL_GPIO_WritePin(group, pin, (GPIO_PinState)state); // @suppress("Invalid arguments")
 }
