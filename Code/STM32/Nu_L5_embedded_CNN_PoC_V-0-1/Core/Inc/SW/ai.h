@@ -97,12 +97,14 @@ public:
 
 
 
+	ai_float in_data[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH];
+
 private:
 
 	ai_handle pNN = AI_HANDLE_NULL;
 
 	ai_u8 activations[AI_CNN_DATA_ACTIVATIONS_SIZE];
-	ai_float in_data[AI_CNN_IN_1_HEIGHT][AI_CNN_IN_1_WIDTH];
+
 
 	ai_buffer *ai_input = NULL;
 	ai_buffer *ai_output = NULL;

@@ -1,4 +1,5 @@
 #include "ai.h"
+#include "uterm.h"
 
 cnn cnn_instance;
 
@@ -38,9 +39,12 @@ void cnn::normalize(float pData[FPS][N_BANDS], float leq)
 			if(in_data[i][j] < THRESHOLD)
 			{
 				in_data[i][j] = THRESHOLD;
+
 			}
+			uTerm.printf("%.1f ", in_data[i][j]);
 		}
 	}
+	uTerm.printf("\r\n");
 }
 
 

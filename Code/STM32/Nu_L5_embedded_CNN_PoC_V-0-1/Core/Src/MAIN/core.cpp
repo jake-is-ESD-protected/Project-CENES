@@ -84,8 +84,10 @@ void core::RT_task(void* params)
 		osThreadFlagsWait(BUF_RDY_FLAG, osFlagsWaitAny, osWaitForever); // @suppress("Invalid arguments")
 
 
+#ifdef MEAS_SETUP
 		// begin time-measurement on scope
-		gpio_D2.set(true);
+		gpio_D3.set(true);
+#endif
 
 
 		// align data from i2s-buffer & convert it to float between 1 & -1
@@ -110,6 +112,15 @@ void core::RT_task(void* params)
 		// calc LEQ
 		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
 			sqr_sum += (fbank.iBuf[i] * fbank.iBuf[i]);
+		}
+		if(sqr_sum == 0) 		// microphone error
+		{
+//			buf.init();			// try to re-init the I2S-peripheral
+			gpio_D2.set(true);	// microphone dead
+		}
+		else
+		{
+			gpio_D2.set(false);
 		}
 
 
@@ -181,6 +192,7 @@ void core::RT_task(void* params)
 				if(bin_prcnt < 0) bin_prcnt = 0;	// catch visual wraparound
 				if(bin_prcnt > 1) bin_prcnt = 1;	// catch visual clipping
 				nextion.disp_data[i] = (uint8_t)(100. * bin_prcnt);
+
 			}
 			osThreadFlagsSet(core_fsm.hUI_task, NEX_BUF_RDY_FLAG); // @suppress("Invalid arguments")
 		}
@@ -240,8 +252,10 @@ void core::RT_task(void* params)
 		if(cnt == FPS) cnt = 0;
 
 
+#ifdef MEAS_SETUP
 		// end time-measurement on scope
-		gpio_D2.set(false);
+		gpio_D3.set(false);
+#endif
 
 	}
 	osThreadExit();
@@ -262,7 +276,6 @@ void core::SW_task(void* params)
 
 		// start time-measurement on scope
 		gpio_D4.set(true);
-
 
 		// run inference
 		cnn_instance.run();
@@ -290,10 +303,16 @@ void core::SW_task(void* params)
 		}
 
 #ifdef TEST_SETUP
-
 		// send output tensor via uterm to pc
-
+		uTerm.printf(	"%f %f %f %f %f\r\n",
+						cnn_instance.out_data[0],
+						cnn_instance.out_data[1],
+						cnn_instance.out_data[2],
+						cnn_instance.out_data[3],
+						cnn_instance.out_data[4]);
 #endif
+
+
 
 		// sort vector (magic)
 		std::vector<float> a(std::begin(cnn_instance.out_data), std::end(cnn_instance.out_data));

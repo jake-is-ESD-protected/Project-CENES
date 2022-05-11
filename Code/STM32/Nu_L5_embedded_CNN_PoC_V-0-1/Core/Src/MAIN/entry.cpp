@@ -75,9 +75,6 @@ int entry(void){
 	ICS43432_correction_filter.init(ICS43432_correction_coeffs);
 #endif
 
-	// init entity buffer
-	buf.init();
-
 	// init entity gpio
 	gpio_D2.init(GPIOF, GPIO_PIN_15);
 	gpio_D3.init(GPIOE, GPIO_PIN_13);
@@ -85,6 +82,10 @@ int entry(void){
 
 	// init cnn
 	cnn_instance.init();
+
+	// init entity buffer
+	vTaskDelay(500 / portTICK_PERIOD_MS);
+	buf.init();
 
 
 	return 0;

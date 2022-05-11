@@ -8,7 +8,7 @@
 %
 
 clear;
-Fs = 48000;
+Fs = 32000;
 format long G;
 
 % IEC specified frequencies

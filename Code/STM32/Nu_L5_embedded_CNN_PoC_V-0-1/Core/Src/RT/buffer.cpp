@@ -30,7 +30,9 @@ buffer::buffer(void)
 
 void buffer::init(void)
 {
-	HAL_StatusTypeDef stat = HAL_SAI_Receive_DMA(&hsai_BlockA1, (uint8_t*)mem, FRAME_SIZE * 2); // @suppress("Invalid arguments")
+	HAL_StatusTypeDef stat = HAL_SAI_DeInit(&hsai_BlockA1);
+	stat = HAL_SAI_Init(&hsai_BlockA1);
+	stat = HAL_SAI_Receive_DMA(&hsai_BlockA1, (uint8_t*)mem, FRAME_SIZE * 2); // @suppress("Invalid arguments")
 	is_init = true;
 	if(stat != HAL_OK){
 		is_init = false;

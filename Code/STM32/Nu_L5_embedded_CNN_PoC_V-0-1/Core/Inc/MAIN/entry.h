@@ -13,8 +13,17 @@ notes:				Makes handles available to underlying code
 
 #include "main.h"
 
+// slave mode for Swen's I2S-generator
 //#define FGEN_SETUP
+
+// correct the f-response of the ICS43432-mic (only works with fs=48kHz)
 //#define ICS43432_CORRECTION
+
+// send classification-data via uart
+//#define TEST_SETUP
+
+// expose calculation time to LED-GPIOs
+//#define MEAS_SETUP
 
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef hlpuart1;
