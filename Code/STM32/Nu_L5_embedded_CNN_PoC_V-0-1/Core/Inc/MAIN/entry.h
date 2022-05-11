@@ -20,7 +20,7 @@ notes:				Makes handles available to underlying code
 //#define ICS43432_CORRECTION
 
 // send classification-data via uart
-//#define TEST_SETUP
+#define TEST_SETUP
 
 // expose calculation time to LED-GPIOs
 //#define MEAS_SETUP

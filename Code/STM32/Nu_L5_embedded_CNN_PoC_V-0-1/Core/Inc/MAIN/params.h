@@ -2,9 +2,9 @@
 /* THIS IS AN AUTO-GENERATED FILE! DO NOT MODIFY MANUALLY!
  * f_name:      params.h
  * auth:        Jakob Tschavoll
- * ver:         1.0, deploying "esc50_model_v9"
+ * ver:         1.0, deploying "esc50_model_v10"
  * brief:       sync all params with jupyter-notebooks
- * datetime:    04/05/2022 17:52:12
+ * datetime:    11/05/2022 12:41:26
  * */
 
 #ifndef _PARAMS_H_

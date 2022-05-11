@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file    cnn_config.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Thu May  5 08:18:22 2022
+  * @date    Wed May 11 13:41:37 2022
   * @brief   AI Tool Automatic Code Generator for Custom Layers Implementation
   ******************************************************************************
   * @attention
