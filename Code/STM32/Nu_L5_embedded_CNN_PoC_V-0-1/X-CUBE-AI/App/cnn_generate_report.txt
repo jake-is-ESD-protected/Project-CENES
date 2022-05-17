@@ -1,15 +1,15 @@
 Neural Network Tools for STM32AI v1.6.0 (STM.ai v7.1.0-RC3)
-Created date          : 2022-05-11 13:41:37
-Parameters            : generate --name cnn -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/esc50_model_v10/esc50_model_v10_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace227463484494004206820176736714387 --output C:\Users\j.tschavoll\.stm32cubemx\cnn_output
+Created date          : 2022-05-11 18:42:40
+Parameters            : generate --name cnn -m C:/Users/J/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/esc50_model_v10/esc50_model_v10_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\Users\J\AppData\Local\Temp\mxAI_workspace20695567071066005584032428178145539 --output C:\Users\J\.stm32cubemx\cnn_output
 
 Exec/report summary (generate)
 ------------------------------------------------------------------------------------------------------------------------
-model file            : C:\Users\j.tschavoll\OneDrive - FH Vorarlberg\Partnerunternehmen FHV\FH\BA\Code\Jupyter\esc50_model_v10\esc50_model_v10_lite.tflite
+model file            : C:\Users\J\OneDrive - FH Vorarlberg\Partnerunternehmen FHV\FH\BA\Code\Jupyter\esc50_model_v10\esc50_model_v10_lite.tflite
 type                  : tflite
 c_name                : cnn
 compression           : 4
-workspace dir         : C:\Users\JDA1E~1.TSC\AppData\Local\Temp\mxAI_workspace227463484494004206820176736714387
-output dir            : C:\Users\j.tschavoll\.stm32cubemx\cnn_output
+workspace dir         : C:\Users\J\AppData\Local\Temp\mxAI_workspace20695567071066005584032428178145539
+output dir            : C:\Users\J\.stm32cubemx\cnn_output
 model_name            : esc50_model_v10_lite
 model_hash            : e40d262afe261fa6eaa6f24adf8a09c8
 input 1/1             : 'serving_default_conv2d_input0'
@@ -154,9 +154,9 @@ id   name       c_macc                    c_rom                     c_id
 8    nl_8       |                  0.0%   |                  0.0%   [8] 
 
 Generated files (5)
--------------------------------------------------------------------
-C:\Users\j.tschavoll\.stm32cubemx\cnn_output\cnn_config.h
-C:\Users\j.tschavoll\.stm32cubemx\cnn_output\cnn.h
-C:\Users\j.tschavoll\.stm32cubemx\cnn_output\cnn.c
-C:\Users\j.tschavoll\.stm32cubemx\cnn_output\cnn_data.h
-C:\Users\j.tschavoll\.stm32cubemx\cnn_output\cnn_data.c
+---------------------------------------------------------
+C:\Users\J\.stm32cubemx\cnn_output\cnn_config.h
+C:\Users\J\.stm32cubemx\cnn_output\cnn.h
+C:\Users\J\.stm32cubemx\cnn_output\cnn.c
+C:\Users\J\.stm32cubemx\cnn_output\cnn_data.h
+C:\Users\J\.stm32cubemx\cnn_output\cnn_data.c

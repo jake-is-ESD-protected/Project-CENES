@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    cnn.c
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed May 11 13:41:37 2022
+  * @date    Wed May 11 18:42:40 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -43,7 +43,7 @@
 #endif
 
 #undef AI_TOOLS_DATE_TIME
-#define AI_TOOLS_DATE_TIME   "Wed May 11 13:41:37 2022"
+#define AI_TOOLS_DATE_TIME   "Wed May 11 18:42:40 2022"
 
 #undef AI_TOOLS_COMPILE_TIME
 #define AI_TOOLS_COMPILE_TIME    __DATE__ " " __TIME__

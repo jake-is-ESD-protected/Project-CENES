@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "app_fatfs.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -42,6 +43,8 @@
  DAC_HandleTypeDef hdac1;
 DMA_HandleTypeDef hdma_dac1_ch1;
 
+SD_HandleTypeDef hsd1;
+
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -52,6 +55,7 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_DAC1_Init(void);
 static void MX_ICACHE_Init(void);
+static void MX_SDMMC1_SD_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -92,8 +96,44 @@ int main(void)
   MX_DMA_Init();
   MX_DAC1_Init();
   MX_ICACHE_Init();
+  MX_SDMMC1_SD_Init();
+  if (MX_FATFS_Init() != APP_OK) {
+    Error_Handler();
+  }
   /* USER CODE BEGIN 2 */
+  	FRESULT res; 									/* FatFs function common result code */
+  	uint32_t byteswritten; 							/* File write/read counts */
+  	uint8_t wtext[] = "STM32 FATFS works great!"; 	/* File write buffer */
+  	uint8_t rtext[_MAX_SS];							/* File read buffer */
 
+  	res = f_mount(&SDFatFS, (TCHAR const*)SDPath, 1);
+  	if(res != FR_OK)
+  	{
+  		Error_Handler();
+  	}
+  	else
+  	{
+  		//Open file for writing (Create)
+  		res = f_open(&SDFile, "STM32.TXT", FA_CREATE_ALWAYS | FA_WRITE);
+  		if(res != FR_OK)
+  		{
+  			Error_Handler();
+  		}
+  		else
+  		{
+  			//Write to the text file
+  			res = f_write(&SDFile, wtext, strlen((char *)wtext), (UINT*)&byteswritten);
+  			if((byteswritten == 0) || (res != FR_OK))
+  			{
+  				Error_Handler();
+  			}
+  			else
+  			{
+  				f_close(&SDFile);
+  			}
+  		}
+  	}
+  	f_mount(&SDFatFS, (TCHAR const*)NULL, 0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -155,6 +195,10 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
+  /** Enable MSI Auto calibration
+  */
+  HAL_RCCEx_EnableMSIPLLMode();
 }
 
 /**
@@ -233,6 +277,33 @@ static void MX_ICACHE_Init(void)
 }
 
 /**
+  * @brief SDMMC1 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_SDMMC1_SD_Init(void)
+{
+
+  /* USER CODE BEGIN SDMMC1_Init 0 */
+
+  /* USER CODE END SDMMC1_Init 0 */
+
+  /* USER CODE BEGIN SDMMC1_Init 1 */
+
+  /* USER CODE END SDMMC1_Init 1 */
+  hsd1.Instance = SDMMC1;
+  hsd1.Init.ClockEdge = SDMMC_CLOCK_EDGE_RISING;
+  hsd1.Init.ClockPowerSave = SDMMC_CLOCK_POWER_SAVE_DISABLE;
+  hsd1.Init.BusWide = SDMMC_BUS_WIDE_4B;
+  hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_DISABLE;
+  hsd1.Init.ClockDiv = 1;
+  /* USER CODE BEGIN SDMMC1_Init 2 */
+
+  /* USER CODE END SDMMC1_Init 2 */
+
+}
+
+/**
   * Enable DMA controller clock
   */
 static void MX_DMA_Init(void)
@@ -259,6 +330,8 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
 }
 

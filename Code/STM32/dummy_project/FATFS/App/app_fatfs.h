@@ -21,11 +21,6 @@
 #ifndef __APP_FATFS_H
 #define __APP_FATFS_H
 
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Includes ------------------------------------------------------------------*/
 #include "ff.h"
 #include "ff_gen_drv.h"
@@ -68,10 +63,6 @@ int32_t MX_FATFS_Process(void);
 extern FATFS SDFatFS;    /* File system object for SD logical drive */
 extern FIL SDFile;       /* File object for SD */
 extern char SDPath[4];   /* SD logical drive path */
-
-#ifdef __cplusplus
-}
-#endif
 
 #endif /*__APP_FATFS_H */
 

@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file    cnn_data.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed May 11 13:41:37 2022
+  * @date    Wed May 11 18:42:40 2022
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * Copyright (c) 2017 STMicroelectronics.

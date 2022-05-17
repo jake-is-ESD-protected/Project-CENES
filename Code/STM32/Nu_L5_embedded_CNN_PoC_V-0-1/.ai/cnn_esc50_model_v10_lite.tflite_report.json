@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 0,
     "_allocate_outputs": 0,
-    "cli_parameters": "generate --name cnn -m C:/Users/j.tschavoll/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/esc50_model_v10/esc50_model_v10_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\\Users\\JDA1E~1.TSC\\AppData\\Local\\Temp\\mxAI_workspace227463484494004206820176736714387 --output C:\\Users\\j.tschavoll\\.stm32cubemx\\cnn_output",
+    "cli_parameters": "generate --name cnn -m C:/Users/J/OneDrive - FH Vorarlberg/Partnerunternehmen FHV/FH/BA/Code/Jupyter/esc50_model_v10/esc50_model_v10_lite.tflite --type tflite --compression 4 --verbosity 1 --workspace C:\\Users\\J\\AppData\\Local\\Temp\\mxAI_workspace20695567071066005584032428178145539 --output C:\\Users\\J\\.stm32cubemx\\cnn_output",
     "cli_version": {
         "major": 1,
         "micro": 0,
@@ -14,7 +14,7 @@
             "dense_6_weights": 4.0
         }
     },
-    "date_time": "Wed May 11 13:41:37 2022",
+    "date_time": "Wed May 11 18:42:40 2022",
     "error": 0,
     "error_str": [],
     "exec_cmd": "generate",
@@ -340,7 +340,7 @@
         }
     ],
     "model_files": [
-        "C:\\Users\\j.tschavoll\\OneDrive - FH Vorarlberg\\Partnerunternehmen FHV\\FH\\BA\\Code\\Jupyter\\esc50_model_v10\\esc50_model_v10_lite.tflite"
+        "C:\\Users\\J\\OneDrive - FH Vorarlberg\\Partnerunternehmen FHV\\FH\\BA\\Code\\Jupyter\\esc50_model_v10\\esc50_model_v10_lite.tflite"
     ],
     "model_n_params": 105941,
     "model_name": "esc50_model_v10_lite",

@@ -23,7 +23,7 @@ int entry(void){
 //	uint8_t wtext[] = "STM32 FATFS works great!"; 	/* File write buffer */
 //	uint8_t rtext[_MAX_SS];							/* File read buffer */
 //
-//	res = f_mount(&SDFatFS, (TCHAR const*)SDPath, 0);
+//	res = f_mount(&SDFatFS, (TCHAR const*)SDPath, 1);
 //	if(res != FR_OK)
 //	{
 //		Error_Handler();
