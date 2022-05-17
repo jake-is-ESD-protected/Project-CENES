@@ -41,10 +41,14 @@ void cnn::normalize(float pData[FPS][N_BANDS], float leq)
 				in_data[i][j] = THRESHOLD;
 
 			}
+#ifdef MEAS_SETUP
 			uTerm.printf("%.1f ", in_data[i][j]);
+#endif
 		}
 	}
+#ifdef MEAS_SETUP
 	uTerm.printf("\r\n");
+#endif
 }
 
 
