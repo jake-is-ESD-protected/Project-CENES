@@ -110,18 +110,20 @@ void core::RT_task(void* params)
 
 
 		// calc LEQ
+		float short_sqr_sum = 0;
 		for(uint16_t i = 0; i < (FRAME_SIZE); i++){
 			sqr_sum += (fbank.iBuf[i] * fbank.iBuf[i]);
+			short_sqr_sum = sqr_sum;	// for later implementation of frame-triggered classification
 		}
 		if(sqr_sum == 0) 		// microphone error
 		{
-//			buf.init();			// try to re-init the I2S-peripheral
 			gpio_D2.set(true);	// microphone dead
 		}
 		else
 		{
 			gpio_D2.set(false);
 		}
+
 
 
 		// filter-stages:
