@@ -393,6 +393,15 @@ void core::UI_task(void* params)
 		if(lvl_rdy && (core_fsm.cur_state == s_rta))
 		{
 			nextion.tx(NEX_TX_SPL_FIELD, (void*)&nextion.disp_lvl, i16_num_val);
+			if(core_fsm.threshold_pcnt < nextion.disp_lvl)
+			{
+				gpio_D3.set(true);
+			}
+			else
+			{
+				gpio_D3.set(false);
+			}
+
 		}
 		if(lvl_rdy && (core_fsm.cur_state == s_ai))
 		{
@@ -400,11 +409,13 @@ void core::UI_task(void* params)
 			if(core_fsm.threshold_pcnt < nextion.disp_lvl)
 			{
 				uint8_t p = 100;
+				gpio_D3.set(true);
 				nextion.tx(NEX_TX_THRESHOLD_PEAK, (void*)&p, u8_num_val);
 			}
 			else
 			{
 				uint8_t p = 0;
+				gpio_D3.set(false);
 				nextion.tx(NEX_TX_THRESHOLD_PEAK, (void*)&p, u8_num_val);
 			}
 		}
