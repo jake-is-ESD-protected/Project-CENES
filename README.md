@@ -86,9 +86,9 @@ The embedded software is written in C/C++ in the STM32CubeIDE for the target dev
 | :-------------------------------: |
 |     Measurements with device      |
 
-| ![](Dox/Images/HW/20220705_080908.jpg) |
-| :------------------------------------: |
-|             Full assembly              |
+| ![](Dox/Images/HW/full_assembly.png) |
+| :----------------------------------: |
+|            Full assembly             |
 
 | UI RTA-view                    | UI classification-view                | UI RTA-view sweep (old)           |
 | ------------------------------ | ------------------------------------- | --------------------------------- |
